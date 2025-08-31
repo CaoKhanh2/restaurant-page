@@ -1,0 +1,219 @@
+/* --- Hero Section --- */
+#hero {
+    min-height: 100vh;
+    background: url('../images/hero-bg.jpg') no-repeat center center/cover; /* Cập nhật đường dẫn nếu cần */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 80px; /* Header height */
+    position: relative;
+}
+
+#hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.hero-content, .opening-hours {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-content {
+    max-width: 50%;
+}
+
+.hero-content h1 {
+    font-size: 5rem;
+}
+
+.hero-content p {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.opening-hours {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 2rem;
+    border-left: 3px solid var(--color-secondary);
+}
+
+.opening-hours h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.opening-hours ul li {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #444;
+}
+
+.opening-hours ul li span:first-child {
+    font-weight: bold;
+    margin-right: 2rem;
+}
+
+/* --- Menu Section (Homepage) --- */
+#menu {
+    background-color: var(--color-primary);
+}
+
+.menu-categories {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.category {
+    text-align: center;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+}
+
+.category.active, .category:hover {
+    opacity: 1;
+}
+
+.category img {
+    height: 80px;
+    margin: 0 auto 0.5rem;
+}
+
+.menu-indicator-bar {
+    width: 80%;
+    max-width: 800px;
+    height: 4px;
+    background-color: rgba(0, 0, 0, 0.2);
+    margin: 2rem auto 0;
+    position: relative;
+    border-radius: 2px;
+}
+
+.indicator {
+    position: absolute;
+    height: 100%;
+    background-color: var(--color-light);
+    width: 16.66%; /* 100% / 6 categories */
+    left: 0;
+    border-radius: 2px;
+    transition: left 0.4s ease;
+}
+
+/* --- Takeaway & About Sections (Homepage) --- */
+#takeaway {
+    background: url('../images/takeaway-bg.jpg') no-repeat center center/cover; /* Cập nhật đường dẫn nếu cần */
+    text-align: center;
+    position: relative;
+}
+
+#takeaway::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+#takeaway h2, #takeaway p, #takeaway .btn {
+    position: relative;
+    z-index: 2;
+}
+
+#takeaway p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+#about {
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('../images/about-bg.jpg') no-repeat center center/cover; /* Cập nhật đường dẫn nếu cần */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.about-content {
+    background-color: var(--color-secondary);
+    color: var(--color-dark);
+    padding: 3rem;
+    max-width: 800px;
+    text-align: center;
+}
+
+.about-content h2 {
+    color: var(--color-dark);
+}
+
+.about-content p {
+    font-size: 1.1rem;
+}
+
+.btn.btn-dark {
+    background-color: var(--color-dark);
+    color: var(--color-light);
+    border-color: var(--color-dark);
+}
+
+.btn.btn-dark:hover {
+    background-color: transparent;
+    color: var(--color-dark);
+}
+
+/* --- Gallery Section --- */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+/* --- Responsive (Homepage) --- */
+/* --- Responsive (Homepage) --- */
+@media (max-width: 992px) {
+    #hero {
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        padding-top: 120px; /* Thêm padding trên */
+        padding-bottom: 4rem;
+    }
+
+    .hero-content {
+        max-width: 100%;
+        margin-bottom: 3rem;
+    }
+    
+    .hero-content h1 {
+        font-size: 4rem;
+    }
+
+    .opening-hours {
+        width: 100%;
+        max-width: 450px;
+        margin: 0 auto;
+        border-left: none; /* Bỏ border trái */
+        border-top: 3px solid var(--color-secondary); /* Thêm border trên */
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-content h1 {
+        font-size: 3rem;
+    }
+    .hero-content p {
+        font-size: 1.2rem;
+    }
+    .about-content {
+        padding: 2rem;
+    }
+}

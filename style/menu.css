@@ -1,0 +1,183 @@
+/* --- Full Menu Page Styling --- */
+#full-menu-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 150px 5% 6rem;
+    color: #b38b4c; /* Màu vàng gold chủ đạo */
+    font-family: var(--font-body);
+}
+
+.menu-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.menu-header .subtitle {
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #888;
+}
+
+.menu-header h1 {
+    font-family: var(--font-heading);
+    font-size: 3.5rem;
+    color: var(--color-light);
+    margin: 0.5rem 0;
+}
+
+.menu-header .decorator {
+    font-size: 1.5rem;
+    color: #b38b4c;
+}
+
+/* --- Set Menus Section --- */
+.set-menus-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.set-menu-card {
+    background-color: #111;
+    border: 1px solid #333;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.set-menu-card h3 {
+    font-family: var(--font-heading);
+    font-size: 1.6rem;
+    color: var(--color-light);
+    margin-bottom: 0.5rem;
+}
+
+.set-menu-card .condition {
+    font-size: 0.9rem;
+    color: #888;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+}
+
+.set-menu-card ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+    flex-grow: 1; /* Đẩy giá xuống dưới */
+}
+
+.set-menu-card ul li {
+    color: #ccc;
+    margin-bottom: 0.8rem;
+    padding-left: 1rem;
+    position: relative;
+}
+
+.set-menu-card ul li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: #b38b4c;
+}
+
+.set-menu-card .price {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--color-primary);
+    text-align: right;
+}
+
+/* --- Section Divider --- */
+.section-divider {
+    text-align: center;
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    color: #888;
+    margin: 5rem 0 4rem 0;
+    position: relative;
+}
+.section-divider::before, .section-divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 35%;
+    height: 1px;
+    background-color: #444;
+}
+.section-divider::before { left: 0; }
+.section-divider::after { right: 0; }
+
+
+/* --- À La Carte Menu Section --- */
+.menu-columns-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+}
+
+.menu-category {
+    margin-bottom: 3rem;
+}
+
+.menu-category h3 {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    color: var(--color-light);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #444;
+}
+
+.menu-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.2rem;
+}
+
+.menu-item p {
+    margin: 0;
+    line-height: 1.6;
+    color: #eee;
+    padding-right: 1.5rem;
+    font-weight: bold;
+}
+
+.menu-item p .translation {
+    display: block;
+    font-size: 0.9em;
+    font-weight: normal;
+    font-style: italic;
+    color: #999;
+}
+
+.menu-item span {
+    font-weight: bold;
+    color: #b38b4c;
+    white-space: nowrap; /* Không để giá bị xuống dòng */
+}
+
+
+/* --- Responsive for Menu Page --- */
+@media (max-width: 992px) {
+    .menu-columns-container {
+        gap: 2rem;
+    }
+}
+@media (max-width: 768px) {
+    #full-menu-page {
+        padding-top: 120px;
+    }
+    .menu-columns-container {
+        grid-template-columns: 1fr; /* Chuyển về 1 cột */
+        gap: 0;
+    }
+    .menu-header h1 {
+        font-size: 2.8rem;
+    }
+    .section-divider::before, .section-divider::after {
+        width: 25%;
+    }
+}

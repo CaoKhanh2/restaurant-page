@@ -1,0 +1,75 @@
+/* --- Gallery Page Styling --- */
+#gallery-page {
+    max-width: 1400px; /* Tăng chiều rộng tối đa cho trang gallery */
+    margin: 0 auto;
+    padding-top: 120px; /* Đảm bảo nội dung không bị header che */
+}
+
+.gallery-page-title {
+    font-size: 3rem;
+    color: var(--color-light);
+    margin-bottom: 3rem;
+    text-align: center; /* Căn giữa tiêu đề */
+    font-style: italic;
+}
+
+.gallery-grid-container {
+    display: grid;
+    /* Đây là phần quan trọng nhất:
+       - repeat(auto-fit, ...): Trình duyệt sẽ tự động lấp đầy hàng với càng nhiều cột càng tốt.
+       - minmax(300px, 1fr): Mỗi cột sẽ có chiều rộng tối thiểu là 300px. 
+         Nếu còn thừa không gian, các cột sẽ tự động co giãn đều nhau (1fr) để lấp đầy hàng.
+    */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem; /* Khoảng cách giữa các ảnh */
+    
+    /* Thuộc tính này giúp các hàng trong lưới tự động điều chỉnh chiều cao
+       để loại bỏ khoảng trống không cần thiết (hiệu ứng Masonry) */
+    grid-auto-rows: 250px; 
+    grid-auto-flow: dense; /* Cố gắng lấp đầy các lỗ hổng trong lưới */
+}
+
+.grid-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Đảm bảo ảnh lấp đầy ô mà không bị méo */
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.grid-item {
+    overflow: hidden; /* Ẩn các phần ảnh thừa khi phóng to */
+    cursor: pointer;
+}
+
+.grid-item:hover img {
+    transform: scale(1.05); /* Hiệu ứng phóng to nhẹ khi di chuột */
+    opacity: 0.8;
+}
+
+/* Tự động điều chỉnh chiều cao của một số ảnh để tạo sự đa dạng */
+.grid-item:nth-child(5n) {
+    grid-row: span 2; /* Cứ mỗi 5 ảnh, 1 ảnh sẽ cao gấp đôi */
+}
+.grid-item:nth-child(7n) {
+     grid-column: span 2; /* Cứ mỗi 7 ảnh, 1 ảnh sẽ rộng gấp đôi (trên màn hình lớn) */
+     grid-row: span 2;
+}
+
+/* --- Responsive cho trang Gallery --- */
+@media (max-width: 600px) {
+    .gallery-grid-container {
+        /* Trên mobile, đặt chiều rộng tối thiểu nhỏ hơn */
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        grid-auto-rows: 200px;
+    }
+
+    .gallery-page-title {
+        font-size: 2.5rem;
+    }
+
+    /* Bỏ hiệu ứng rộng gấp đôi trên mobile để tránh vỡ layout */
+    .grid-item:nth-child(7n) {
+        grid-column: span 1;
+        grid-row: span 2;
+    }
+}

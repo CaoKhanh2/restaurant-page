@@ -1,0 +1,241 @@
+/* --- General Styling & Variables (Dùng chung) --- */
+:root {
+    --color-primary: #c00; /* Red */
+    --color-secondary: #b38b4c; /* Gold/Yellow */
+    --color-dark: #1a1a1a;
+    --color-light: #fff;
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Roboto', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--color-dark);
+    color: var(--color-light);
+    line-height: 1.6;
+}
+
+h1, h2, h3 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+}
+
+h2 {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+p {
+    margin-bottom: 1rem;
+}
+
+a {
+    color: var(--color-light);
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+section {
+    padding: 6rem 5%;
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    border: 1px solid var(--color-light);
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+    font-weight: bold;
+}
+
+.btn:hover {
+    background-color: var(--color-light);
+    color: var(--color-dark);
+}
+
+/* --- Header & Navigation (Dùng chung) --- */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 1rem 5%;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav .logo img {
+    height: 50px;
+}
+
+nav ul {
+    display: flex;
+    gap: 2rem;
+}
+
+nav ul li a {
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: color 0.3s;
+}
+
+nav ul li a:hover {
+    color: var(--color-secondary);
+}
+
+
+/* --- Footer (Dùng chung) --- */
+footer {
+    background-color: #000;
+    padding: 4rem 5% 1rem;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #333;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.footer-left, .footer-center, .footer-right {
+    text-align: center;
+    flex: 1;
+}
+
+.footer-logo {
+    height: 60px;
+    margin: 0 auto 1rem;
+}
+
+.footer-right a {
+    font-size: 1.5rem;
+    margin-top: 0.5rem;
+    display: inline-block;
+}
+
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: #888;
+    flex-wrap: wrap;
+}
+
+/* --- Responsive chung --- */
+@media (max-width: 992px) {
+    nav ul {
+        display: none;
+    }
+    .footer-content {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 576px) {
+    h1 { font-size: 3rem; }
+    h2 { font-size: 2rem; }
+    section { padding: 4rem 5%; }
+
+    .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+    }
+}
+
+
+/* Thêm vào cuối file style/base.css */
+
+/* --- Mobile Navigation Styles --- */
+.mobile-nav-toggle {
+    display: none; /* Mặc định ẩn trên màn hình lớn */
+    background: none;
+    border: none;
+    color: var(--color-light);
+    font-size: 1.8rem;
+    cursor: pointer;
+    z-index: 1001; /* Luôn nổi lên trên */
+}
+
+/* --- Responsive chung --- */
+@media (max-width: 992px) {
+    .nav-phone {
+        display: none; /* Ẩn số điện thoại text */
+    }
+
+    .mobile-nav-toggle {
+        display: block; /* Hiện nút hamburger */
+    }
+
+    nav .main-nav {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        right: -100%; /* Mặc định ẩn ngoài màn hình bên phải */
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.95);
+        transition: right 0.4s ease-in-out;
+        gap: 3rem;
+    }
+
+    nav .main-nav.active {
+        right: 0; /* Hiện menu khi có class 'active' */
+    }
+
+    nav .main-nav li a {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    h1 { font-size: 2.5rem; }
+    h2 { font-size: 2rem; }
+    section { padding: 4rem 5%; }
+
+    .footer-content {
+        text-align: center;
+    }
+
+    .footer-left, .footer-center, .footer-right {
+        flex-basis: 100%;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.5rem;
+    }
+}
