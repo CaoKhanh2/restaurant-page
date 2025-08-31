@@ -238,13 +238,83 @@
 }
 
 /* --- Gallery Section --- */
-.gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1rem;
+/* --- Gallery Section --- */
+#gallery {
+    padding: 6rem 5%;
+    background-color: var(--color-dark);
 }
 
-/* --- Responsive (Homepage) --- */
+#gallery h2 {
+    color: var(--color-light);
+    font-size: 2.8rem;
+    font-style: italic;
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.gallery-scroll-container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.gallery-grid {
+    display: grid;
+    /* THAY ĐỔI CHÍNH: Tạo lưới 5 cột bằng nhau */
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem; /* Giảm khoảng cách giữa các ảnh */
+}
+
+.gallery-grid img {
+    width: 100%;
+    height: 100%;
+    
+    /* THAY ĐỔI CHÍNH: Đặt tỷ lệ ảnh dọc (cao hơn rộng) */
+    aspect-ratio: 3 / 4; 
+    object-fit: cover;
+    
+    border-radius: 8px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.gallery-grid img:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+
+/* --- Responsive cho Gallery --- */
+@media (max-width: 768px) {
+    .gallery-scroll-container {
+        overflow-x: auto; /* Bật cuộn ngang */
+        padding-bottom: 1rem; /* Thêm khoảng trống cho thanh cuộn */
+    }
+
+    /* Tùy chỉnh thanh cuộn cho đẹp hơn */
+    .gallery-scroll-container::-webkit-scrollbar {
+        height: 6px;
+    }
+    .gallery-scroll-container::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 3px;
+    }
+    .gallery-scroll-container::-webkit-scrollbar-thumb {
+        background-color: var(--color-secondary);
+        border-radius: 3px;
+    }
+
+    .gallery-grid {
+        /* Thiết lập các cột để cuộn ngang */
+        grid-template-columns: repeat(5, 250px); /* Mỗi ảnh rộng 250px */
+        grid-auto-flow: column;
+    }
+}
+
+@media (max-width: 576px) {
+    /* Trên màn hình rất nhỏ, có thể muốn ảnh nhỏ hơn nữa */
+    .gallery-grid {
+        grid-template-columns: repeat(5, 200px);
+    }
+}
+
 /* --- Responsive (Homepage) --- */
 @media (max-width: 992px) {
     #hero {
