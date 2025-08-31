@@ -1,0 +1,121 @@
+/* === FOOTER CHUNG === */
+footer {
+    background-color: #000;
+    color: #fff;
+    padding: 60px 40px 30px 40px;
+    font-family: Arial, sans-serif;
+}
+
+/* === PHẦN TRÊN CỦA FOOTER === */
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center; /* Căn giữa tất cả các mục theo chiều dọc */
+    max-width: 1200px;
+    margin: 0 auto 40px auto; /* Căn giữa và tạo khoảng cách với phần dưới */
+}
+
+/* Logo */
+.footer-logo img {
+    max-width: 100px; /* Điều chỉnh kích thước logo nếu cần */
+    height: auto;
+}
+
+/* Thông tin liên hệ */
+.footer-contact-info {
+    text-align: left; /* Căn lề trái cho dễ đọc */
+}
+
+.footer-contact-info .restaurant-name {
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.footer-contact-info p {
+    margin: 5px 0;
+    line-height: 1.5;
+}
+
+/* Số điện thoại */
+.footer-phone .phone-number {
+    display: inline-block;
+    padding: 12px 25px;
+    border: 1px solid #fff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.footer-phone .phone-number:hover {
+    background-color: #fff;
+    color: #000;
+}
+
+/* Mạng xã hội */
+.footer-social {
+    text-align: center;
+}
+
+.footer-social .social-heading {
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.social-icons a {
+    color: #fff;
+    font-size: 24px;
+    margin: 0 10px;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.social-icons a:hover {
+    color: #ccc;
+}
+
+
+/* === PHẦN DƯỚI CỦA FOOTER === */
+.footer-bottom {
+    display: flex;
+    justify-content: space-between; /* Đẩy các mục ra 3 góc */
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-top: 30px;
+    border-top: 1px solid #444; /* Đường kẻ ngang tinh tế */
+    font-size: 0.9em;
+    color: #aaa;
+}
+
+.footer-bottom span {
+    margin: 0;
+}
+
+
+/* === RESPONSIVE CHO MÀN HÌNH NHỎ === */
+@media (max-width: 992px) {
+    .footer-content, .footer-bottom {
+        flex-direction: column; /* Xếp chồng các mục */
+        text-align: center;
+    }
+
+    .footer-contact-info {
+        text-align: center; /* Căn giữa lại trên di động */
+    }
+
+    .footer-logo, .footer-contact-info, .footer-phone, .footer-social, .footer-bottom span {
+        margin-bottom: 30px;
+    }
+
+    .footer-bottom {
+        border-top: none; /* Bỏ đường kẻ trên di động */
+    }
+
+    .footer-bottom span:last-child {
+        margin-bottom: 0;
+    }
+}
