@@ -79,8 +79,9 @@ header {
     left: 0;
     width: 100%;
     z-index: 1000;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.85);
     padding: 1rem 5%;
+    border-bottom: 1px solid #333;
 }
 
 nav {
@@ -93,26 +94,36 @@ nav .logo img {
     height: 50px;
 }
 
-nav ul {
+nav .main-nav {
     display: flex;
     gap: 2rem;
 }
 
-nav ul li a {
+nav .main-nav li a {
     font-weight: bold;
     letter-spacing: 1px;
     transition: color 0.3s;
 }
 
-nav ul li a:hover {
+nav .main-nav li a:hover {
     color: var(--color-secondary);
 }
 
+.mobile-nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: var(--color-light);
+    font-size: 1.8rem;
+    cursor: pointer;
+    z-index: 1001;
+}
 
 /* --- Footer (Dùng chung) --- */
 footer {
     background-color: #000;
     padding: 4rem 5% 1rem;
+    border: none; /* Đảm bảo không có viền ngoài ý muốn */
 }
 
 .footer-content {
@@ -121,24 +132,44 @@ footer {
     align-items: center;
     margin-bottom: 2rem;
     padding-bottom: 2rem;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid #333; /* Giữ lại dòng kẻ duy nhất này */
     flex-wrap: wrap;
     gap: 2rem;
 }
 
-.footer-left, .footer-center, .footer-right {
-    text-align: center;
+.footer-left {
+    flex: 1.5;
+    min-width: 250px;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.footer-left div {
+    text-align: left;
+}
+
+.footer-center {
     flex: 1;
+    min-width: 200px;
+    text-align: center;
+}
+
+.footer-right {
+    flex: 1;
+    min-width: 200px;
+    text-align: center;
 }
 
 .footer-logo {
-    height: 60px;
-    margin: 0 auto 1rem;
+    height: 80px;
+    width: 80px;
+    margin-bottom: 0;
 }
 
 .footer-right a {
     font-size: 1.5rem;
-    margin-top: 0.5rem;
+    margin: 0 0.5rem;
     display: inline-block;
 }
 
@@ -148,52 +179,20 @@ footer {
     font-size: 0.9rem;
     color: #888;
     flex-wrap: wrap;
-}
-
-/* --- Responsive chung --- */
-@media (max-width: 992px) {
-    nav ul {
-        display: none;
-    }
-    .footer-content {
-        flex-direction: column;
-    }
-}
-
-@media (max-width: 576px) {
-    h1 { font-size: 3rem; }
-    h2 { font-size: 2rem; }
-    section { padding: 4rem 5%; }
-
-    .footer-bottom {
-        flex-direction: column;
-        text-align: center;
-        gap: 0.5rem;
-    }
+    gap: 1rem;
+    border: none; /* Đảm bảo không có viền ở khu vực này */
 }
 
 
-/* Thêm vào cuối file style/base.css */
-
-/* --- Mobile Navigation Styles --- */
-.mobile-nav-toggle {
-    display: none; /* Mặc định ẩn trên màn hình lớn */
-    background: none;
-    border: none;
-    color: var(--color-light);
-    font-size: 1.8rem;
-    cursor: pointer;
-    z-index: 1001; /* Luôn nổi lên trên */
-}
-
-/* --- Responsive chung --- */
+/* --- GLOBAL RESPONSIVE STYLES --- */
+/* For tablets and smaller devices */
 @media (max-width: 992px) {
     .nav-phone {
-        display: none; /* Ẩn số điện thoại text */
+        display: none;
     }
-
+    
     .mobile-nav-toggle {
-        display: block; /* Hiện nút hamburger */
+        display: block;
     }
 
     nav .main-nav {
@@ -203,16 +202,17 @@ footer {
         align-items: center;
         position: fixed;
         top: 0;
-        right: -100%; /* Mặc định ẩn ngoài màn hình bên phải */
+        right: -100%;
         width: 100%;
         height: 100vh;
-        background-color: rgba(0, 0, 0, 0.95);
+        background-color: rgba(0, 0, 0, 0.98);
         transition: right 0.4s ease-in-out;
         gap: 3rem;
+        z-index: 1000;
     }
 
     nav .main-nav.active {
-        right: 0; /* Hiện menu khi có class 'active' */
+        right: 0;
     }
 
     nav .main-nav li a {
@@ -220,17 +220,24 @@ footer {
     }
 }
 
-@media (max-width: 576px) {
-    h1 { font-size: 2.5rem; }
-    h2 { font-size: 2rem; }
-    section { padding: 4rem 5%; }
-
+/* For mobile phones */
+@media (max-width: 768px) {
     .footer-content {
+        flex-direction: column;
+        align-items: center;
         text-align: center;
     }
+    
+    .footer-left {
+        flex-direction: column; /* Xếp logo trên text trên mobile */
+    }
+    
+    .footer-left div {
+        text-align: center; /* Căn giữa text trên mobile */
+    }
 
-    .footer-left, .footer-center, .footer-right {
-        flex-basis: 100%;
+    .footer-logo {
+        margin-bottom: 1rem;
     }
 
     .footer-bottom {
@@ -238,4 +245,10 @@ footer {
         text-align: center;
         gap: 0.5rem;
     }
+}
+
+@media (max-width: 576px) {
+    h1 { font-size: 2.5rem; }
+    h2 { font-size: 2rem; }
+    section { padding: 4rem 5%; }
 }

@@ -1,7 +1,7 @@
 /* --- Hero Section --- */
 #hero {
     min-height: 100vh;
-    background: url('../images/hero-bg.jpg') no-repeat center center/cover; /* Cập nhật đường dẫn nếu cần */
+    background: url('../images/image.png') no-repeat center center/cover; /* Cập nhật đường dẫn nếu cần */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -62,50 +62,118 @@
 
 /* --- Menu Section (Homepage) --- */
 #menu {
-    background-color: var(--color-primary);
+    background: var(--color-primary);
+    padding: 4rem 5%; /* Sử dụng padding 2 bên thay vì trong container */
+    position: relative;
+    overflow: hidden;
 }
 
+#menu::before, #menu::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 150px;
+    background: url('../images/menu-bg-trim.jpg') no-repeat center center;
+    background-size: cover;
+    opacity: 0.1;
+    z-index: 0;
+}
+#menu::before { top: 0; }
+#menu::after { bottom: 0; }
+
+#menu h2 {
+    color: var(--color-light);
+    font-size: 2.8rem;
+    font-style: italic;
+    margin-bottom: 3rem;
+    position: relative;
+    z-index: 1;
+}
+
+/* Container cho phép cuộn ngang */
+.menu-scroll-container {
+    overflow-x: auto; /* CHỈ HIỆN THANH CUỘN KHI CẦN */
+    padding-bottom: 1.5rem; /* Tăng khoảng trống cho thanh cuộn */
+    position: relative;
+    z-index: 1;
+}
+
+/* Tùy chỉnh thanh cuộn */
+.menu-scroll-container::-webkit-scrollbar {
+    height: 8px;
+}
+.menu-scroll-container::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+.menu-scroll-container::-webkit-scrollbar-thumb {
+    background-color: var(--color-light);
+    border-radius: 4px;
+}
+
+/* THAY ĐỔI CHÍNH NẰM Ở ĐÂY */
 .menu-categories {
-    display: flex;
-    justify-content: center;
+    display: grid;
+    /* Tạo lưới có 6 cột bằng nhau */
+    grid-template-columns: repeat(6, 1fr); 
+    grid-auto-flow: column; /* Các mục mới sẽ tạo cột mới */
     gap: 2rem;
-    flex-wrap: wrap;
+    min-width: max-content; /* Đảm bảo container đủ rộng để chứa tất cả các mục */
 }
 
+/* Phong cách cho các mục menu */
 .category {
+    background-color: rgba(0, 0, 0, 0.15);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 1.5rem 1rem;
+    width: 180px; /* Chiều rộng cố định cho mỗi mục */
     text-align: center;
     cursor: pointer;
-    opacity: 0.7;
-    transition: opacity 0.3s;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
-.category.active, .category:hover {
-    opacity: 1;
+.category:hover, .category.active {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-color: var(--color-light);
+    transform: translateY(-10px);
 }
 
-.category img {
-    height: 80px;
-    margin: 0 auto 0.5rem;
+/* .category img {
+    height: 100px;
+    margin-bottom: 1rem;
+    object-fit: contain;
+} */
+
+/* Tìm và thay thế quy tắc .category img cũ bằng đoạn này */
+.category .menu-icon {
+    height: 100px;
+    width: 100px;
+    margin-bottom: 1rem;
+    color: var(--color-light); /* Màu của icon */
 }
 
+/* Các quy tắc CSS khác cho #menu giữ nguyên */
+
+.category span {
+    color: var(--color-light);
+    font-weight: normal;
+    font-style: italic;
+    font-size: 1rem;
+}
+
+/* Thanh indicator */
 .menu-indicator-bar {
-    width: 80%;
-    max-width: 800px;
-    height: 4px;
-    background-color: rgba(0, 0, 0, 0.2);
-    margin: 2rem auto 0;
-    position: relative;
-    border-radius: 2px;
-}
-
-.indicator {
-    position: absolute;
-    height: 100%;
-    background-color: var(--color-light);
-    width: 16.66%; /* 100% / 6 categories */
-    left: 0;
-    border-radius: 2px;
-    transition: left 0.4s ease;
+    /* Thanh này có thể không cần thiết nữa khi đã có scrollbar, 
+       nhưng bạn có thể giữ lại nếu muốn */
+    display: none; /* Tạm thời ẩn đi để giao diện gọn hơn */
 }
 
 /* --- Takeaway & About Sections (Homepage) --- */
@@ -136,7 +204,7 @@
 }
 
 #about {
-    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('../images/about-bg.jpg') no-repeat center center/cover; /* Cập nhật đường dẫn nếu cần */
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('../images/image2.png') no-repeat center center/cover; /* Cập nhật đường dẫn nếu cần */
     display: flex;
     justify-content: center;
     align-items: center;

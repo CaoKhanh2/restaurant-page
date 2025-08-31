@@ -119,3 +119,10 @@ footer {
         margin-bottom: 0;
     }
 }
+
+/* Thêm vào cuối tệp style/base.css để sửa lỗi dòng kẻ thừa */
+footer, .footer-bottom {
+    border: none;
+    border-top: none;
+    border-bottom: none;
+}
