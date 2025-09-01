@@ -54,3 +54,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // Tải header, và SAU KHI tải xong, chạy hàm initializeMobileNav
     loadHTML('_includes/header.html', 'header-placeholder', initializeMobileNav);
 });
+
+// Thêm vào cuối file js/main.js
+
+// --- Back to Top Button Logic ---
+const backToTopButton = document.getElementById("back-to-top");
+
+window.addEventListener("scroll", () => {
+    if (window.pageYOffset > 300) { // Hiện nút sau khi cuộn xuống 300px
+        backToTopButton.classList.add("show");
+    } else {
+        backToTopButton.classList.remove("show");
+    }
+});
