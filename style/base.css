@@ -74,9 +74,10 @@ nav {
     justify-content: space-between;
     align-items: center;
 }
+/* --- Logo trên Header --- */
 nav .logo img {
-    height: 60px;
-    width: auto;
+    height: 75px; /* Tăng chiều cao logo */
+    width: auto;  /* Chiều rộng tự động điều chỉnh */
     object-fit: contain;
 }
 nav .main-nav {
@@ -116,7 +117,11 @@ footer {
 .footer-left div { text-align: left; }
 .footer-center { flex: 1; min-width: 200px; text-align: center; }
 .footer-right { flex: 1; min-width: 200px; text-align: center; }
-.footer-logo img { height: 100px; width: auto; object-fit: contain; }
+.footer-logo img {
+    height: 120px; /* Logo ở footer có thể lớn hơn một chút */
+    width: auto;
+    object-fit: contain;
+}
 .footer-right a { font-size: 1.5rem; margin: 0 0.5rem; }
 .footer-bottom {
     display: flex;
@@ -188,4 +193,10 @@ footer {
     h1 { font-size: 2.5rem; }
     h2 { font-size: 2rem; }
     section { padding: 4rem 5%; }
+}
+
+@media (max-width: 768px) {
+    nav .logo img {
+        height: 60px; /* Giảm kích thước trên di động */
+    }
 }
