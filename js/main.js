@@ -88,3 +88,30 @@ document.addEventListener('DOMContentLoaded', function() {
     // 3. Khởi tạo nút Back to Top
     initializeBackToTop();
 });
+
+// Xử lý form đặt bàn
+// Lấy các phần tử
+const setTableBtn = document.getElementById('setTableBtn');
+const bookingFormContainer = document.getElementById('bookingFormContainer');
+const closeFormBtn = document.getElementById('closeFormBtn');
+
+// Hiển thị form khi nhấn nút "Set table"
+setTableBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+  bookingFormContainer.classList.remove('hidden');
+  bookingFormContainer.style.display = 'flex';
+});
+
+// Đóng form khi nhấn nút "X"
+closeFormBtn.addEventListener('click', () => {
+  bookingFormContainer.classList.add('hidden');
+  bookingFormContainer.style.display = 'none';
+});
+
+// Đóng form khi nhấn ra ngoài modal
+window.addEventListener('click', (e) => {
+  if (e.target === bookingFormContainer) {
+    bookingFormContainer.classList.add('hidden');
+    bookingFormContainer.style.display = 'none';
+  }
+});

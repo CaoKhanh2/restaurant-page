@@ -38,6 +38,33 @@
           <h1>Restaurant <h1>Les 4 Saisons</h1> </h1>
           <p>La vrai cuisine Chinois</p>
           <a href="tel:+41227005067" class="btn">(+41) 22 700 50 67</a>
+          <a href="" class="btn" id="setTableBtn">Mettre la table</a>
+          
+          <!-- Form đặt bàn (ẩn ban đầu) -->
+          <div id="bookingFormContainer" class="modal hidden">
+            <div class="modal-content">
+              <span class="close-btn" id="closeFormBtn">&times;</span>
+              <h2> La Réservation une table</h2>
+              <form id="bookingForm">
+                <label for="name">Nom:</label>
+                <input type="text" id="name" name="name" required>
+                
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                
+                <label for="phone">Numéro de téléphone:</label>
+                <input type="text" id="phone" name="phone" required>
+                
+                <label for="date">Date de réservation:</label>
+                <input type="date" id="date" name="date" required>
+                
+                <label for="time">Régler l'heure:</label>
+                <input type="time" id="time" name="time" required>
+                
+                <button type="submit" class="btn">Envoyer</button>
+              </form>
+            </div>
+          </div>
         </div>
         <div class="opening-hours">
           <h3>Horaires d'ouverture</h3>
