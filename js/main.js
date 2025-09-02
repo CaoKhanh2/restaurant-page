@@ -1,28 +1,31 @@
 // Hàm để tải và chèn nội dung HTML.
-// Tôi đã thêm một tham số "callback" để nó có thể chạy một hàm khác sau khi tải xong.
 const loadHTML = (filePath, elementId, callback) => {
     fetch(filePath)
         .then(response => {
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                throw new Error(`Network response was not ok for ${filePath}`);
             }
             return response.text();
         })
         .then(data => {
-            document.getElementById(elementId).innerHTML = data;
-            // Nếu có hàm callback được truyền vào, hãy chạy nó
-            if (callback) {
-                callback();
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.innerHTML = data;
+                if (callback) {
+                    callback();
+                }
             }
         })
         .catch(error => {
             console.error('Error loading HTML:', error);
-            document.getElementById(elementId).innerHTML = `<p style="color:red;">Error loading content.</p>`;
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.innerHTML = `<p style="color:red;">Error loading content.</p>`;
+            }
         });
 };
 
-// --- Mobile Navigation Toggle ---
-// Tách logic xử lý menu ra một hàm riêng
+// --- Mobile Navigation Toggle Logic ---
 const initializeMobileNav = () => {
     const mobileNavToggle = document.getElementById('mobile-nav-toggle');
     const mainNav = document.querySelector('.main-nav');
@@ -30,40 +33,58 @@ const initializeMobileNav = () => {
     if (mobileNavToggle && mainNav) {
         mobileNavToggle.addEventListener('click', () => {
             mainNav.classList.toggle('active');
-            // Thay đổi icon từ bars (gạch) sang x (đóng)
             const icon = mobileNavToggle.querySelector('i');
-            if (icon.classList.contains('fa-bars')) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-xmark');
-            } else {
-                icon.classList.remove('fa-xmark');
-                icon.classList.add('fa-bars');
-            }
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-xmark');
         });
-    } else {
-        // Ghi log nếu không tìm thấy nút để dễ dàng gỡ lỗi
-        console.log("Mobile navigation elements not found.");
     }
 };
 
-// Khi toàn bộ DOM đã được tải...
-document.addEventListener('DOMContentLoaded', function() {
-    // Tải footer như bình thường
-    loadHTML('_includes/footer.html', 'footer-placeholder');
+// --- Slider Menu Logic (đã được tích hợp) ---
+const initializeSliderMenu = () => {
+    const categories = document.querySelectorAll('#slider-menu .category');
     
-    // Tải header, và SAU KHI tải xong, chạy hàm initializeMobileNav
-    loadHTML('_includes/header.html', 'header-placeholder', initializeMobileNav);
-});
-
-// Thêm vào cuối file js/main.js
+    categories.forEach(category => {
+        // Gán sự kiện 'click' cho từng mục trong slider
+        category.addEventListener('click', () => {
+            // Tìm và xóa class 'active' khỏi mục đang active hiện tại
+            const currentActive = document.querySelector('#slider-menu .category.active');
+            if (currentActive) {
+                currentActive.classList.remove('active');
+            }
+            // Thêm class 'active' vào mục vừa được nhấp
+            category.classList.add('active');
+        });
+    });
+};
 
 // --- Back to Top Button Logic ---
-const backToTopButton = document.getElementById("back-to-top");
+const initializeBackToTop = () => {
+    const backToTopButton = document.getElementById("back-to-top");
+    if (!backToTopButton) return;
 
-window.addEventListener("scroll", () => {
-    if (window.pageYOffset > 300) { // Hiện nút sau khi cuộn xuống 300px
-        backToTopButton.classList.add("show");
-    } else {
-        backToTopButton.classList.remove("show");
+    window.addEventListener("scroll", () => {
+        if (window.pageYOffset > 300) {
+            backToTopButton.classList.add("show");
+        } else {
+            backToTopButton.classList.remove("show");
+        }
+    });
+};
+
+// --- Main Execution on DOMContentLoaded ---
+// Đây là hàm chính sẽ chạy khi trang được tải xong
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Tải Header và Footer
+    loadHTML('_includes/header.html', 'header-placeholder', initializeMobileNav);
+    loadHTML('_includes/footer.html', 'footer-placeholder');
+
+    // 2. Kiểm tra và tải Slider Menu
+    // Chỉ tải slider nếu tìm thấy placeholder của nó trên trang hiện tại
+    if (document.getElementById('slider-menu')) {
+        loadHTML('_includes/slider-menu.html', 'slider-menu', initializeSliderMenu);
     }
+    
+    // 3. Khởi tạo nút Back to Top
+    initializeBackToTop();
 });

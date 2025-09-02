@@ -1,0 +1,44 @@
+<section id="menu" data-aos="fade-up">
+    <h2>La carte des mets</h2>
+    <div class="menu-scroll-container">
+        <div class="menu-categories">
+            <a href="/restaurant-page/menu#entrees" class="category active" data-aos="fade-up" data-aos-delay="100">
+                <img src="icon/icon-entrees-new.jpg" alt="Entrées"> <span>Entrées</span>
+            </a>
+            <a href="/restaurant-page/menu#dimsum" class="category" data-aos="fade-up" data-aos-delay="200">
+                <img src="icon/icon-dimsum-new.jpg" alt="Dim Sum"> <span>Dim Sum</span>
+            </a>
+            <a href="/restaurant-page/menu#salades" class="category" data-aos="fade-up" data-aos-delay="300">
+                <img src="icon/icon-salades-new.jpg" alt="Salades"> <span>Salades</span>
+            </a>
+            <a href="/restaurant-page/menu#potages" class="category" data-aos="fade-up" data-aos-delay="400">
+                <img src="icon/icon-potages-new.jpg" alt="Potages"> <span>Potages et soupes</span> </a>
+            <a href="/restaurant-page/menu#poulet" class="category" data-aos="fade-up" data-aos-delay="500">
+                <img src="icon/icon-poulet-new.jpg" alt="Poulet"> <span>Poulet</span>
+            </a>
+            <a href="/restaurant-page/menu#boeuf" class="category" data-aos="fade-up" data-aos-delay="600">
+                <img src="icon/icon-boeuf-new.jpg" alt="Bœuf"> <span>Bœuf</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<style>
+    /* Trong style/home.css hoặc style/base.css */
+    #menu .category img {
+        max-width: 80%; /* Chiếm tối đa 80% chiều rộng của khung bao quanh */
+        max-height: 80%; /* Chiếm tối đa 80% chiều cao của khung bao quanh */
+        height: auto; /* Giữ tỉ lệ chiều cao tự động theo chiều rộng */
+        object-fit: contain;
+        margin-bottom: 5px;
+    }
+    #menu .category {
+        padding: 15px;
+        min-width: 120px;
+        min-height: 120px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
