@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dim Sum - Restaurant Les 4 Saisons</title>
+
+    <link rel="stylesheet" href="../style/base.css" />
+    <link rel="stylesheet" href="../style/submenu.css" />
+  </head>
+  <body>
+    <div id="header-placeholder"></div>
+
+    <main>
+      <section class="submenu-page">
+        <h1 class="submenu-title">Dim Sum</h1>
+        <div class="submenu-grid">
+          <div class="submenu-item">
+            <p>Petits pains aux légumes et au poulet (4 pcs)</p>
+            <span>8.-</span>
+          </div>
+          <div class="submenu-item">
+            <p>Siu Mai à la vapeur (5 pcs)</p>
+            <span>10.-</span>
+          </div>
+          <div class="submenu-item">
+            <p>Raviolis de porc à la vapeur (5 pcs)</p>
+            <span>10.-</span>
+          </div>
+          <div class="submenu-item">
+            <p>Raviolis aux crevettes Ha Kao (5 pcs)</p>
+            <span>11.-</span>
+          </div>
+          <div class="submenu-item">
+            <p>Assortiment «4 Saisons» à la vapeur (pour 2 pers.)</p>
+            <span>20.-</span>
+          </div>
+        </div>
+      </section>
+
+      <div id="slider-menu"></div>
+    </main>
+
+    <div id="footer-placeholder"></div>
+    <a href="#" id="back-to-top" aria-label="Cuộn lên đầu trang"
+      ><i class="fas fa-arrow-up"></i
+    ></a>
+
+    <script src="../js/main.js"></script>
+    <script>
+      // Định nghĩa đường dẫn cho trang này (cần đi ngược lên 1 cấp)
+      initializePage({
+        header: "../_includes/header.html",
+        footer: "../_includes/footer.html",
+        sliderMenu: "../_includes/slider-menu.html",
+      });
+    </script>
+  </body>
+</html>

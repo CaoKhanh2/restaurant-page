@@ -1,0 +1,54 @@
+.submenu-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 150px 5% 6rem;
+    color: var(--color-light);
+}
+
+.submenu-title {
+    font-family: var(--font-heading);
+    font-size: 3rem;
+    font-style: italic;
+    text-align: left;
+    margin-bottom: 3rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #444;
+}
+
+.submenu-grid {
+    display: grid;
+    /* Hiển thị 2 cột trên màn hình lớn */
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem 3rem; /* Khoảng cách dọc và ngang */
+}
+
+.submenu-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: 1rem;
+}
+
+.submenu-item p {
+    margin: 0;
+    line-height: 1.6;
+    color: #ccc;
+    padding-right: 1.5rem;
+}
+
+.submenu-item span {
+    font-weight: bold;
+    color: var(--color-secondary);
+    white-space: nowrap;
+}
+
+/* Responsive cho màn hình nhỏ */
+@media (max-width: 768px) {
+    .submenu-grid {
+        /* Chuyển về 1 cột */
+        grid-template-columns: 1fr;
+    }
+    .submenu-title {
+        text-align: center;
+    }
+}

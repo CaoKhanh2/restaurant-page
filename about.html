@@ -3,7 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>À Propos - Restaurant Les 4 Saisons</title>
+    <title>Restaurant Les 4 Saisons - La gastronomie chinoise à Genève</title>
+
+    <link rel="stylesheet" href="style/base.css" />
+    <link rel="stylesheet" href="style/about.css" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -14,8 +18,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     />
-    <link rel="stylesheet" href="style/base.css" />
-    <link rel="stylesheet" href="style/about.css" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
   </head>
   <body>
     <div id="header-placeholder"></div>
@@ -45,17 +48,33 @@
           <div class="opening-hours">
             <h2>Horaires d'ouverture</h2>
             <ul>
-              <li><span>Lundi</span> <span>11:30 - 14:30, 18:30 - 22:30</span></li>
-              <li><span>Mardi</span> <span>11:30 - 14:30, 18:30 - 22:30</span></li>
-              <li><span>Mercredi</span> <span>11:30 - 14:30, 18:30 - 22:30</span></li>
-              <li><span>Jeudi</span> <span>11:30 - 14:30, 18:30 - 22:30</span></li>
-              <li><span>Vendredi</span> <span>11:30 - 14:30, 18:30 - 22:30</span></li>
-              <li><span>Samedi</span> <span>11:30 - 14:30, 18:30 - 22:30</span></li>
-              <li><span>Dimanche</span> <span>11:30 - 14:30, 18:30 - 22:30</span></li>
+              <li>
+                <span>Lundi</span> <span>11:30 - 14:30, 18:30 - 22:30</span>
+              </li>
+              <li>
+                <span>Mardi</span> <span>11:30 - 14:30, 18:30 - 22:30</span>
+              </li>
+              <li>
+                <span>Mercredi</span> <span>11:30 - 14:30, 18:30 - 22:30</span>
+              </li>
+              <li>
+                <span>Jeudi</span> <span>11:30 - 14:30, 18:30 - 22:30</span>
+              </li>
+              <li>
+                <span>Vendredi</span> <span>11:30 - 14:30, 18:30 - 22:30</span>
+              </li>
+              <li>
+                <span>Samedi</span> <span>11:30 - 14:30, 18:30 - 22:30</span>
+              </li>
+              <li>
+                <span>Dimanche</span> <span>11:30 - 14:30, 18:30 - 22:30</span>
+              </li>
             </ul>
             <div class="contact-box">
               <h3>Contacter Restaurant Les 4 Saisons</h3>
-              <a href="tel:+41227005067" class="contact-phone">(+41) 22 700 50 67</a>
+              <a href="tel:+41227005067" class="contact-phone"
+                >(+41) 22 700 50 67</a
+              >
             </div>
           </div>
           <div class="reservation-form">
@@ -63,16 +82,34 @@
             <form action="#">
               <div class="form-row">
                 <input type="text" name="nom" placeholder="Nom" required />
-                <input type="text" name="prenom" placeholder="Prénom" required/>
+                <input
+                  type="text"
+                  name="prenom"
+                  placeholder="Prénom"
+                  required
+                />
               </div>
               <div class="form-row">
-                <input type="email" name="email" placeholder="E-mail" required/>
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="E-mail"
+                  required
+                />
               </div>
               <div class="form-row">
-                <input type="text" name="objet" placeholder="Objet de la réservation"/>
+                <input
+                  type="text"
+                  name="objet"
+                  placeholder="Objet de la réservation"
+                />
               </div>
               <div class="form-row">
-                <textarea name="message" placeholder="Message..." rows="6"></textarea>
+                <textarea
+                  name="message"
+                  placeholder="Message..."
+                  rows="6"
+                ></textarea>
               </div>
               <button type="submit" class="btn">Envoyer</button>
             </form>
@@ -84,30 +121,83 @@
         <h2>La carte des mets</h2>
         <div class="menu-scroll-container">
           <div class="menu-categories">
-            <a href="/restaurant-page/menu#entrees" class="category active" data-aos="fade-up" data-aos-delay="100">
-              <img src="images/icon-entrees-new.png" alt="Entrées" /> <span>Entrées</span>
+            <a
+              href="/restaurant-page/menu#entrees"
+              class="category active"
+              data-aos="fade-up"
+              data-aos-delay="100"
+            >
+              <img src="images/icon-entrees-new.png" alt="Entrées" />
+              <span>Entrées</span>
             </a>
-            <a href="/restaurant-page/menu#dimsum" class="category" data-aos="fade-up" data-aos-delay="200">
-              <img src="images/icon-dimsum-new.png" alt="Dim Sum" /> <span>Dim Sum</span>
+            <a
+              href="/restaurant-page/menu#dimsum"
+              class="category"
+              data-aos="fade-up"
+              data-aos-delay="200"
+            >
+              <img src="images/icon-dimsum-new.png" alt="Dim Sum" />
+              <span>Dim Sum</span>
             </a>
-            <a href="/restaurant-page/menu#salades" class="category" data-aos="fade-up" data-aos-delay="300">
-              <img src="images/icon-salades-new.png" alt="Salades" /> <span>Salades</span>
+            <a
+              href="/restaurant-page/menu#salades"
+              class="category"
+              data-aos="fade-up"
+              data-aos-delay="300"
+            >
+              <img src="images/icon-salades-new.png" alt="Salades" />
+              <span>Salades</span>
             </a>
-            <a href="/restaurant-page/menu#potages" class="category" data-aos="fade-up" data-aos-delay="400">
-              <img src="images/icon-potages-new.png" alt="Potages" /> <span>Potages et soupes</span>
+            <a
+              href="/restaurant-page/menu#potages"
+              class="category"
+              data-aos="fade-up"
+              data-aos-delay="400"
+            >
+              <img src="images/icon-potages-new.png" alt="Potages" />
+              <span>Potages et soupes</span>
             </a>
-            <a href="/restaurant-page/menu#poulet" class="category" data-aos="fade-up" data-aos-delay="500">
-              <img src="images/icon-poulet-new.png" alt="Poulet" /> <span>Poulet</span>
+            <a
+              href="/restaurant-page/menu#poulet"
+              class="category"
+              data-aos="fade-up"
+              data-aos-delay="500"
+            >
+              <img src="images/icon-poulet-new.png" alt="Poulet" />
+              <span>Poulet</span>
             </a>
-            <a href="/restaurant-page/menu#boeuf" class="category" data-aos="fade-up" data-aos-delay="600">
-              <img src="images/icon-boeuf-new.png" alt="Bœuf" /> <span>Bœuf</span>
+            <a
+              href="/restaurant-page/menu#boeuf"
+              class="category"
+              data-aos="fade-up"
+              data-aos-delay="600"
+            >
+              <img src="images/icon-boeuf-new.png" alt="Bœuf" />
+              <span>Bœuf</span>
             </a>
           </div>
         </div>
       </section>
     </main>
+
     <div id="footer-placeholder"></div>
-    <a href="#" id="back-to-top" aria-label="Cuộn lên đầu trang"><i class="fas fa-arrow-up"></i></a>
+
     <script src="js/main.js"></script>
+    <script>
+      // Định nghĩa đường dẫn cho trang này
+      initializePage({
+        header: "_includes/header.html",
+        footer: "_includes/footer.html",
+        sliderMenu: "_includes/slider-menu.html",
+      });
+    </script>
+    <script src="js/home.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init({
+        duration: 800,
+        once: true,
+      });
+    </script>
   </body>
 </html>

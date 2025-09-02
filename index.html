@@ -7,6 +7,7 @@
 
     <link rel="stylesheet" href="style/base.css" />
     <link rel="stylesheet" href="style/home.css" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -17,7 +18,6 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     />
-
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
   </head>
 
@@ -27,7 +27,7 @@
     <main>
       <section id="hero">
         <div class="hero-content">
-          <h1>Restaurant Les 4 Saisons</h1>
+          <h1>Restaurant hLes 4 Saisons</h1>
           <p>La gastronomie chinoise à Genève</p>
           <a href="tel:+41227005067" class="btn">(+41) 22 700 50 67</a>
         </div>
@@ -59,7 +59,7 @@
         </div>
       </section>
 
-      <section id="menu" data-aos="fade-up">
+      <!-- <section id="menu" data-aos="fade-up">
         <h2>La carte des mets</h2>
         <div class="menu-scroll-container">
             <div class="menu-categories">
@@ -82,12 +82,20 @@
                 </a>
             </div>
         </div>
-      </section>
+      </section> -->
+
+      <div id="slider-menu"></div>
 
       <section id="takeaway">
         <h2 data-aos="fade-up">Restaurant Les 4 Saisons, chez vous</h2>
         <p data-aos="fade-up" data-aos-delay="100">Commandez à emporter</p>
-        <a href="tel:+41227005067" class="btn" data-aos="fade-up" data-aos-delay="200">(+41) 22 700 50 67</a>
+        <a
+          href="tel:+41227005067"
+          class="btn"
+          data-aos="fade-up"
+          data-aos-delay="200"
+          >(+41) 22 700 50 67</a
+        >
       </section>
 
       <section id="about">
@@ -99,27 +107,60 @@
             région genevoise avant d’ouvrir leur propre établissement. C’est en
             1996 que l’histoire du restaurant Les 4 Saisons commence...
           </p>
-          <a href="/restaurant-page/about" class="btn btn-dark">PLUS DE Restaurant Les 4 Saisons</a>
+          <a href="/restaurant-page/about" class="btn btn-dark"
+            >PLUS DE Restaurant Les 4 Saisons</a
+          >
         </div>
       </section>
 
       <section id="gallery">
         <h2 data-aos="fade-up">Notre galerie</h2>
         <div class="gallery-scroll-container">
-            <div class="gallery-grid">
-                <img src="images/caption (1).jpg" alt="Plat 1" data-aos="fade-up" />
-                <img src="images/caption (2).jpg" alt="Plat 2" data-aos="fade-up" data-aos-delay="100"/>
-                <img src="images/caption (3).jpg" alt="Plat 3" data-aos="fade-up" data-aos-delay="200"/>
-                <img src="images/crevettes-5-epices.jpg" alt="Plat 4" data-aos="fade-up" data-aos-delay="300"/>
-                <img src="images/raviolis-vapeur.jpg" alt="Plat 5" data-aos="fade-up" data-aos-delay="400"/>
-            </div>
+          <div class="gallery-grid">
+            <img src="images/caption (1).jpg" alt="Plat 1" data-aos="fade-up" />
+            <img
+              src="images/caption (2).jpg"
+              alt="Plat 2"
+              data-aos="fade-up"
+              data-aos-delay="100"
+            />
+            <img
+              src="images/caption (3).jpg"
+              alt="Plat 3"
+              data-aos="fade-up"
+              data-aos-delay="200"
+            />
+            <img
+              src="images/crevettes-5-epices.jpg"
+              alt="Plat 4"
+              data-aos="fade-up"
+              data-aos-delay="300"
+            />
+            <img
+              src="images/raviolis-vapeur.jpg"
+              alt="Plat 5"
+              data-aos="fade-up"
+              data-aos-delay="400"
+            />
+          </div>
         </div>
-    </section>
+      </section>
     </main>
 
     <div id="footer-placeholder"></div>
-    <a href="#" id="back-to-top" aria-label="Cuộn lên đầu trang"><i class="fas fa-arrow-up"></i></a>
+    <a href="#" id="back-to-top" aria-label="Cuộn lên đầu trang"
+      ><i class="fas fa-arrow-up"></i
+    ></a>
+
     <script src="js/main.js"></script>
+    <script>
+      // Định nghĩa đường dẫn cho trang này
+      initializePage({
+        header: "_includes/header.html",
+        footer: "_includes/footer.html",
+        sliderMenu: "_includes/slider-menu.html",
+      });
+    </script>
     <script src="js/home.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>

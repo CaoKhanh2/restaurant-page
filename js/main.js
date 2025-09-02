@@ -1,28 +1,38 @@
-// Hàm để tải và chèn nội dung HTML.
-// Tôi đã thêm một tham số "callback" để nó có thể chạy một hàm khác sau khi tải xong.
+/**
+ * Tải và chèn nội dung HTML vào một phần tử được chỉ định.
+ * @param {string} filePath - Đường dẫn tương đối đến tệp HTML cần tải.
+ * @param {string} elementId - ID của phần tử sẽ nhận nội dung.
+ * @param {function} [callback] - Một hàm tùy chọn sẽ được gọi sau khi tải thành công.
+ */
 const loadHTML = (filePath, elementId, callback) => {
     fetch(filePath)
         .then(response => {
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                throw new Error(`Network response was not ok for ${filePath}`);
             }
             return response.text();
         })
         .then(data => {
-            document.getElementById(elementId).innerHTML = data;
-            // Nếu có hàm callback được truyền vào, hãy chạy nó
-            if (callback) {
-                callback();
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.innerHTML = data;
+                if (callback) {
+                    callback();
+                }
             }
         })
         .catch(error => {
             console.error('Error loading HTML:', error);
-            document.getElementById(elementId).innerHTML = `<p style="color:red;">Error loading content.</p>`;
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.innerHTML = `<p style="color:red; text-align: center;">Error loading component: ${elementId}.</p>`;
+            }
         });
 };
 
-// --- Mobile Navigation Toggle ---
-// Tách logic xử lý menu ra một hàm riêng
+/**
+ * Khởi tạo chức năng cho menu điều hướng trên di động.
+ */
 const initializeMobileNav = () => {
     const mobileNavToggle = document.getElementById('mobile-nav-toggle');
     const mainNav = document.querySelector('.main-nav');
@@ -30,40 +40,40 @@ const initializeMobileNav = () => {
     if (mobileNavToggle && mainNav) {
         mobileNavToggle.addEventListener('click', () => {
             mainNav.classList.toggle('active');
-            // Thay đổi icon từ bars (gạch) sang x (đóng)
             const icon = mobileNavToggle.querySelector('i');
-            if (icon.classList.contains('fa-bars')) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-xmark');
-            } else {
-                icon.classList.remove('fa-xmark');
-                icon.classList.add('fa-bars');
-            }
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-xmark');
         });
-    } else {
-        // Ghi log nếu không tìm thấy nút để dễ dàng gỡ lỗi
-        console.log("Mobile navigation elements not found.");
     }
 };
 
-// Khi toàn bộ DOM đã được tải...
-document.addEventListener('DOMContentLoaded', function() {
-    // Tải footer như bình thường
-    loadHTML('_includes/footer.html', 'footer-placeholder');
-    
-    // Tải header, và SAU KHI tải xong, chạy hàm initializeMobileNav
-    loadHTML('_includes/header.html', 'header-placeholder', initializeMobileNav);
-});
-
-// Thêm vào cuối file js/main.js
-
-// --- Back to Top Button Logic ---
-const backToTopButton = document.getElementById("back-to-top");
-
-window.addEventListener("scroll", () => {
-    if (window.pageYOffset > 300) { // Hiện nút sau khi cuộn xuống 300px
-        backToTopButton.classList.add("show");
-    } else {
-        backToTopButton.classList.remove("show");
+/**
+ * Khởi tạo chức năng cho nút "Back to Top".
+ */
+const initializeBackToTop = () => {
+    const backToTopButton = document.getElementById("back-to-top");
+    if (backToTopButton) {
+        window.addEventListener("scroll", () => {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add("show");
+            } else {
+                backToTopButton.classList.remove("show");
+            }
+        });
+        // Không cần sự kiện click vì href="#" đã xử lý việc cuộn lên top
     }
-});
+};
+
+// Hàm chính sẽ được gọi từ các tệp HTML
+function initializePage(paths) {
+    document.addEventListener('DOMContentLoaded', function() {
+        // Tải các thành phần chung
+        loadHTML(paths.header, 'header-placeholder', initializeMobileNav);
+        loadHTML(paths.footer, 'footer-placeholder', initializeBackToTop);
+
+        // Tải slider-menu nếu có placeholder
+        if (document.getElementById('slider-menu')) {
+            loadHTML(paths.sliderMenu, 'slider-menu');
+        }
+    });
+}

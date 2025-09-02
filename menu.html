@@ -1,163 +1,397 @@
 <!DOCTYPE html>
 <html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Restaurant Les 4 Saisons - La gastronomie chinoise à Genève</title>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La Carte Des Mets - Restaurant Les 4 Saisons</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    
-    <link rel="stylesheet" href="style/base.css">
-    <link rel="stylesheet" href="style/menu.css">
-</head>
+    <link rel="stylesheet" href="style/base.css" />
+    <link rel="stylesheet" href="style/menu.css" />
 
-<body>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+  </head>
 
+  <body>
     <div id="header-placeholder"></div>
 
     <main>
-        <section id="full-menu-page">
-            <div class="menu-header">
-                <span class="subtitle">MENU</span>
-                <h1>Découvrez nos plats</h1>
-                <div class="decorator">◆</div>
-            </div>
+      <section id="full-menu-page">
+        <div class="menu-header">
+          <span class="subtitle">MENU</span>
+          <h1>Découvrez nos plats</h1>
+          <div class="decorator">◆</div>
+        </div>
 
-            <div class="set-menus-container">
-                <div class="set-menu-card">
-                    <h3>Menu végétarien</h3>
-                    <p class="condition">Au minimum pour 2 personnes</p>
-                    <ul>
-                        <li>Potage pékinois piquant 🌶️</li>
-                        <li>Rouleaux de printemps aux légumes</li>
-                        <li>Légumes sautés aux champignons chinois</li>
-                        <li>Tofu au curry rouge</li>
-                        <li>Riz ou nouilles sautées au choix</li>
-                        <li>Dessert au choix</li>
-                    </ul>
-                    <div class="price">41.- / pers.</div>
-                </div>
-                <div class="set-menu-card">
-                    <h3>Menu 1</h3>
-                    <p class="condition">Au minimum pour 2 personnes</p>
-                    <ul>
-                        <li>Potage pékinois piquant 🌶️</li>
-                        <li>Rouleaux de printemps aux légumes</li>
-                        <li>Poulet sauté Sichuan piquant 🌶️</li>
-                        <li>Crevettes sur ardoise</li>
-                        <li>Riz ou nouilles sautées au choix</li>
-                        <li>Dessert au choix</li>
-                    </ul>
-                    <div class="price">41.- / pers.</div>
-                </div>
-                <div class="set-menu-card">
-                    <h3>Menu 3</h3>
-                    <p class="condition">Au minimum pour 2 personnes</p>
-                    <ul>
-                        <li>Potage pékinois piquant 🌶️</li>
-                        <li>Rouleaux de printemps vietnamiens «Nems»</li>
-                        <li>Crevettes à la sauce aigre-douce</li>
-                        <li>Magret de canard sur ardoise</li>
-                        <li>Poulet sauté aux légumes</li>
-                        <li>Riz ou nouilles sautées au choix</li>
-                        <li>Dessert au choix</li>
-                    </ul>
-                    <div class="price">60.- / pers.</div>
-                </div>
-                <div class="set-menu-card">
-                    <h3>Menu spécial «Canard Laqué»</h3>
-                    <p class="condition">Au minimum pour 2 personnes</p>
-                    <ul>
-                        <li>Potage aux fruits de mer</li>
-                        <li>Peau de canard croustillante avec crêpes</li>
-                        <li>Canard sauté aux pousses de soja</li>
-                        <li>Riz ou nouilles sautées au choix</li>
-                        <li>Dessert au choix</li>
-                    </ul>
-                    <div class="price">60.- / pers.</div>
-                </div>
-            </div>
+        <div class="set-menus-container">
+          <div class="set-menu-card">
+            <h3>Menu végétarien</h3>
+            <p class="condition">Au minimum pour 2 personnes</p>
+            <ul>
+              <li>Potage pékinois piquant 🌶️</li>
+              <li>Rouleaux de printemps aux légumes</li>
+              <li>Légumes sautés aux champignons chinois</li>
+              <li>Tofu au curry rouge</li>
+              <li>Riz ou nouilles sautées au choix</li>
+              <li>Dessert au choix</li>
+            </ul>
+            <div class="price">41.- / pers.</div>
+          </div>
+          <div class="set-menu-card">
+            <h3>Menu 1</h3>
+            <p class="condition">Au minimum pour 2 personnes</p>
+            <ul>
+              <li>Potage pékinois piquant 🌶️</li>
+              <li>Rouleaux de printemps aux légumes</li>
+              <li>Poulet sauté Sichuan piquant 🌶️</li>
+              <li>Crevettes sur ardoise</li>
+              <li>Riz ou nouilles sautées au choix</li>
+              <li>Dessert au choix</li>
+            </ul>
+            <div class="price">41.- / pers.</div>
+          </div>
+          <div class="set-menu-card">
+            <h3>Menu 3</h3>
+            <p class="condition">Au minimum pour 2 personnes</p>
+            <ul>
+              <li>Potage pékinois piquant 🌶️</li>
+              <li>Rouleaux de printemps vietnamiens «Nems»</li>
+              <li>Crevettes à la sauce aigre-douce</li>
+              <li>Magret de canard sur ardoise</li>
+              <li>Poulet sauté aux légumes</li>
+              <li>Riz ou nouilles sautées au choix</li>
+              <li>Dessert au choix</li>
+            </ul>
+            <div class="price">60.- / pers.</div>
+          </div>
+          <div class="set-menu-card">
+            <h3>Menu spécial «Canard Laqué»</h3>
+            <p class="condition">Au minimum pour 2 personnes</p>
+            <ul>
+              <li>Potage aux fruits de mer</li>
+              <li>Peau de canard croustillante avec crêpes</li>
+              <li>Canard sauté aux pousses de soja</li>
+              <li>Riz ou nouilles sautées au choix</li>
+              <li>Dessert au choix</li>
+            </ul>
+            <div class="price">60.- / pers.</div>
+          </div>
+        </div>
 
-            <div class="section-divider">À La Carte</div>
+        <div class="section-divider">À La Carte</div>
 
-            <div class="menu-columns-container">
-                <div class="menu-column">
-                    <div class="menu-category">
-                        <h3>Potages / Soups</h3>
-                        <div class="menu-item"><p>Potage pékinois piquant 🌶️ <span class="translation">Hot and sour soup</span></p><span>7.-</span></div>
-                        <div class="menu-item"><p>Potage aux raviolis <span class="translation">Chinese dumpling soup (Wonton)</span></p><span>7.-</span></div>
-                        <div class="menu-item"><p>Potage au poulet et aux vermicelles <span class="translation">Chicken and vermicelli soup</span></p><span>8.-</span></div>
-                        <div class="menu-item"><p>Potage au crabe et aux asperges <span class="translation">Crabmeat and asparagus soup</span></p><span>10.-</span></div>
-                        <div class="menu-item"><p>Potage aux crevettes et à la citronnelle <span class="translation">Hot and sour shrimps soup</span></p><span>11.-</span></div>
-                    </div>
-                    <div class="menu-category">
-                        <h3>Entrées / Starters</h3>
-                        <div class="menu-item"><p>Beignets de crevettes (4 pcs) <span class="translation">Deep-fried shrimps</span></p><span>11.-</span></div>
-                        <div class="menu-item"><p>Côtes de porc pékinoises épicées (2 pcs) 🌶️ <span class="translation">Beijing style spicy spare ribs</span></p><span>9.-</span></div>
-                        <div class="menu-item"><p>Rouleaux de printemps aux légumes (2 pcs) <span class="translation">Spring rolls with vegetables</span></p><span>8.-</span></div>
-                        <div class="menu-item"><p>Rouleaux de printemps vietnamiens «Nems» (4 pcs) <span class="translation">Vietnamese spring rolls</span></p><span>13.-</span></div>
-                        <div class="menu-item"><p>Raviolis grillés (5 pcs) <span class="translation">Potstickers (grilled dumplings)</span></p><span>10.-</span></div>
-                        <div class="menu-item"><p>Canard croustillant avec crêpes (pour 2 pers.) <span class="translation">Crispy duck with pancakes</span></p><span>25.-</span></div>
-                    </div>
-                    <div class="menu-category">
-                        <h3>Dim Sum (Vapeur)</h3>
-                        <div class="menu-item"><p>Siu Mai à la vapeur (5 pcs) <span class="translation">Siu Mai dumplings</span></p><span>10.-</span></div>
-                        <div class="menu-item"><p>Raviolis aux crevettes Ha Kao (5 pcs) <span class="translation">Ha Kao dumplings</span></p><span>11.-</span></div>
-                        <div class="menu-item"><p>Assortiment «4 Saisons» à la vapeur (pour 2 pers.) <span class="translation">Steamed «4 Seasons» dim sum</span></p><span>20.-</span></div>
-                    </div>
-                    <div class="menu-category">
-                        <h3>Salades / Salads</h3>
-                        <div class="menu-item"><p>Salade au crabe <span class="translation">Crabmeat salad</span></p><span>12.-</span></div>
-                        <div class="menu-item"><p>Salade aux crevettes <span class="translation">Shrimps salad</span></p><span>12.-</span></div>
-                    </div>
-                </div>
-                <div class="menu-column">
-                    <div class="menu-category">
-                        <h3>Plats végétariens / Vegetarian</h3>
-                        <div class="menu-item"><p>Tofu sauté aux légumes <span class="translation">Fried tofu with vegetables</span></p><span>22.-</span></div>
-                        <div class="menu-item"><p>Tofu au curry rouge <span class="translation">Red curry tofu</span></p><span>24.-</span></div>
-                        <div class="menu-item"><p>Tofu sauté aux aubergines, sauce pimentée 🌶️ <span class="translation">Fried tofu with eggplants, spicy sauce</span></p><span>24.-</span></div>
-                    </div>
-                    <div class="menu-category">
-                        <h3>Porc / Pork</h3>
-                        <div class="menu-item"><p>Porc à la sauce aigre-douce <span class="translation">Sweet and sour pork</span></p><span>23.-</span></div>
-                        <div class="menu-item"><p>Porc rôti à la cantonaise <span class="translation">Grilled pork in Cantonese style</span></p><span>25.-</span></div>
-                    </div>
-                    <div class="menu-category">
-                        <h3>Bœuf / Beef</h3>
-                        <div class="menu-item"><p>Bœuf au curry <span class="translation">Beef curry</span></p><span>25.-</span></div>
-                        <div class="menu-item"><p>Bœuf à la sauce saté piquante 🌶️ <span class="translation">Spicy satay beef</span></p><span>25.-</span></div>
-                        <div class="menu-item"><p>Bœuf Sichuan piquant 🌶️ <span class="translation">Spicy Sichuan style beef</span></p><span>25.-</span></div>
-                        <div class="menu-item"><p>Bœuf croustillant, sauce aigre-douce piquante 🌶️ <span class="translation">Crispy beef in a spicy sweet & sour sauce</span></p><span>26.-</span></div>
-                        <div class="menu-item"><p>Bœuf sur ardoise chaude <span class="translation">Sizzling beef</span></p><span>28.-</span></div>
-                    </div>
-                    <div class="menu-category">
-                        <h3>Canard / Duck</h3>
-                        <div class="menu-item"><p>Canard Sichuan piquant 🌶️ <span class="translation">Spicy Sichuan style duck</span></p><span>27.-</span></div>
-                        <div class="menu-item"><p>Canard rôti à la cantonaise <span class="translation">Roast duck in Cantonese style</span></p><span>27.-</span></div>
-                        <div class="menu-item"><p>Magret de canard sur ardoise chaude <span class="translation">Sizzling duck breast</span></p><span>29.-</span></div>
-                        <div class="menu-item"><p>Canard laqué pékinois, 3 services <span class="translation">Roasted Beijing duck, 3 services</span></p><span>50.-/pers.</span></div>
-                    </div>
-                     <div class="menu-category">
-                        <h3>Crevettes / Shrimps</h3>
-                        <div class="menu-item"><p>Crevettes au curry <span class="translation">Curry shrimps</span></p><span>27.-</span></div>
-                        <div class="menu-item"><p>Crevettes Sichuan piquantes 🌶️ <span class="translation">Sichuan style shrimps</span></p><span>27.-</span></div>
-                        <div class="menu-item"><p>Crevettes à la sauce aigre-douce <span class="translation">Sweet and sour shrimps</span></p><span>27.-</span></div>
-                        <div class="menu-item"><p>Crevettes sur ardoise chaude <span class="translation">Sizzling shrimps</span></p><span>29.-</span></div>
-                    </div>
-                </div>
+        <div class="menu-columns-container">
+          <div class="menu-column">
+            <div class="menu-category">
+              <h3>Potages / Soups</h3>
+              <div class="menu-item">
+                <p>
+                  Potage pékinois piquant 🌶️
+                  <span class="translation">Hot and sour soup</span>
+                </p>
+                <span>7.-</span>
+              </div>
+              <div class="menu-item">
+                <p>
+                  Potage aux raviolis
+                  <span class="translation"
+                    >Chinese dumpling soup (Wonton)</span
+                  >
+                </p>
+                <span>7.-</span>
+              </div>
+              <div class="menu-item">
+                <p>
+                  Potage au poulet et aux vermicelles
+                  <span class="translation">Chicken and vermicelli soup</span>
+                </p>
+                <span>8.-</span>
+              </div>
+              <div class="menu-item">
+                <p>
+                  Potage au crabe et aux asperges
+                  <span class="translation">Crabmeat and asparagus soup</span>
+                </p>
+                <span>10.-</span>
+              </div>
+              <div class="menu-item">
+                <p>
+                  Potage aux crevettes et à la citronnelle
+                  <span class="translation">Hot and sour shrimps soup</span>
+                </p>
+                <span>11.-</span>
+              </div>
             </div>
-        </section>
+            <div class="menu-category">
+              <h3>Entrées / Starters</h3>
+              <div class="menu-item">
+                <p>
+                  Beignets de crevettes (4 pcs)
+                  <span class="translation">Deep-fried shrimps</span>
+                </p>
+                <span>11.-</span>
+              </div>
+              <div class="menu-item">
+                <p>
+                  Côtes de porc pékinoises épicées (2 pcs) 🌶️
+                  <span class="translation"
+                    >Beijing style spicy spare ribs</span
+                  >
+                </p>
+                <span>9.-</span>
+              </div>
+              <div class="menu-item">
+                <p>
+                  Rouleaux de printemps aux légumes (2 pcs)
+                  <span class="translation">Spring rolls with vegetables</span>
+                </p>
+                <span>8.-</span>
+              </div>
+              <div class="menu-item">
+                <p>
+                  Rouleaux de printemps vietnamiens «Nems» (4 pcs)
+                  <span class="translation">Vietnamese spring rolls</span>
+                </p>
+                <span>13.-</span>
+              </div>
+              <div class="menu-item">
+                <p>
+                  Raviolis grillés (5 pcs)
+                  <span class="translation"
+                    >Potstickers (grilled dumplings)</span
+                  >
+                </p>
+                <span>10.-</span>
+              </div>
+              <div class="menu-item">
+                <p>
+                  Canard croustillant avec crêpes (pour 2 pers.)
+                  <span class="translation">Crispy duck with pancakes</span>
+                </p>
+                <span>25.-</span>
+              </div>
+            </div>
+            <div class="menu-category">
+              <h3>Dim Sum (Vapeur)</h3>
+              <div class="menu-item">
+                <p>
+                  Siu Mai à la vapeur (5 pcs)
+                  <span class="translation">Siu Mai dumplings</span>
+                </p>
+                <span>10.-</span>
+              </div>
+              <div class="menu-item">
+                <p>
+                  Raviolis aux crevettes Ha Kao (5 pcs)
+                  <span class="translation">Ha Kao dumplings</span>
+                </p>
+                <span>11.-</span>
+              </div>
+              <div class="menu-item">
+                <p>
+                  Assortiment «4 Saisons» à la vapeur (pour 2 pers.)
+                  <span class="translation">Steamed «4 Seasons» dim sum</span>
+                </p>
+                <span>20.-</span>
+              </div>
+            </div>
+            <div class="menu-category">
+              <h3>Salades / Salads</h3>
+              <div class="menu-item">
+                <p>
+                  Salade au crabe
+                  <span class="translation">Crabmeat salad</span>
+                </p>
+                <span>12.-</span>
+              </div>
+              <div class="menu-item">
+                <p>
+                  Salade aux crevettes
+                  <span class="translation">Shrimps salad</span>
+                </p>
+                <span>12.-</span>
+              </div>
+            </div>
+          </div>
+          <div class="menu-column">
+            <div class="menu-category">
+              <h3>Plats végétariens / Vegetarian</h3>
+              <div class="menu-item">
+                <p>
+                  Tofu sauté aux légumes
+                  <span class="translation">Fried tofu with vegetables</span>
+                </p>
+                <span>22.-</span>
+              </div>
+              <div class="menu-item">
+                <p>
+                  Tofu au curry rouge
+                  <span class="translation">Red curry tofu</span>
+                </p>
+                <span>24.-</span>
+              </div>
+              <div class="menu-item">
+                <p>
+                  Tofu sauté aux aubergines, sauce pimentée 🌶️
+                  <span class="translation"
+                    >Fried tofu with eggplants, spicy sauce</span
+                  >
+                </p>
+                <span>24.-</span>
+              </div>
+            </div>
+            <div class="menu-category">
+              <h3>Porc / Pork</h3>
+              <div class="menu-item">
+                <p>
+                  Porc à la sauce aigre-douce
+                  <span class="translation">Sweet and sour pork</span>
+                </p>
+                <span>23.-</span>
+              </div>
+              <div class="menu-item">
+                <p>
+                  Porc rôti à la cantonaise
+                  <span class="translation"
+                    >Grilled pork in Cantonese style</span
+                  >
+                </p>
+                <span>25.-</span>
+              </div>
+            </div>
+            <div class="menu-category">
+              <h3>Bœuf / Beef</h3>
+              <div class="menu-item">
+                <p>Bœuf au curry <span class="translation">Beef curry</span></p>
+                <span>25.-</span>
+              </div>
+              <div class="menu-item">
+                <p>
+                  Bœuf à la sauce saté piquante 🌶️
+                  <span class="translation">Spicy satay beef</span>
+                </p>
+                <span>25.-</span>
+              </div>
+              <div class="menu-item">
+                <p>
+                  Bœuf Sichuan piquant 🌶️
+                  <span class="translation">Spicy Sichuan style beef</span>
+                </p>
+                <span>25.-</span>
+              </div>
+              <div class="menu-item">
+                <p>
+                  Bœuf croustillant, sauce aigre-douce piquante 🌶️
+                  <span class="translation"
+                    >Crispy beef in a spicy sweet & sour sauce</span
+                  >
+                </p>
+                <span>26.-</span>
+              </div>
+              <div class="menu-item">
+                <p>
+                  Bœuf sur ardoise chaude
+                  <span class="translation">Sizzling beef</span>
+                </p>
+                <span>28.-</span>
+              </div>
+            </div>
+            <div class="menu-category">
+              <h3>Canard / Duck</h3>
+              <div class="menu-item">
+                <p>
+                  Canard Sichuan piquant 🌶️
+                  <span class="translation">Spicy Sichuan style duck</span>
+                </p>
+                <span>27.-</span>
+              </div>
+              <div class="menu-item">
+                <p>
+                  Canard rôti à la cantonaise
+                  <span class="translation">Roast duck in Cantonese style</span>
+                </p>
+                <span>27.-</span>
+              </div>
+              <div class="menu-item">
+                <p>
+                  Magret de canard sur ardoise chaude
+                  <span class="translation">Sizzling duck breast</span>
+                </p>
+                <span>29.-</span>
+              </div>
+              <div class="menu-item">
+                <p>
+                  Canard laqué pékinois, 3 services
+                  <span class="translation"
+                    >Roasted Beijing duck, 3 services</span
+                  >
+                </p>
+                <span>50.-/pers.</span>
+              </div>
+            </div>
+            <div class="menu-category">
+              <h3>Crevettes / Shrimps</h3>
+              <div class="menu-item">
+                <p>
+                  Crevettes au curry
+                  <span class="translation">Curry shrimps</span>
+                </p>
+                <span>27.-</span>
+              </div>
+              <div class="menu-item">
+                <p>
+                  Crevettes Sichuan piquantes 🌶️
+                  <span class="translation">Sichuan style shrimps</span>
+                </p>
+                <span>27.-</span>
+              </div>
+              <div class="menu-item">
+                <p>
+                  Crevettes à la sauce aigre-douce
+                  <span class="translation">Sweet and sour shrimps</span>
+                </p>
+                <span>27.-</span>
+              </div>
+              <div class="menu-item">
+                <p>
+                  Crevettes sur ardoise chaude
+                  <span class="translation">Sizzling shrimps</span>
+                </p>
+                <span>29.-</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
 
     <div id="footer-placeholder"></div>
 
     <script src="js/main.js"></script>
-    
-</body>
+    <script>
+      // Định nghĩa đường dẫn cho trang này
+      initializePage({
+        header: "_includes/header.html",
+        footer: "_includes/footer.html",
+        sliderMenu: "_includes/slider-menu.html",
+      });
+    </script>
+    <script src="js/home.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init({
+        duration: 800,
+        once: true,
+      });
+    </script>
+  </body>
 </html>
