@@ -231,3 +231,26 @@ footer {
         height: 60px; /* Giảm kích thước trên di động */
     }
 }
+
+/* --- Image Loading Optimization & Effect --- */
+
+/* 1. Tạo placeholder cho container chứa ảnh */
+.grid-item, .category {
+    background-color: #f0f0f0; /* Màu nền xám nhạt cho khung chờ */
+    border-radius: 8px; /* Tùy chọn: Bo tròn góc cho đẹp hơn */
+    overflow: hidden; /* Đảm bảo ảnh không tràn ra ngoài nếu có bo góc */
+}
+
+/* 2. Tạo hiệu ứng mờ dần (fade-in) cho ảnh khi tải xong */
+img {
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+/* 3. Đảm bảo ảnh hiển thị đúng kích thước trong container */
+.grid-item img, .category img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Giúp ảnh lấp đầy container mà không bị méo */
+}

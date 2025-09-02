@@ -4,6 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>À Propos - Restaurant Les 4 Saisons</title>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="images/favicon_io/site.webmanifest">
+    <link rel="shortcut icon" href="images/favicon_io/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -74,9 +83,24 @@
               >
             </div>
           </div>
+
           <div class="reservation-form">
+            <div id="booking-notice" class="booking-notice-overlay">
+              <div class="notice-content">
+                <i class="fas fa-info-circle"></i>
+                <h3>Fonctionnalité indisponible</h3>
+                <p>
+                  La réservation en ligne est actuellement en cours de mise à
+                  jour. Pour réserver une table, veuillez nous contacter
+                  directement au numéro de téléphone suivant :
+                </p>
+                <a href="tel:+41227005067" class="notice-phone"
+                  >(+41) 22 700 50 67</a
+                >
+              </div>
+            </div>
             <h2>Réserver une table...</h2>
-            <form action="#">
+            <form action="#" id="reservationForm">
               <div class="form-row">
                 <input type="text" name="nom" placeholder="Nom" required />
                 <input
@@ -115,12 +139,12 @@
       </section>
 
       <div id="slider-menu"></div>
-      
     </main>
     <div id="footer-placeholder"></div>
     <a href="#" id="back-to-top" aria-label="Cuộn lên đầu trang"
       ><i class="fas fa-arrow-up"></i
     ></a>
     <script src="js/main.js"></script>
+    <script src="js/about.js"></script>
   </body>
 </html>
