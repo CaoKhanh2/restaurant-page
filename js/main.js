@@ -55,19 +55,22 @@ const initializeBackToTop = () => {
 };
 
 // --- Dish Detail Page Link Logic ---
+// --- Dish Detail Page Link Logic (Sử dụng Router) ---
 const initializeDishLinks = () => {
     const menuItems = document.querySelectorAll('.menu-item');
 
     menuItems.forEach(item => {
         item.addEventListener('click', () => {
-            const name = item.dataset.name;
-            const image = item.dataset.image;
-            const description = item.dataset.description;
-            const price = item.dataset.price;
-
-            // Đường dẫn đến trang chi tiết
-            const url = `/sub-page/dish-detail.html?name=${encodeURIComponent(name)}&image=${encodeURIComponent(image)}&description=${encodeURIComponent(description)}&price=${encodeURIComponent(price)}`;
-            window.location.href = url;
+            // Lấy thông tin từ data attributes
+            const dish = {
+                name: item.dataset.name,
+                image: item.dataset.image,
+                description: item.dataset.description,
+                price: item.dataset.price
+            };
+            
+            // Sử dụng hàm từ router.js để điều hướng
+            goToDishDetail(dish);
         });
 
         item.style.cursor = 'pointer';
