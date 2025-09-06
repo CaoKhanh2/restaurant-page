@@ -5,8 +5,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const dishDescription = params.get('description');
     const dishPrice = params.get('price');
 
-    // Thêm tiền tố '../' vào đường dẫn ảnh
-    if (dishImage) {
+    // Kiểm tra nếu ảnh là placeholder, thì thay thế bằng ảnh mới
+    if (dishImage && dishImage.includes('placeholder')) {
+        dishImage = '../images/image-bientot-disponible.svg'; 
+    } else if (dishImage) {
+        // Nếu không phải placeholder, vẫn thêm tiền tố như cũ
         dishImage = `../${dishImage}`;
     }
 

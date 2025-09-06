@@ -17,6 +17,7 @@
     
     <link rel="stylesheet" href="/style/base.css">
     <link rel="stylesheet" href="/style/menu.css">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
 
     <script src="/js/router.js" defer></script>
     <script src="/data/menu-data.js" defer></script>
@@ -27,14 +28,14 @@
 
     <main>
         <section id="full-menu-page">
-            <div class="menu-header">
+            <div class="menu-header" data-aos="fade-up">
                 <span class="subtitle">MENU</span>
                 <h1>Découvrez nos plats</h1>
                 <div class="decorator">◆</div>
             </div>
 
             <div class="set-menus-container">
-                <div class="set-menu-card">
+                <div class="set-menu-card" data-aos="fade-up">
                     <h3>Menu végétarien</h3>
                     <p class="condition">Au minimum pour 2 personnes</p>
                     <ul>
@@ -47,7 +48,7 @@
                     </ul>
                     <div class="price">41.- / pers.</div>
                 </div>
-                <div class="set-menu-card">
+                <div class="set-menu-card" data-aos="fade-up" data-aos-delay="100">
                     <h3>Menu 1</h3>
                     <p class="condition">Au minimum pour 2 personnes</p>
                     <ul>
@@ -60,7 +61,7 @@
                     </ul>
                     <div class="price">41.- / pers.</div>
                 </div>
-                <div class="set-menu-card">
+                <div class="set-menu-card" data-aos="fade-up" data-aos-delay="200">
                     <h3>Menu 3</h3>
                     <p class="condition">Au minimum pour 2 personnes</p>
                     <ul>
@@ -74,7 +75,7 @@
                     </ul>
                     <div class="price">60.- / pers.</div>
                 </div>
-                <div class="set-menu-card">
+                <div class="set-menu-card" data-aos="fade-up" data-aos-delay="300">
                     <h3>Menu spécial «Canard Laqué»</h3>
                     <p class="condition">Au minimum pour 2 personnes</p>
                     <ul>
@@ -88,15 +89,24 @@
                 </div>
             </div>
 
-            <div class="section-divider">À La Carte</div>
+            <div class="section-divider" data-aos="zoom-in">À La Carte</div>
 
-            <div class="menu-columns-container">
+            <div class="menu-columns-container" data-aos="fade-up">
                 </div>
         </section>
     </main>
 
     <div id="footer-placeholder"></div>
+    <a href="#" id="back-to-top" aria-label="Cuộn lên đầu trang"><i class="fas fa-arrow-up"></i></a>
 
     <script src="/js/main.js"></script>
-    <script src="/js/menu-loader.js"></script> </body>
+    <script src="/js/menu-loader.js"></script> 
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init({
+        duration: 800,
+        once: true,
+      });
+    </script>
+</body>
 </html>

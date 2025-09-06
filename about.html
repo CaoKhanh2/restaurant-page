@@ -25,6 +25,7 @@
     />
     <link rel="stylesheet" href="style/base.css" />
     <link rel="stylesheet" href="style/about.css" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
 
     <script src="/js/router.js" defer></script>
   </head>
@@ -32,7 +33,7 @@
     <div id="header-placeholder"></div>
     <main>
       <section id="about-intro">
-        <div class="about-content">
+        <div class="about-content" data-aos="fade-up">
           <h1>Une histoire de famille</h1>
           <p>
             Notre philosophie est simple : proposer une cuisine chinoise
@@ -53,7 +54,7 @@
 
       <section id="booking-section">
         <div class="booking-container">
-          <div class="opening-hours">
+          <div class="opening-hours" data-aos="fade-right">
             <h2>Horaires d'ouverture</h2>
             <ul>
               <li>
@@ -86,7 +87,7 @@
             </div>
           </div>
 
-          <div class="reservation-form">
+          <div class="reservation-form" data-aos="fade-left">
             <div id="booking-notice" class="booking-notice-overlay">
               <div class="notice-content">
                 <i class="fas fa-info-circle"></i>
@@ -148,5 +149,12 @@
     ></a>
     <script src="js/main.js"></script>
     <script src="js/about.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init({
+        duration: 800,
+        once: true,
+      });
+    </script>
   </body>
 </html>
