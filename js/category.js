@@ -14,11 +14,11 @@ document.addEventListener('DOMContentLoaded', function() {
     titleElement.textContent = categoryData.title;
 
     // Lọc và chỉ giữ lại những món có hình ảnh thật
-    // const dishesWithImages = categoryData.items.filter(dish => 
-    //     dish.image && !dish.image.includes('placeholder')
-    // );
+    const dishesWithImages = categoryData.items.filter(dish => 
+        dish.image && !dish.image.includes('placeholder')
+    );
 
-    const dishesWithImages = categoryData.items;
+    // const dishesWithImages = categoryData.items;
 
     // Tạo HTML cho các món ăn có hình ảnh
     let htmlContent = '';
