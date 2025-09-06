@@ -1,0 +1,64 @@
+/* CSS cho trang danh mục món ăn */
+
+.imaged-dishes-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    padding: 0 1rem; /* Thêm padding nhỏ để không bị dính vào cạnh màn hình */
+}
+
+.dish-card {
+    background-color: #181818;
+    border: 1px solid #333;
+    border-radius: 8px;
+    text-align: center;
+    overflow: hidden;
+    transition: transform 0.3s, border-color 0.3s;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 420px; /* Kích thước tối đa của một thẻ món ăn */
+}
+
+.dish-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--color-secondary);
+}
+
+.dish-card .dish-card-img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+}
+
+.dish-card .dish-card-info {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.dish-card .dish-card-info h4 {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    color: var(--color-light);
+    margin-bottom: 0.5rem;
+}
+
+.dish-card .dish-card-info .translation {
+    font-size: 0.9em;
+    font-style: italic;
+    color: #999;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.dish-card .dish-card-info .price {
+    font-weight: bold;
+    color: var(--color-primary);
+    font-size: 1.3rem;
+    margin-top: auto;
+}

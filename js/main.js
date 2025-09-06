@@ -2,34 +2,23 @@
 const loadHTML = (filePath, elementId, callback) => {
     fetch(filePath)
         .then(response => {
-            if (!response.ok) {
-                throw new Error(`Network response was not ok for ${filePath}`);
-            }
+            if (!response.ok) throw new Error(`Network response was not ok for ${filePath}`);
             return response.text();
         })
         .then(data => {
             const element = document.getElementById(elementId);
             if (element) {
                 element.innerHTML = data;
-                if (callback) {
-                    callback();
-                }
+                if (callback) callback();
             }
         })
-        .catch(error => {
-            console.error('Error loading HTML:', error);
-            const element = document.getElementById(elementId);
-            if (element) {
-                element.innerHTML = `<p style="color:red;">Error loading content.</p>`;
-            }
-        });
+        .catch(error => console.error('Error loading HTML:', error));
 };
 
 // --- Mobile Navigation Toggle Logic ---
 const initializeMobileNav = () => {
     const mobileNavToggle = document.getElementById('mobile-nav-toggle');
     const mainNav = document.querySelector('.main-nav');
-
     if (mobileNavToggle && mainNav) {
         mobileNavToggle.addEventListener('click', () => {
             mainNav.classList.toggle('active');
@@ -40,49 +29,28 @@ const initializeMobileNav = () => {
     }
 };
 
-// --- Slider Menu Logic (đã được tích hợp) ---
-const initializeSliderMenu = () => {
-    const categories = document.querySelectorAll('#slider-menu .category');
-    
-    categories.forEach(category => {
-        // Gán sự kiện 'click' cho từng mục trong slider
-        category.addEventListener('click', () => {
-            // Tìm và xóa class 'active' khỏi mục đang active hiện tại
-            const currentActive = document.querySelector('#slider-menu .category.active');
-            if (currentActive) {
-                currentActive.classList.remove('active');
-            }
-            // Thêm class 'active' vào mục vừa được nhấp
-            category.classList.add('active');
-        });
-    });
-};
-
 // --- Back to Top Button Logic ---
 const initializeBackToTop = () => {
     const backToTopButton = document.getElementById("back-to-top");
     if (!backToTopButton) return;
-
     window.addEventListener("scroll", () => {
-        if (window.pageYOffset > 300) {
-            backToTopButton.classList.add("show");
-        } else {
-            backToTopButton.classList.remove("show");
-        }
+        backToTopButton.classList.toggle("show", window.pageYOffset > 300);
     });
 };
 
 // --- Main Execution on DOMContentLoaded ---
-// Đây là hàm chính sẽ chạy khi trang được tải xong
 document.addEventListener('DOMContentLoaded', function() {
-    // 1. Tải Header và Footer
-    loadHTML('_includes/header.html', 'header-placeholder', initializeMobileNav);
-    loadHTML('_includes/footer.html', 'footer-placeholder');
+    const isSubPage = window.location.pathname.includes('/sub-page/');
+    const basePath = isSubPage ? '..' : '';
 
-    // 2. Kiểm tra và tải Slider Menu
-    // Chỉ tải slider nếu tìm thấy placeholder của nó trên trang hiện tại
-    if (document.getElementById('slider-menu')) {
-        loadHTML('_includes/slider-menu.html', 'slider-menu', initializeSliderMenu);
+    // 1. Tải Header và Footer
+    loadHTML(`${basePath}/_includes/header.html`, 'header-placeholder', initializeMobileNav);
+    loadHTML(`${basePath}/_includes/footer.html`, 'footer-placeholder');
+
+    // 2. Kiểm tra và tải Slider Menu nếu có placeholder
+    const sliderPlaceholder = document.getElementById('slider-menu-placeholder');
+    if (sliderPlaceholder) {
+        loadHTML(`${basePath}/_includes/slider-menu.html`, 'slider-menu-placeholder');
     }
     
     // 3. Khởi tạo nút Back to Top

@@ -1,0 +1,110 @@
+/* --- Dish Detail Section --- */
+#dish-detail-section {
+    padding: 150px 5% 4rem;
+}
+
+.dish-detail-container {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 4rem;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.dish-image img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 3px solid var(--color-secondary);
+}
+
+.dish-info h1 {
+    font-family: var(--font-heading);
+    font-size: 3.5rem;
+    color: var(--color-light);
+    margin-bottom: 1.5rem;
+}
+
+.dish-info p {
+    font-size: 1.1rem;
+    color: #ccc;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+}
+
+.dish-price {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--color-primary);
+    margin-bottom: 2.5rem;
+}
+
+.dish-info .btn {
+    background-color: var(--color-secondary);
+    color: var(--color-dark);
+    border-color: var(--color-secondary);
+}
+
+/* --- Related Dishes Section --- */
+#related-dishes {
+    padding: 4rem 5%;
+    background-color: #111;
+}
+
+#related-dishes h2 {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.related-dishes-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.related-dish-card {
+    background-color: var(--color-dark);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s;
+}
+
+.related-dish-card:hover {
+    transform: translateY(-10px);
+}
+
+.related-dish-card img {
+    width: 100%;
+    aspect-ratio: 16/10;
+    object-fit: cover;
+}
+
+.related-dish-card-info {
+    padding: 1.5rem;
+}
+
+.related-dish-card-info h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.related-dish-card-info .price {
+    color: var(--color-primary);
+    font-weight: bold;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .dish-detail-container {
+        grid-template-columns: 1fr;
+    }
+
+    .dish-info h1 {
+        font-size: 2.8rem;
+    }
+}
