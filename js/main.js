@@ -40,24 +40,6 @@ const initializeMobileNav = () => {
     }
 };
 
-// --- Slider Menu Logic (đã được tích hợp) ---
-const initializeSliderMenu = () => {
-    const categories = document.querySelectorAll('#slider-menu .category');
-    
-    categories.forEach(category => {
-        // Gán sự kiện 'click' cho từng mục trong slider
-        category.addEventListener('click', () => {
-            // Tìm và xóa class 'active' khỏi mục đang active hiện tại
-            const currentActive = document.querySelector('#slider-menu .category.active');
-            if (currentActive) {
-                currentActive.classList.remove('active');
-            }
-            // Thêm class 'active' vào mục vừa được nhấp
-            category.classList.add('active');
-        });
-    });
-};
-
 // --- Back to Top Button Logic ---
 const initializeBackToTop = () => {
     const backToTopButton = document.getElementById("back-to-top");
@@ -72,19 +54,42 @@ const initializeBackToTop = () => {
     });
 };
 
+// --- Dish Detail Page Link Logic ---
+const initializeDishLinks = () => {
+    const menuItems = document.querySelectorAll('.menu-item');
+
+    menuItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const name = item.dataset.name;
+            const image = item.dataset.image;
+            const description = item.dataset.description;
+            const price = item.dataset.price;
+
+            // Đường dẫn đến trang chi tiết
+            const url = `/sub-page/dish-detail.html?name=${encodeURIComponent(name)}&image=${encodeURIComponent(image)}&description=${encodeURIComponent(description)}&price=${encodeURIComponent(price)}`;
+            window.location.href = url;
+        });
+
+        item.style.cursor = 'pointer';
+    });
+};
+
 // --- Main Execution on DOMContentLoaded ---
-// Đây là hàm chính sẽ chạy khi trang được tải xong
 document.addEventListener('DOMContentLoaded', function() {
     // 1. Tải Header và Footer
-    loadHTML('_includes/header.html', 'header-placeholder', initializeMobileNav);
-    loadHTML('_includes/footer.html', 'footer-placeholder');
+    loadHTML('/_includes/header.html', 'header-placeholder', initializeMobileNav);
+    loadHTML('/_includes/footer.html', 'footer-placeholder');
 
     // 2. Kiểm tra và tải Slider Menu
-    // Chỉ tải slider nếu tìm thấy placeholder của nó trên trang hiện tại
     if (document.getElementById('slider-menu')) {
-        loadHTML('_includes/slider-menu.html', 'slider-menu', initializeSliderMenu);
+        loadHTML('/_includes/slider-menu.html', 'slider-menu');
     }
     
     // 3. Khởi tạo nút Back to Top
     initializeBackToTop();
+
+    // 4. Khởi tạo liên kết món ăn (chỉ chạy trên trang menu)
+    if (document.getElementById('full-menu-page')) {
+        initializeDishLinks();
+    }
 });

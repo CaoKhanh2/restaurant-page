@@ -19,7 +19,6 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     
-    <!-- Giả sử bạn có các file CSS này -->
     <link rel="stylesheet" href="style/base.css">
     <link rel="stylesheet" href="style/menu.css">
 </head>
@@ -35,7 +34,6 @@
                 <div class="decorator">◆</div>
             </div>
 
-            <!-- SET MENUS (TĨNH) -->
             <div class="set-menus-container">
                 <div class="set-menu-card">
                     <h3>Menu végétarien</h3>
@@ -93,113 +91,146 @@
 
             <div class="section-divider">À La Carte</div>
 
-            <!-- MENU À LA CARTE (TĨNH) VỚI BỐ CỤC CÂN ĐỐI -->
             <div class="menu-columns-container">
-                <!-- CỘT 1 -->
                 <div class="menu-column">
                     <div class="menu-category">
                         <h3>Potages / Soups</h3>
-                        <div class="menu-item"><p>Potage pékinois piquant 🌶️ <span class="translation">Hot and sour soup</span></p><span>7.-</span></div>
-                        <div class="menu-item"><p>Potage aux raviolis <span class="translation">Chinese dumpling soup (Wonton)</span></p><span>7.-</span></div>
-                        <div class="menu-item"><p>Potage au poulet et aux vermicelles <span class="translation">Chicken and vermicelli soup</span></p><span>8.-</span></div>
-                        <div class="menu-item"><p>Potage au crabe et aux asperges <span class="translation">Crabmeat and asparagus soup</span></p><span>10.-</span></div>
-                        <div class="menu-item"><p>Potage aux crevettes et à la citronnelle <span class="translation">Hot and sour shrimps soup</span></p><span>11.-</span></div>
+                        <div class="menu-item menu-item-featured" data-name="Potage pékinois piquant" data-image="images/raw/b359074922003a80ca06eaac0c84c0c0.jpeg" data-description="Un potage traditionnel épicé et aigre, un classique de la cuisine du Sichuan, parfait pour commencer le repas." data-price="7">
+                            <img src="images/raw/b359074922003a80ca06eaac0c84c0c0.jpeg" alt="Potage pékinois piquant" class="menu-item-img">
+                            <div class="menu-item-details">
+                                <p>Potage pékinois piquant 🌶️ <span class="translation">Hot and sour soup</span></p>
+                                <span>7.-</span>
+                            </div>
+                        </div>
+                        <div class="menu-item" data-name="Potage aux raviolis" data-image="images/raw/dc30192c551ff8a5779753dbb5b0e55c.jpeg" data-description="Une soupe réconfortante avec de tendres raviolis chinois (Wonton) dans un bouillon savoureux." data-price="7"><p>Potage aux raviolis <span class="translation">Chinese dumpling soup (Wonton)</span></p><span>7.-</span></div>
+                        <div class="menu-item" data-name="Potage au poulet et aux vermicelles" data-image="images/food/food5.webp" data-description="Un bouillon de poulet léger et parfumé, garni de vermicelles de riz et de morceaux de poulet tendres." data-price="8"><p>Potage au poulet et aux vermicelles <span class="translation">Chicken and vermicelli soup</span></p><span>8.-</span></div>
+                        <div class="menu-item" data-name="Potage au crabe et aux asperges" data-image="images/food/food_placeholder.jpg" data-description="Une soupe élégante et délicate, alliant la douceur de la chair de crabe à la fraîcheur des asperges." data-price="10"><p>Potage au crabe et aux asperges <span class="translation">Crabmeat and asparagus soup</span></p><span>10.-</span></div>
+                        <div class="menu-item" data-name="Potage aux crevettes et à la citronnelle" data-image="images/food/food_placeholder.jpg" data-description="Une soupe d'inspiration thaïlandaise, aigre-douce et parfumée à la citronnelle, avec des crevettes fraîches." data-price="11"><p>Potage aux crevettes et à la citronnelle <span class="translation">Hot and sour shrimps soup</span></p><span>11.-</span></div>
                     </div>
                     <div class="menu-category">
                         <h3>Entrées / Starters</h3>
-                        <div class="menu-item"><p>Beignets de crevettes (4 pcs) <span class="translation">Deep-fried shrimps</span></p><span>11.-</span></div>
-                        <div class="menu-item"><p>Côtes de porc pékinoises épicées (2 pcs) 🌶️ <span class="translation">Beijing style spicy spare ribs</span></p><span>9.-</span></div>
-                        <div class="menu-item"><p>Rouleaux de printemps aux légumes (2 pcs) <span class="translation">Spring rolls with vegetables</span></p><span>8.-</span></div>
-                        <div class="menu-item"><p>Rouleaux de printemps vietnamiens «Nems» (4 pcs) <span class="translation">Vietnamese spring rolls</span></p><span>13.-</span></div>
-                        <div class="menu-item"><p>Raviolis frits (8 pcs) <span class="translation">Deep-fried wontons</span></p><span>8.-</span></div>
-                        <div class="menu-item"><p>Raviolis grillés (5 pcs) <span class="translation">Potstickers (grilled dumplings)</span></p><span>10.-</span></div>
-                        <div class="menu-item"><p>Assortiment « 4 Saisons » d'entrées frites (pour 2 pers.) <span class="translation">« 4 Seasons » assorted appetizers</span></p><span>20.-</span></div>
-                        <div class="menu-item"><p>Canard croustillant avec crêpes (pour 2 pers.) <span class="translation">Crispy duck with pancakes</span></p><span>25.-</span></div>
+                        <div class="menu-item" data-name="Beignets de crevettes" data-image="images/raw/bcd205d97a057075ef79e7642e9d3311.jpeg" data-description="Crevettes croustillantes en friture, servies avec une sauce aigre-douce pour une entrée classique et délicieuse." data-price="11"><p>Beignets de crevettes (4 pcs) <span class="translation">Deep-fried shrimps</span></p><span>11.-</span></div>
+                        <div class="menu-item" data-name="Côtes de porc pékinoises épicées" data-image="images/food/food_placeholder.jpg" data-description="Côtes de porc marinées dans une sauce pékinoise épicée, puis grillées à la perfection." data-price="9"><p>Côtes de porc pékinoises épicées (2 pcs) 🌶️ <span class="translation">Beijing style spicy spare ribs</span></p><span>9.-</span></div>
+                        <div class="menu-item" data-name="Rouleaux de printemps aux légumes" data-image="images/raw/025faa602c1fca6d8ddef50699cdf820.jpeg" data-description="Rouleaux croustillants remplis d'un mélange de légumes frais, une option végétarienne parfaite." data-price="8"><p>Rouleaux de printemps aux légumes (2 pcs) <span class="translation">Spring rolls with vegetables</span></p><span>8.-</span></div>
+                        <div class="menu-item menu-item-featured" data-name="Rouleaux de printemps vietnamiens «Nems»" data-image="images/raw/5c5955a02952a7322caea788204fbb8a.jpeg" data-description="Les traditionnels nems vietnamiens, frits et croustillants, servis avec de la laitue, de la menthe et une sauce nuoc mam." data-price="13">
+                            <img src="images/raw/5c5955a02952a7322caea788204fbb8a.jpeg" alt="Nems" class="menu-item-img">
+                            <div class="menu-item-details">
+                                <p>Rouleaux de printemps vietnamiens «Nems» (4 pcs) <span class="translation">Vietnamese spring rolls</span></p>
+                                <span>13.-</span>
+                            </div>
+                        </div>
+                        <div class="menu-item" data-name="Raviolis frits" data-image="images/raw/12c5b4d9f6de5a4c79e593a3d5111d49.jpeg" data-description="Des raviolis wonton dorés et croustillants, parfaits pour tremper dans notre sauce maison." data-price="8"><p>Raviolis frits (8 pcs) <span class="translation">Deep-fried wontons</span></p><span>8.-</span></div>
+                        <div class="menu-item" data-name="Raviolis grillés" data-image="images/food/food14.webp" data-description="Raviolis grillés d'un côté et cuits à la vapeur de l'autre, offrant une texture à la fois croustillante et moelleuse." data-price="10"><p>Raviolis grillés (5 pcs) <span class="translation">Potstickers (grilled dumplings)</span></p><span>10.-</span></div>
+                        <div class="menu-item" data-name="Assortiment « 4 Saisons » d'entrées frites" data-image="images/raw/a828390e4abc8ccf1693638de2ae0182.jpeg" data-description="Un plateau de dégustation de nos meilleures entrées frites, idéal pour partager à deux." data-price="20"><p>Assortiment « 4 Saisons » d'entrées frites (pour 2 pers.) <span class="translation">« 4 Seasons » assorted appetizers</span></p><span>20.-</span></div>
+                        <div class="menu-item" data-name="Canard croustillant avec crêpes" data-image="images/food/food6.webp" data-description="Une entrée festive avec de la peau de canard croustillante, servie avec des crêpes fines, de la ciboule et une sauce hoisin." data-price="25"><p>Canard croustillant avec crêpes (pour 2 pers.) <span class="translation">Crispy duck with pancakes</span></p><span>25.-</span></div>
                     </div>
                     <div class="menu-category">
                         <h3>Dim Sum (Vapeur)</h3>
-                        <div class="menu-item"><p>Petits pains aux légumes et au poulet (4 pcs) <span class="translation">Steamed buns with chicken & vegetables</span></p><span>8.-</span></div>
-                        <div class="menu-item"><p>Siu Mai à la vapeur (5 pcs) <span class="translation">Siu Mai dumplings</span></p><span>10.-</span></div>
-                        <div class="menu-item"><p>Raviolis de porc à la vapeur (5 pcs) <span class="translation">Pork dumplings</span></p><span>10.-</span></div>
-                        <div class="menu-item"><p>Raviolis aux crevettes Ha Kao (5 pcs) <span class="translation">Ha Kao dumplings</span></p><span>11.-</span></div>
-                        <div class="menu-item"><p>Assortiment «4 Saisons» à la vapeur (pour 2 pers.) <span class="translation">Steamed «4 Seasons» dim sum</span></p><span>20.-</span></div>
+                        <div class="menu-item" data-name="Petits pains aux légumes et au poulet" data-image="images/food/food19.webp" data-description="Petits pains moelleux cuits à la vapeur, farcis d'un savoureux mélange de poulet et de légumes." data-price="8"><p>Petits pains aux légumes et au poulet (4 pcs) <span class="translation">Steamed buns with chicken & vegetables</span></p><span>8.-</span></div>
+                        <div class="menu-item" data-name="Siu Mai à la vapeur" data-image="images/food/food8.webp" data-description="Bouchées traditionnelles à base de porc et de crevettes, cuites à la vapeur dans une fine pâte de blé." data-price="10"><p>Siu Mai à la vapeur (5 pcs) <span class="translation">Siu Mai dumplings</span></p><span>10.-</span></div>
+                        <div class="menu-item" data-name="Raviolis de porc à la vapeur" data-image="images/raviolis-vapeur.jpg" data-description="Tendres raviolis farcis au porc haché assaisonné, un classique incontournable des Dim Sum." data-price="10"><p>Raviolis de porc à la vapeur (5 pcs) <span class="translation">Pork dumplings</span></p><span>10.-</span></div>
+                        <div class="menu-item" data-name="Raviolis aux crevettes Ha Kao" data-image="images/food/food1.webp" data-description="Des raviolis à la pâte translucide et délicate, renfermant une crevette entière juteuse." data-price="11"><p>Raviolis aux crevettes Ha Kao (5 pcs) <span class="translation">Ha Kao dumplings</span></p><span>11.-</span></div>
+                        <div class="menu-item menu-item-featured" data-name="Assortiment «4 Saisons» à la vapeur" data-image="images/food/food8.webp" data-description="Une sélection de nos meilleurs Dim Sum cuits à la vapeur, parfait pour découvrir une variété de saveurs." data-price="20">
+                            <img src="images/food/food8.webp" alt="Dim Sum Assortment" class="menu-item-img">
+                            <div class="menu-item-details">
+                                <p>Assortiment «4 Saisons» à la vapeur (pour 2 pers.) <span class="translation">Steamed «4 Seasons» dim sum</span></p>
+                                <span>20.-</span>
+                            </div>
+                        </div>
                     </div>
                     <div class="menu-category">
                         <h3>Nouilles / Noodles</h3>
-                        <div class="menu-item"><p>Nouilles sautées aux légumes <span class="translation">Stir-fried noodles with vegetables</span></p><span>17.-</span></div>
-                        <div class="menu-item"><p>Nouilles sautées au poulet <span class="translation">Stir-fried noodles with chicken</span></p><span>21.-</span></div>
-                        <div class="menu-item"><p>Vermicelles à la façon de Singapour <span class="translation">Singaporean style fried vermicelli</span></p><span>23.-</span></div>
-                        <div class="menu-item"><p>Nouilles sautées au bœuf <span class="translation">Fried noodles with beef</span></p><span>25.-</span></div>
-                        <div class="menu-item"><p>Nouilles croustillantes au poulet sur ardoise <span class="translation">Crispy noodles with chicken (sizzling)</span></p><span>25.-</span></div>
+                        <div class="menu-item" data-name="Nouilles sautées aux légumes" data-image="images/raw/489d407834cf3b85c431defeec3145de.jpeg" data-description="Un plat végétarien savoureux de nouilles sautées avec un assortiment de légumes frais de saison." data-price="17"><p>Nouilles sautées aux légumes <span class="translation">Stir-fried noodles with vegetables</span></p><span>17.-</span></div>
+                        <div class="menu-item" data-name="Nouilles sautées au poulet" data-image="images/food/food16.webp" data-description="Nouilles de blé sautées au wok avec des morceaux de poulet tendres et des légumes croquants." data-price="21"><p>Nouilles sautées au poulet <span class="translation">Stir-fried noodles with chicken</span></p><span>21.-</span></div>
+                        <div class="menu-item" data-name="Vermicelles à la façon de Singapour" data-image="images/food/food_placeholder.jpg" data-description="Vermicelles de riz fins sautés avec une poudre de curry, des crevettes, du porc et des légumes." data-price="23"><p>Vermicelles à la façon de Singapour <span class="translation">Singaporean style fried vermicelli</span></p><span>23.-</span></div>
+                        <div class="menu-item" data-name="Nouilles sautées au bœuf" data-image="images/caption%20(3).jpg" data-description="Nouilles épaisses sautées avec de fines tranches de bœuf et une sauce savoureuse." data-price="25"><p>Nouilles sautées au bœuf <span class="translation">Fried noodles with beef</span></p><span>25.-</span></div>
+                        <div class="menu-item" data-name="Nouilles croustillantes au poulet sur ardoise" data-image="images/food/food_placeholder.jpg" data-description="Un nid de nouilles frites croustillantes surmonté d'un sauté de poulet et de légumes servi sur une plaque chauffante." data-price="25"><p>Nouilles croustillantes au poulet sur ardoise <span class="translation">Crispy noodles with chicken (sizzling)</span></p><span>25.-</span></div>
                     </div>
                      <div class="menu-category">
                         <h3>Plats végétariens / Vegetarian</h3>
-                        <div class="menu-item"><p>Tofu sauté aux légumes <span class="translation">Fried tofu with vegetables</span></p><span>22.-</span></div>
-                        <div class="menu-item"><p>Tofu aux champignons parfumés et pousses de bambou <span class="translation">Tofu with chinese mushrooms & bamboo</span></p><span>23.-</span></div>
-                        <div class="menu-item"><p>Tofu au curry rouge <span class="translation">Red curry tofu</span></p><span>24.-</span></div>
-                        <div class="menu-item"><p>Tofu sauté aux aubergines, sauce pimentée 🌶️ <span class="translation">Fried tofu with eggplants, spicy sauce</span></p><span>24.-</span></div>
+                        <div class="menu-item" data-name="Tofu sauté aux légumes" data-image="images/food/food13.webp" data-description="Cubes de tofu soyeux sautés avec une variété de légumes de saison dans une sauce légère." data-price="22"><p>Tofu sauté aux légumes <span class="translation">Fried tofu with vegetables</span></p><span>22.-</span></div>
+                        <div class="menu-item" data-name="Tofu aux champignons parfumés et pousses de bambou" data-image="images/food/food12.webp" data-description="Un plat végétarien classique avec du tofu, des champignons shiitake parfumés et des pousses de bambou croquantes." data-price="23"><p>Tofu aux champignons parfumés et pousses de bambou <span class="translation">Tofu with chinese mushrooms & bamboo</span></p><span>23.-</span></div>
+                        <div class="menu-item" data-name="Tofu au curry rouge" data-image="images/raw/b459b19298f895e788f1f92ad36da347.jpeg" data-description="Tofu tendre mijoté dans une sauce au curry rouge crémeuse et légèrement épicée." data-price="24"><p>Tofu au curry rouge <span class="translation">Red curry tofu</span></p><span>24.-</span></div>
+                        <div class="menu-item" data-name="Tofu sauté aux aubergines, sauce pimentée" data-image="images/raw/bef0757435ae52722b20f3d4404075b1.jpeg" data-description="Une combinaison savoureuse de tofu frit et d'aubergines fondantes dans une sauce pimentée." data-price="24"><p>Tofu sauté aux aubergines, sauce pimentée 🌶️ <span class="translation">Fried tofu with eggplants, spicy sauce</span></p><span>24.-</span></div>
                     </div>
                 </div>
 
-                <!-- CỘT 2 -->
                 <div class="menu-column">
                     <div class="menu-category">
                         <h3>Poulet / Chicken</h3>
-                        <div class="menu-item"><p>Poulet sauté aux légumes <span class="translation">Chicken with mixed vegetables</span></p><span>24.-</span></div>
-                        <div class="menu-item"><p>Poulet à la sauce à l'haricot noir <span class="translation">Black bean sauce chicken</span></p><span>24.-</span></div>
-                        <div class="menu-item"><p>Poulet curry <span class="translation">Curry chicken</span></p><span>24.-</span></div>
-                        <div class="menu-item"><p>Poulet à la sauce saté piquante 🌶️ <span class="translation">Spicy Satay chicken</span></p><span>24.-</span></div>
-                        <div class="menu-item"><p>Poulet Sichuan piquant 🌶️ <span class="translation">Spicy Sichuan style chicken</span></p><span>24.-</span></div>
-                        <div class="menu-item"><p>Filet de poulet au citron <span class="translation">Lemon chicken</span></p><span>25.-</span></div>
-                        <div class="menu-item"><p>Filet de poulet à la sauce aigre-douce piquante 🌶️ <span class="translation">Spicy sweet & sour chicken</span></p><span>25.-</span></div>
-                        <div class="menu-item"><p>Poulet sur ardoise chaude <span class="translation">Sizzling chicken</span></p><span>26.-</span></div>
+                        <div class="menu-item" data-name="Poulet sauté aux légumes" data-image="images/food/food_placeholder.jpg" data-description="Morceaux de poulet tendres sautés au wok avec un assortiment de légumes frais et croquants." data-price="24"><p>Poulet sauté aux légumes <span class="translation">Chicken with mixed vegetables</span></p><span>24.-</span></div>
+                        <div class="menu-item" data-name="Poulet à la sauce à l'haricot noir" data-image="images/food/food_placeholder.jpg" data-description="Un plat savoureux avec des morceaux de poulet dans une sauce riche à base de haricots noirs fermentés." data-price="24"><p>Poulet à la sauce à l'haricot noir <span class="translation">Black bean sauce chicken</span></p><span>24.-</span></div>
+                        <div class="menu-item" data-name="Poulet curry" data-image="images/raw/bfc75e4d9c7e83cdd6f45f4fb62fd685.jpeg" data-description="Poulet mijoté dans une sauce au curry jaune onctueuse et parfumée, servi avec des légumes." data-price="24"><p>Poulet curry <span class="translation">Curry chicken</span></p><span>24.-</span></div>
+                        <div class="menu-item" data-name="Poulet à la sauce saté piquante" data-image="images/food/food_placeholder.jpg" data-description="Brochettes de poulet ou émincé sauté dans une sauce saté aux cacahuètes, relevée d'une touche de piment." data-price="24"><p>Poulet à la sauce saté piquante 🌶️ <span class="translation">Spicy Satay chicken</span></p><span>24.-</span></div>
+                        <div class="menu-item" data-name="Poulet Sichuan piquant" data-image="images/raw/c3a9713111d9a9a622a6106866c25d08.jpeg" data-description="Un plat emblématique du Sichuan, avec du poulet sauté dans une sauce pimentée et parfumée au poivre de Sichuan." data-price="24"><p>Poulet Sichuan piquant 🌶️ <span class="translation">Spicy Sichuan style chicken</span></p><span>24.-</span></div>
+                        <div class="menu-item menu-item-featured" data-name="Filet de poulet au citron" data-image="images/raw/8f136cab606a17209f9100a7cc1756e8.jpeg" data-description="Filet de poulet croustillant nappé d'une sauce au citron douce et acidulée." data-price="25">
+                            <img src="images/raw/8f136cab606a17209f9100a7cc1756e8.jpeg" alt="Poulet au citron" class="menu-item-img">
+                            <div class="menu-item-details">
+                                <p>Filet de poulet au citron <span class="translation">Lemon chicken</span></p>
+                                <span>25.-</span>
+                            </div>
+                        </div>
+                        <div class="menu-item" data-name="Filet de poulet à la sauce aigre-douce piquante" data-image="images/food/food10.webp" data-description="Poulet croustillant enrobé d'une sauce aigre-douce classique avec une touche pimentée." data-price="25"><p>Filet de poulet à la sauce aigre-douce piquante 🌶️ <span class="translation">Spicy sweet & sour chicken</span></p><span>25.-</span></div>
+                        <div class="menu-item" data-name="Poulet sur ardoise chaude" data-image="images/food/food_placeholder.jpg" data-description="Morceaux de poulet tendres et légumes frais grésillant sur une plaque chauffante, un plat spectaculaire et savoureux." data-price="26"><p>Poulet sur ardoise chaude <span class="translation">Sizzling chicken</span></p><span>26.-</span></div>
                     </div>
                     <div class="menu-category">
                         <h3>Porc / Pork</h3>
-                        <div class="menu-item"><p>Porc à la sauce aigre-douce <span class="translation">Sweet and sour pork</span></p><span>23.-</span></div>
-                        <div class="menu-item"><p>Porc aux champignons parfumés et pousses de bambou <span class="translation">Pork with chinese mushrooms & bamboo</span></p><span>23.-</span></div>
-                        <div class="menu-item"><p>Porc rôti à la cantonaise <span class="translation">Grilled pork in Cantonese style</span></p><span>25.-</span></div>
+                        <div class="menu-item" data-name="Porc à la sauce aigre-douce" data-image="images/food/food15.webp" data-description="Bouchées de porc croustillantes nappées de la fameuse sauce aigre-douce avec ananas, poivrons et oignons." data-price="23"><p>Porc à la sauce aigre-douce <span class="translation">Sweet and sour pork</span></p><span>23.-</span></div>
+                        <div class="menu-item" data-name="Porc aux champignons parfumés et pousses de bambou" data-image="images/food/food_placeholder.jpg" data-description="Tranches de porc tendres sautées avec des champignons shiitake et des pousses de bambou." data-price="23"><p>Porc aux champignons parfumés et pousses de bambou <span class="translation">Pork with chinese mushrooms & bamboo</span></p><span>23.-</span></div>
+                        <div class="menu-item" data-name="Porc rôti à la cantonaise" data-image="images/food/food4.webp" data-description="Porc laqué au miel, rôti lentement pour une viande juteuse et une peau caramélisée." data-price="25"><p>Porc rôti à la cantonaise <span class="translation">Grilled pork in Cantonese style</span></p><span>25.-</span></div>
                     </div>
                     <div class="menu-category">
                         <h3>Bœuf / Beef</h3>
-                        <div class="menu-item"><p>Bœuf au curry <span class="translation">Beef curry</span></p><span>25.-</span></div>
-                        <div class="menu-item"><p>Bœuf aux poivrons, sauce à l'haricot noir <span class="translation">Black bean sauce beef</span></p><span>25.-</span></div>
-                        <div class="menu-item"><p>Bœuf à la sauce saté piquante 🌶️ <span class="translation">Spicy satay beef</span></p><span>25.-</span></div>
-                        <div class="menu-item"><p>Bœuf Sichuan piquant 🌶️ <span class="translation">Spicy Sichuan style beef</span></p><span>25.-</span></div>
-                        <div class="menu-item"><p>Bœuf sauté aux champignons et pousses de bambou <span class="translation">Beef with chinese mushrooms & bamboo</span></p><span>25.-</span></div>
-                        <div class="menu-item"><p>Bœuf croustillant, sauce aigre-douce piquante 🌶️ <span class="translation">Crispy beef in a spicy sweet & sour sauce</span></p><span>26.-</span></div>
-                        <div class="menu-item"><p>Bœuf sur ardoise chaude <span class="translation">Sizzling beef</span></p><span>28.-</span></div>
+                        <div class="menu-item" data-name="Bœuf au curry" data-image="images/raw/24c6d075305257e3c4ca3604ab21962f.jpeg" data-description="Fines tranches de bœuf mijotées dans une sauce curry riche et crémeuse." data-price="25"><p>Bœuf au curry <span class="translation">Beef curry</span></p><span>25.-</span></div>
+                        <div class="menu-item" data-name="Bœuf aux poivrons, sauce à l'haricot noir" data-image="images/raw/b42d5fd283b2283b98cd770c036337b0.jpeg" data-description="Un sauté classique de bœuf tendre et de poivrons croquants dans une sauce aux haricots noirs savoureuse." data-price="25"><p>Bœuf aux poivrons, sauce à l'haricot noir <span class="translation">Black bean sauce beef</span></p><span>25.-</span></div>
+                        <div class="menu-item" data-name="Bœuf à la sauce saté piquante" data-image="images/food/food_placeholder.jpg" data-description="Bœuf mariné et sauté dans une sauce onctueuse aux cacahuètes avec une note épicée." data-price="25"><p>Bœuf à la sauce saté piquante 🌶️ <span class="translation">Spicy satay beef</span></p><span>25.-</span></div>
+                        <div class="menu-item" data-name="Bœuf Sichuan piquant" data-image="images/food/food_placeholder.jpg" data-description="Émincé de bœuf sauté vivement avec des piments et du poivre de Sichuan pour une saveur authentique et relevée." data-price="25"><p>Bœuf Sichuan piquant 🌶️ <span class="translation">Spicy Sichuan style beef</span></p><span>25.-</span></div>
+                        <div class="menu-item" data-name="Bœuf sauté aux champignons et pousses de bambou" data-image="images/food/food_placeholder.jpg" data-description="Un sauté réconfortant de bœuf avec des champignons chinois et des pousses de bambou." data-price="25"><p>Bœuf sauté aux champignons et pousses de bambou <span class="translation">Beef with chinese mushrooms & bamboo</span></p><span>25.-</span></div>
+                        <div class="menu-item menu-item-featured" data-name="Bœuf croustillant, sauce aigre-douce piquante" data-image="images/raw/e0fbfb6a6a39997b603939c0bdca3174.jpeg" data-description="Fines lanières de bœuf frites jusqu'à être croustillantes, puis enrobées d'une sauce aigre-douce relevée d'une pointe de piment." data-price="26">
+                            <img src="images/raw/e0fbfb6a6a39997b603939c0bdca3174.jpeg" alt="Bœuf croustillant" class="menu-item-img">
+                            <div class="menu-item-details">
+                                <p>Bœuf croustillant, sauce aigre-douce piquante 🌶️ <span class="translation">Crispy beef in a spicy sweet & sour sauce</span></p>
+                                <span>26.-</span>
+                            </div>
+                        </div>
+                        <div class="menu-item" data-name="Bœuf sur ardoise chaude" data-image="images/food/food_placeholder.jpg" data-description="Émincé de bœuf et légumes variés servis grésillants sur une plaque en fonte, libérant des arômes irrésistibles." data-price="28"><p>Bœuf sur ardoise chaude <span class="translation">Sizzling beef</span></p><span>28.-</span></div>
                     </div>
                     <div class="menu-category">
                         <h3>Canard / Duck</h3>
-                        <div class="menu-item"><p>Canard au gingembre et à la ciboulette <span class="translation">Duck with ginger and chives</span></p><span>27.-</span></div>
-                        <div class="menu-item"><p>Canard Sichuan piquant 🌶️ <span class="translation">Spicy Sichuan style duck</span></p><span>27.-</span></div>
-                        <div class="menu-item"><p>Canard rôti à la cantonaise <span class="translation">Roast duck in Cantonese style</span></p><span>27.-</span></div>
-                        <div class="menu-item"><p>Canard sauté piquant à la pékinoise 🌶️ <span class="translation">Spicy duck in Beijing style</span></p><span>27.-</span></div>
-                        <div class="menu-item"><p>Magret de canard sur ardoise chaude <span class="translation">Sizzling duck breast</span></p><span>29.-</span></div>
-                        <div class="menu-item"><p>Canard laqué pékinois, 3 services <span class="translation">Roasted Beijing duck, 3 services</span></p><span>50.-/pers.</span></div>
+                        <div class="menu-item" data-name="Canard au gingembre et à la ciboulette" data-image="images/food/food_placeholder.jpg" data-description="Canard rôti sauté avec du gingembre frais et de la ciboulette pour un plat plein de saveurs." data-price="27"><p>Canard au gingembre et à la ciboulette <span class="translation">Duck with ginger and chives</span></p><span>27.-</span></div>
+                        <div class="menu-item" data-name="Canard Sichuan piquant" data-image="images/food/food_placeholder.jpg" data-description="Tranches de canard rôti nappées d'une sauce épicée de style Sichuan." data-price="27"><p>Canard Sichuan piquant 🌶️ <span class="translation">Spicy Sichuan style duck</span></p><span>27.-</span></div>
+                        <div class="menu-item" data-name="Canard rôti à la cantonaise" data-image="images/raw/106b0d58c373ec884b50015ab7a34fc0.jpeg" data-description="Le fameux canard rôti à la cantonaise, avec sa peau croustillante et sa chair tendre et juteuse." data-price="27"><p>Canard rôti à la cantonaise <span class="translation">Roast duck in Cantonese style</span></p><span>27.-</span></div>
+                        <div class="menu-item" data-name="Canard sauté piquant à la pékinoise" data-image="images/food/food_placeholder.jpg" data-description="Canard sauté dans une sauce pékinoise relevée, un délice pour les amateurs de saveurs fortes." data-price="27"><p>Canard sauté piquant à la pékinoise 🌶️ <span class="translation">Spicy duck in Beijing style</span></p><span>27.-</span></div>
+                        <div class="menu-item" data-name="Magret de canard sur ardoise chaude" data-image="images/caption%20(3).jpg" data-description="Magret de canard rosé et tendre, servi sur une plaque chauffante pour une expérience culinaire mémorable." data-price="29"><p>Magret de canard sur ardoise chaude <span class="translation">Sizzling duck breast</span></p><span>29.-</span></div>
+                        <div class="menu-item menu-item-featured" data-name="Canard laqué pékinois, 3 services" data-image="images/food/food3.webp" data-description="Le plat signature : peau croustillante servie avec des crêpes, suivie de la chair de canard sautée. Un festin royal." data-price="50">
+                            <img src="images/food/food3.webp" alt="Canard laqué pékinois" class="menu-item-img">
+                            <div class="menu-item-details">
+                                <p>Canard laqué pékinois, 3 services <span class="translation">Roasted Beijing duck, 3 services</span></p>
+                                <span>50.-/pers.</span>
+                            </div>
+                        </div>
                     </div>
                      <div class="menu-category">
                         <h3>Crevettes / Shrimps</h3>
-                        <div class="menu-item"><p>Crevettes au curry <span class="translation">Curry shrimps</span></p><span>27.-</span></div>
-                        <div class="menu-item"><p>Crevettes sautées, sauce à l'haricot noir <span class="translation">Black bean sauce shrimps</span></p><span>27.-</span></div>
-                        <div class="menu-item"><p>Crevettes Sichuan piquantes 🌶️ <span class="translation">Sichuan style shrimps</span></p><span>27.-</span></div>
-                        <div class="menu-item"><p>Crevettes aux champignons et pousses de bambou <span class="translation">Shrimps with mushrooms & bamboo</span></p><span>27.-</span></div>
-                        <div class="menu-item"><p>Crevettes à la sauce aigre-douce <span class="translation">Sweet and sour shrimps</span></p><span>27.-</span></div>
-                        <div class="menu-item"><p>Crevettes sur ardoise chaude <span class="translation">Sizzling shrimps</span></p><span>29.-</span></div>
+                        <div class="menu-item" data-name="Crevettes au curry" data-image="images/food/food_placeholder.jpg" data-description="Crevettes juteuses mijotées dans une sauce au curry onctueuse et parfumée." data-price="27"><p>Crevettes au curry <span class="translation">Curry shrimps</span></p><span>27.-</span></div>
+                        <div class="menu-item" data-name="Crevettes sautées, sauce à l'haricot noir" data-image="images/raw/98de32111fe88d40b8839c0389d40e67.jpeg" data-description="Crevettes et légumes sautés dans une sauce riche et salée aux haricots noirs." data-price="27"><p>Crevettes sautées, sauce à l'haricot noir <span class="translation">Black bean sauce shrimps</span></p><span>27.-</span></div>
+                        <div class="menu-item" data-name="Crevettes Sichuan piquantes" data-image="images/crevettes-5-epices.jpg" data-description="Crevettes sautées dans une sauce pimentée de style Sichuan, un plat plein de caractère." data-price="27"><p>Crevettes Sichuan piquantes 🌶️ <span class="translation">Sichuan style shrimps</span></p><span>27.-</span></div>
+                        <div class="menu-item" data-name="Crevettes aux champignons et pousses de bambou" data-image="images/food/food_placeholder.jpg" data-description="Un sauté léger et savoureux de crevettes, champignons parfumés et pousses de bambou." data-price="27"><p>Crevettes aux champignons et pousses de bambou <span class="translation">Shrimps with mushrooms & bamboo</span></p><span>27.-</span></div>
+                        <div class="menu-item" data-name="Crevettes à la sauce aigre-douce" data-image="images/food/food_placeholder.jpg" data-description="Crevettes en beignets croustillants, enrobées d'une sauce aigre-douce classique." data-price="27"><p>Crevettes à la sauce aigre-douce <span class="translation">Sweet and sour shrimps</span></p><span>27.-</span></div>
+                        <div class="menu-item" data-name="Crevettes sur ardoise chaude" data-image="images/food/food_placeholder.jpg" data-description="Grosses crevettes et légumes servis grésillants sur une plaque en fonte chaude." data-price="29"><p>Crevettes sur ardoise chaude <span class="translation">Sizzling shrimps</span></p><span>29.-</span></div>
                     </div>
                     <div class="menu-category">
                         <h3>Poisson / Fish</h3>
-                        <div class="menu-item"><p>Filet de poisson grillé <span class="translation">Grilled fish</span></p><span>25.-</span></div>
-                        <div class="menu-item"><p>Filet de poisson « 4 Saisons » à la vapeur <span class="translation">« 4 Seasons » special steamed fish</span></p><span>26.-</span></div>
+                        <div class="menu-item" data-name="Filet de poisson grillé" data-image="images/food/food_placeholder.jpg" data-description="Filet de poisson blanc grillé, assaisonné simplement pour mettre en valeur sa saveur délicate." data-price="25"><p>Filet de poisson grillé <span class="translation">Grilled fish</span></p><span>25.-</span></div>
+                        <div class="menu-item" data-name="Filet de poisson « 4 Saisons » à la vapeur" data-image="images/food/food_placeholder.jpg" data-description="Filet de poisson cuit à la vapeur avec du gingembre, de la ciboulette et une sauce soja légère, une spécialité saine et savoureuse." data-price="26"><p>Filet de poisson « 4 Saisons » à la vapeur <span class="translation">« 4 Seasons » special steamed fish</span></p><span>26.-</span></div>
                     </div>
                     <div class="menu-category">
                         <h3>Accompagnements / Side Dishes</h3>
-                        <div class="menu-item"><p>Pousses de soja sautées <span class="translation">Stir-fried bean sprouts</span></p><span>12.-</span></div>
-                        <div class="menu-item"><p>Légumes Chop-soy sautés <span class="translation">Stir-fried chop suey</span></p><span>12.-</span></div>
-                        <div class="menu-item"><p>Riz nature parfumé au jasmin <span class="translation">Steamed jasmine rice</span></p><span>3.-</span></div>
-                        <div class="menu-item"><p>Riz sauté Bouddha <span class="translation">Vegetarian fried rice</span></p><span>6.-</span></div>
-                        <div class="menu-item"><p>Riz sauté cantonais <span class="translation">Cantonese fried rice</span></p><span>7.-</span></div>
+                        <div class="menu-item" data-name="Pousses de soja sautées" data-image="images/food/food_placeholder.jpg" data-description="Pousses de soja croquantes sautées rapidement au wok." data-price="12"><p>Pousses de soja sautées <span class="translation">Stir-fried bean sprouts</span></p><span>12.-</span></div>
+                        <div class="menu-item" data-name="Légumes Chop-soy sautés" data-image="images/food/food_placeholder.jpg" data-description="Un mélange coloré de légumes de saison sautés, croquants et pleins de saveurs." data-price="12"><p>Légumes Chop-soy sautés <span class="translation">Stir-fried chop suey</span></p><span>12.-</span></div>
+                        <div class="menu-item" data-name="Riz nature parfumé au jasmin" data-image="images/food/food_placeholder.jpg" data-description="Riz blanc parfumé cuit à la vapeur, l'accompagnement parfait pour tous nos plats." data-price="3"><p>Riz nature parfumé au jasmin <span class="translation">Steamed jasmine rice</span></p><span>3.-</span></div>
+                        <div class="menu-item" data-name="Riz sauté Bouddha" data-image="images/food/food18.webp" data-description="Riz sauté végétarien avec des œufs, des petits pois, du maïs et d'autres légumes." data-price="6"><p>Riz sauté Bouddha <span class="translation">Vegetarian fried rice</span></p><span>6.-</span></div>
+                        <div class="menu-item" data-name="Riz sauté cantonais" data-image="images/raw/23e89d5e32bc8704f1591f1c80be31f9.jpeg" data-description="Le riz frit classique avec du porc rôti, des crevettes, des œufs et des légumes." data-price="7"><p>Riz sauté cantonais <span class="translation">Cantonese fried rice</span></p><span>7.-</span></div>
                     </div>
                 </div>
             </div>
@@ -212,4 +243,3 @@
     
 </body>
 </html>
-
