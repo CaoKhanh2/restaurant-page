@@ -254,3 +254,85 @@ img {
     height: 100%;
     object-fit: cover; /* Giúp ảnh lấp đầy container mà không bị méo */
 }
+
+/* ================================================= */
+/* == Bố cục LƯỚI HOÀN HẢO cho trang Category == */
+/* ================================================= */
+
+#dish-list-container .imaged-dishes-grid {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important; /* Căn giữa toàn bộ lưới */
+    gap: 2rem !important;
+    padding: 0 1rem !important;
+}
+
+#dish-list-container .dish-card {
+    background-color: #181818;
+    border: 1px solid #333;
+    border-radius: 8px;
+    text-align: center;
+    overflow: hidden;
+    transition: transform 0.3s, border-color 0.3s;
+    cursor: pointer;
+    display: flex !important;
+    flex-direction: column !important;
+
+    /* THAY ĐỔI CHÍNH: Tạo bố cục 3 cột trên màn hình lớn */
+    flex: 0 1 350px; /* Kích thước cơ bản cho mỗi thẻ */
+    min-width: 280px;
+}
+
+/* Thêm style cho thẻ ảo (vô hình) */
+#dish-list-container .dish-card.phantom {
+    visibility: hidden;
+    border: none;
+    background: none;
+    cursor: default;
+}
+
+#dish-list-container .dish-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--color-secondary);
+}
+
+#dish-list-container .dish-card.phantom:hover {
+    transform: none; /* Thẻ ảo không có hiệu ứng hover */
+}
+
+/* Các style còn lại giữ nguyên */
+#dish-list-container .dish-card .dish-card-img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+}
+
+#dish-list-container .dish-card .dish-card-info {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#dish-list-container .dish-card .dish-card-info h4 {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    color: var(--color-light);
+    margin-bottom: 0.5rem;
+}
+
+#dish-list-container .dish-card .dish-card-info .translation {
+    font-size: 0.9em;
+    font-style: italic;
+    color: #999;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+#dish-list-container .dish-card .dish-card-info .price {
+    font-weight: bold;
+    color: var(--color-primary);
+    font-size: 1.3rem;
+    margin-top: auto;
+}
