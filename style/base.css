@@ -159,14 +159,14 @@ footer {
 }
 
 /* --- Menu Section Styling (Tái sử dụng & điều chỉnh) --- */
-#menu {
+#menu-slider-section {
     background: var(--color-primary);
-    padding: 4rem 5%; /* Sử dụng padding 2 bên thay vì trong container */
+    padding: 4rem 5%;
     position: relative;
     overflow: hidden;
 }
 
-#menu::before, #menu::after {
+#menu-slider-section::before, #menu-slider-section::after {
     content: '';
     position: absolute;
     left: 0;
@@ -177,10 +177,10 @@ footer {
     opacity: 0.1;
     z-index: 0;
 }
-#menu::before { top: 0; }
-#menu::after { bottom: 0; }
+#menu-slider-section::before { top: 0; }
+#menu-slider-section::after { bottom: 0; }
 
-#menu h2 {
+#menu-slider-section h2 {
     color: var(--color-light);
     font-size: 2.8rem;
     font-style: italic;
