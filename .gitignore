@@ -1,0 +1,13 @@
+# Tệp môi trường chứa thông tin nhạy cảm
+# Ghi rõ đường dẫn từ thư mục gốc của git đến tệp .env
+backend/.env
+
+# Bỏ qua toàn bộ thư mục node_modules chứa các thư viện
+backend/node_modules
+
+# Các tệp log và tệp tạm của hệ điều hành
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+.DS_Store

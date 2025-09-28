@@ -3,16 +3,33 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Découvrez l'histoire familiale du restaurant Les 4 Saisons, depuis ses débuts à Hong Kong jusqu'à devenir une destination culinaire réputée à Genève.">
+    <meta
+      name="description"
+      content="Découvrez l'histoire familiale du restaurant Les 4 Saisons, depuis ses débuts à Hong Kong jusqu'à devenir une destination culinaire réputée à Genève."
+    />
     <title>À Propos - Restaurant Les 4 Saisons</title>
 
-    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon_io/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon_io/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon_io/favicon-16x16.png">
-    <link rel="manifest" href="images/favicon_io/site.webmanifest">
-    <link rel="shortcut icon" href="images/favicon_io/favicon.ico">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="theme-color" content="#ffffff">
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="images/favicon_io/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="images/favicon_io/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="images/favicon_io/favicon-16x16.png"
+    />
+    <link rel="manifest" href="images/favicon_io/site.webmanifest" />
+    <link rel="shortcut icon" href="images/favicon_io/favicon.ico" />
+    <meta name="msapplication-TileColor" content="#da532c" />
+    <meta name="theme-color" content="#ffffff" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -89,54 +106,67 @@
           </div>
 
           <div class="reservation-form" data-aos="fade-left">
-            <div id="booking-notice" class="booking-notice-overlay">
-              <div class="notice-content">
-                <i class="fas fa-info-circle"></i>
-                <h3>Fonctionnalité indisponible</h3>
-                <p>
-                  La réservation en ligne est actuellement en cours de mise à
-                  jour. Pour réserver une table, veuillez nous contacter
-                  directement au numéro de téléphone suivant :
-                </p>
-                <a href="tel:+41227005067" class="notice-phone"
-                  >(+41) 22 700 50 67</a
+            <h2>Réserver une table</h2>
+            <form id="reservationForm">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="name"
+                    ><i class="fas fa-user"></i> Nom et Prénom</label
+                  >
+                  <input type="text" id="name" name="name" required />
+                </div>
+                <div class="form-group">
+                  <label for="email"
+                    ><i class="fas fa-envelope"></i> E-mail</label
+                  >
+                  <input type="email" id="email" name="email" required />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="people"
+                    ><i class="fas fa-users"></i> Nombre de personnes</label
+                  >
+                  <input
+                    type="number"
+                    id="people"
+                    name="people"
+                    min="1"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="date"
+                    ><i class="fas fa-calendar-alt"></i> Date</label
+                  >
+                  <input type="date" id="date" name="date" required />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label><i class="fas fa-clock"></i> Heure</label>
+                <div id="time-slots-container" class="time-slots">
+                  <p class="time-slots-placeholder">
+                    Veuillez sélectionner une date d'abord
+                  </p>
+                </div>
+                <input type="hidden" id="time" name="time" required />
+              </div>
+
+              <div class="form-group">
+                <label for="message"
+                  ><i class="fas fa-comment"></i> Demande particulière</label
                 >
-              </div>
-            </div>
-            <h2>Réserver une table...</h2>
-            <form action="#" id="reservationForm">
-              <div class="form-row">
-                <input type="text" name="nom" placeholder="Nom" required />
-                <input
-                  type="text"
-                  name="prenom"
-                  placeholder="Prénom"
-                  required
-                />
-              </div>
-              <div class="form-row">
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="E-mail"
-                  required
-                />
-              </div>
-              <div class="form-row">
-                <input
-                  type="text"
-                  name="objet"
-                  placeholder="Objet de la réservation"
-                />
-              </div>
-              <div class="form-row">
                 <textarea
+                  id="message"
                   name="message"
-                  placeholder="Message..."
-                  rows="6"
+                  placeholder="Ex: allergies, chaise bébé..."
+                  rows="3"
                 ></textarea>
               </div>
-              <button type="submit" class="btn">Envoyer</button>
+
+              <button type="submit" class="btn">Envoyer la demande</button>
+              <p id="form-status"></p>
             </form>
           </div>
         </div>

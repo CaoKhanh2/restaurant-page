@@ -313,3 +313,61 @@
 .booking-notice-overlay .notice-content .notice-phone:hover {
     background-color: #fff;
 }
+
+/* --- Nâng cấp giao diện Form đặt bàn --- */
+.reservation-form .form-group {
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+
+.reservation-form .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #ccc;
+    font-size: 0.9rem;
+}
+
+.reservation-form .form-group label i {
+    margin-right: 8px;
+    color: var(--color-secondary);
+}
+
+.reservation-form .form-row > .form-group {
+    flex: 1;
+}
+
+/* --- Kiểu dáng cho các nút chọn giờ --- */
+.time-slots {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.time-slot-btn {
+    background-color: #2b2b2b;
+    border: 1px solid #444;
+    color: var(--color-light);
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.time-slot-btn:hover {
+    background-color: #3a3a3a;
+    border-color: #666;
+}
+
+.time-slot-btn.selected {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: #fff;
+    font-weight: bold;
+}
+
+.time-slots-placeholder {
+    color: #888;
+    font-style: italic;
+    width: 100%;
+}

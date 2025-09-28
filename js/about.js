@@ -1,31 +1,120 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Tìm form và các phần tử liên quan trên trang
     const reservationForm = document.getElementById('reservationForm');
-    
-    // Chỉ chạy mã nếu tìm thấy form trên trang hiện tại
-    if (reservationForm) {
-        const formInputs = reservationForm.querySelectorAll('input, textarea');
-        const noticeOverlay = document.getElementById('booking-notice');
-        let isNoticeShown = false;
+    if (!reservationForm) return;
 
-        // Hàm hiển thị thông báo
-        const showNotice = () => {
-            if (!isNoticeShown) {
-                noticeOverlay.classList.add('visible');
-                isNoticeShown = true;
+    const dateInput = document.getElementById('date');
+    const timeSlotsContainer = document.getElementById('time-slots-container');
+    const hiddenTimeInput = document.getElementById('time');
+    const status = document.getElementById('form-status');
+
+    // Thiết lập ngày tối thiểu là ngày hôm nay
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    dateInput.setAttribute('min', today.toISOString().split('T')[0]);
+
+    // Hàm gọi API để lấy giờ trống
+    async function fetchAvailableTimes(date) {
+        timeSlotsContainer.innerHTML = '<p class="time-slots-placeholder">Chargement des horaires...</p>';
+        try {
+            // URL trỏ đến backend của bạn
+            const response = await fetch(`http://localhost:5000/api/availability?date=${date}`);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
-        };
+            const data = await response.json();
+            renderTimeSlots(data.availableTimes);
+        } catch (error) {
+            console.error('Failed to fetch available times:', error);
+            timeSlotsContainer.innerHTML = '<p class="time-slots-placeholder" style="color: red;">Impossible de charger les horaires. Veuillez réessayer.</p>';
+        }
+    }
 
-        // Lắng nghe sự kiện "focus" trên tất cả các ô nhập liệu
-        // Khi người dùng click vào bất kỳ ô nào, thông báo sẽ hiện ra
-        formInputs.forEach(input => {
-            input.addEventListener('focus', showNotice);
-        });
+    // Hàm hiển thị các nút chọn giờ
+    function renderTimeSlots(times) {
+        timeSlotsContainer.innerHTML = '';
+        if (times.length === 0) {
+            timeSlotsContainer.innerHTML = '<p class="time-slots-placeholder">Aucun créneau disponible pour cette date.</p>';
+            return;
+        }
 
-        // Ngăn form gửi đi khi nhấn nút "Envoyer"
-        reservationForm.addEventListener('submit', function(event) {
-            event.preventDefault(); // Chặn hành động mặc định của form
-            showNotice(); // Hiển thị lại thông báo nếu cần
+        times.forEach(time => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'time-slot-btn';
+            btn.textContent = time;
+            btn.dataset.time = time;
+            timeSlotsContainer.appendChild(btn);
         });
     }
+
+    // Sự kiện khi người dùng thay đổi ngày
+    dateInput.addEventListener('change', () => {
+        const selectedDate = dateInput.value;
+        if (selectedDate) {
+            fetchAvailableTimes(selectedDate);
+        } else {
+            timeSlotsContainer.innerHTML = '<p class="time-slots-placeholder">Veuillez sélectionner une date d'abord</p>';
+        }
+        hiddenTimeInput.value = ''; // Reset giờ đã chọn khi đổi ngày
+    });
+
+    // Sự kiện khi người dùng chọn một giờ
+    timeSlotsContainer.addEventListener('click', (event) => {
+        if (event.target.classList.contains('time-slot-btn')) {
+            // Xóa lựa chọn cũ
+            const currentlySelected = timeSlotsContainer.querySelector('.selected');
+            if (currentlySelected) {
+                currentlySelected.classList.remove('selected');
+            }
+
+            // Đánh dấu nút được chọn
+            const btn = event.target;
+            btn.classList.add('selected');
+            hiddenTimeInput.value = btn.dataset.time;
+        }
+    });
+
+    // Sự kiện khi gửi form
+    reservationForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const form = event.target;
+        
+        const formData = {
+            name: form.elements.name.value,
+            email: form.elements.email.value,
+            people: form.elements.people.value,
+            date: form.elements.date.value,
+            time: form.elements.time.value,
+            message: form.elements.message.value,
+        };
+
+        if (!formData.time) {
+            alert('Veuillez sélectionner une heure.');
+            return;
+        }
+
+        status.textContent = 'Envoi en cours...';
+        status.style.color = '#ccc';
+
+        try {
+            const response = await fetch('http://localhost:5000/api/bookings', {
+                method: 'POST',
+                body: JSON.stringify(formData),
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            if (response.ok) {
+                status.innerHTML = "Merci ! Votre demande a bien été envoyée.";
+                status.style.color = 'lightgreen';
+                form.reset();
+                timeSlotsContainer.innerHTML = '<p class="time-slots-placeholder">Veuillez sélectionner une date d'abord</p>';
+            } else {
+                status.innerHTML = "Désolé, une erreur s'est produite.";
+                status.style.color = 'red';
+            }
+        } catch (error) {
+            status.innerHTML = "Impossible de se connecter au serveur de réservation.";
+            status.style.color = 'red';
+        }
+    });
 });
