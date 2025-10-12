@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestion des Réservations - Dashboard</title>
-    <link rel="stylesheet" href="/style/dashboard.css">
+    <title>View Bookings - Dashboard</title>
+    <link rel="stylesheet" href="../style/dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 <body>
@@ -16,7 +16,7 @@
             </div>
             <nav class="sidebar-nav">
                 <ul>
-                    <li class="active"><a href="/dash/bookings/"><i class="fas fa-calendar-check"></i> Réservations</a></li>
+                    <li class="active"><a href="/dash/bookings/view-bookings.html"><i class="fas fa-calendar-check"></i> Réservations</a></li>
                     <li><a href="#"><i class="fas fa-chart-bar"></i> Statistiques</a></li>
                     <li><a href="#"><i class="fas fa-cog"></i> Paramètres</a></li>
                 </ul>
@@ -45,6 +45,7 @@
         </main>
     </div>
 
-    <script src="/dash/bookings/script.js"></script>
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <script src="process-bookings.js"></script>
 </body>
 </html>

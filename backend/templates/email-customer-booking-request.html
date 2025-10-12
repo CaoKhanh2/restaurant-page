@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demande de réservation reçue</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #1a1a1a; font-family: Arial, sans-serif;">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #1a1a1a;">
+        <tr>
+            <td align="center">
+                <table width="600" border="0" cellspacing="0" cellpadding="20" style="max-width: 600px; background-color: #000000; border: 1px solid #333;">
+                    <tr>
+                        <td align="center" style="padding: 20px 0;">
+                            <img src="https://les-4saisonsgeneve.ch/images/logo-transparent.png" alt="Restaurant Les 4 Saisons" width="120" style="display: block;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 30px; background-color: #222; color: #cccccc; font-size: 16px; line-height: 1.6;">
+                            <h1 style="color: #ffffff; font-size: 24px; margin: 0 0 20px 0;">Votre demande a bien été reçue</h1>
+                            <p style="margin: 0 0 15px 0;">Bonjour {{name}},</p>
+                            <p style="margin: 0 0 25px 0;">Nous vous remercions d'avoir choisi le restaurant Les 4 Saisons. Nous avons bien enregistré votre demande de réservation et nous reviendrons vers vous très prochainement avec une confirmation finale.</p>
+                            
+                            <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #1a1a1a; border-radius: 8px; padding: 20px; margin-bottom: 30px;">
+                                <tr>
+                                    <td colspan="2" style="color: #ffffff; font-size: 18px; padding-bottom: 15px; border-bottom: 1px solid #444; margin-bottom: 15px;">Détails de votre demande :</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 10px 0; color: #cccccc;"><strong>Date :</strong></td>
+                                    <td align="right" style="color: #cccccc;">{{date}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 10px 0; color: #cccccc;"><strong>Heure :</strong></td>
+                                    <td align="right" style="color: #cccccc;">{{time}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 10px 0; color: #cccccc;"><strong>Personnes :</strong></td>
+                                    <td align="right" style="color: #cccccc;">{{people}}</td>
+                                </tr>
+                            </table>
+
+                            <p style="margin: 0 0 30px 0;">Veuillez noter que ceci n'est pas une confirmation définitive. Votre table sera garantie uniquement après réception de notre email de confirmation.</p>
+
+                            <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                                <tr>
+                                    <td align="center">
+                                        <a href="https://les-4saisonsgeneve.ch/menu.html" target="_blank" style="background-color: #c00; color: #ffffff; padding: 12px 25px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold;">Voir notre carte</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" style="padding: 20px; font-family: Arial, sans-serif; font-size: 12px; color: #888;">
+                            <p style="margin: 0;">Restaurant Les 4 Saisons</p>
+                            <p style="margin: 5px 0;">Rue Henri-Blanvalet 3, 1207 Genève, Suisse</p>
+                            <p style="margin: 0;"><a href="tel:+41227005067" style="color: #888; text-decoration: none;">(+41) 22 700 50 67</a></p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
