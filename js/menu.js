@@ -1,16 +1,16 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Sử dụng MutationObserver để đảm bảo slider-menu đã được tải xong trước khi chạy logic
+    // MODIFIED: Use MutationObserver to ensure the slider-menu is loaded before running the logic.
     const observer = new MutationObserver((mutations, obs) => {
-        // Kiểm tra xem slider đã được thêm vào DOM chưa
+        // MODIFIED: Check if the slider has been added to the DOM.
         const filterContainer = document.querySelector('#menu-slider .menu-categories');
         if (filterContainer) {
             initializeMenuFilter();
-            obs.disconnect(); // Ngừng theo dõi sau khi đã tìm thấy
+            obs.disconnect(); // MODIFIED: Stop observing after it's found.
             return;
         }
     });
 
-    // Bắt đầu theo dõi sự thay đổi trong placeholder
+    // MODIFIED: Start observing changes in the placeholder.
     const targetNode = document.getElementById('slider-menu-placeholder');
     if (targetNode) {
         observer.observe(targetNode, {
@@ -24,27 +24,27 @@ function initializeMenuFilter() {
     const filterButtons = document.querySelectorAll('#menu-slider .category');
     const menuCategories = document.querySelectorAll('#full-menu-page .menu-category');
 
-    // Nếu không tìm thấy nút hoặc danh mục, không làm gì cả
+    // MODIFIED: If no buttons or categories are found, do nothing.
     if (filterButtons.length === 0 || menuCategories.length === 0) {
         return;
     }
 
     filterButtons.forEach(button => {
         button.addEventListener('click', (e) => {
-            e.preventDefault(); // Ngăn hành vi mặc định của thẻ <a>
+            e.preventDefault(); // MODIFIED: Prevent the default behavior of the <a> tag.
 
             const filterValue = button.dataset.filter;
 
-            // Cập nhật trạng thái "active" cho các nút
+            // MODIFIED: Update the "active" state for the buttons.
             filterButtons.forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
 
-            // Ẩn/hiện các danh mục món ăn
+            // MODIFIED: Show/hide the dish categories.
             menuCategories.forEach(category => {
                 if (filterValue === 'tous' || category.dataset.category === filterValue) {
-                    category.style.display = 'block'; // Hiện
+                    category.style.display = 'block'; // MODIFIED: Show
                 } else {
-                    category.style.display = 'none'; // Ẩn
+                    category.style.display = 'none'; // MODIFIED: Hide
                 }
             });
         });

@@ -1,11 +1,13 @@
-# Tệp môi trường chứa thông tin nhạy cảm
-# Ghi rõ đường dẫn từ thư mục gốc của git đến tệp .env
+# MODIFIED: Translated comments to English for clarity and convention.
+
+# Environment file containing sensitive information
+# Specify the path from the git root to the .env file
 backend/.env
 
-# Bỏ qua toàn bộ thư mục node_modules chứa các thư viện
+# Ignore the entire node_modules directory containing libraries
 backend/node_modules
 
-# Các tệp log và tệp tạm của hệ điều hành
+# OS-generated log and temporary files
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

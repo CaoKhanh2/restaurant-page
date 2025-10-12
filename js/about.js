@@ -7,16 +7,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const hiddenTimeInput = document.getElementById('time');
     const status = document.getElementById('form-status');
 
-    // Thiết lập ngày tối thiểu là ngày hôm nay
+    // MODIFIED: Set the minimum date to today.
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     dateInput.setAttribute('min', today.toISOString().split('T')[0]);
 
-    // Hàm gọi API để lấy giờ trống
+    // MODIFIED: Function to call the API to get available time slots.
     async function fetchAvailableTimes(date) {
         timeSlotsContainer.innerHTML = '<p class="time-slots-placeholder">Chargement des horaires...</p>';
         try {
-            // URL trỏ đến backend của bạn
+            // MODIFIED: In a production environment, this URL should not be hardcoded.
+            // It should be a relative path (e.g., '/api/availability') or configured via an environment variable.
             const response = await fetch(`http://localhost:5000/api/availability?date=${date}`);
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -29,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Hàm hiển thị các nút chọn giờ
+    // MODIFIED: Function to display the time slot selection buttons.
     function renderTimeSlots(times) {
         timeSlotsContainer.innerHTML = '';
         if (times.length === 0) {
@@ -47,34 +48,34 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Sự kiện khi người dùng thay đổi ngày
+    // MODIFIED: Event when the user changes the date.
     dateInput.addEventListener('change', () => {
         const selectedDate = dateInput.value;
         if (selectedDate) {
             fetchAvailableTimes(selectedDate);
         } else {
-            timeSlotsContainer.innerHTML = '<p class="time-slots-placeholder">Veuillez sélectionner une date d'abord</p>';
+            timeSlotsContainer.innerHTML = '<p class="time-slots-placeholder">Veuillez sélectionner une date d\'abord</p>';
         }
-        hiddenTimeInput.value = ''; // Reset giờ đã chọn khi đổi ngày
+        hiddenTimeInput.value = ''; // MODIFIED: Reset the selected time when the date changes.
     });
 
-    // Sự kiện khi người dùng chọn một giờ
+    // MODIFIED: Event when the user selects a time.
     timeSlotsContainer.addEventListener('click', (event) => {
         if (event.target.classList.contains('time-slot-btn')) {
-            // Xóa lựa chọn cũ
+            // MODIFIED: Clear the old selection.
             const currentlySelected = timeSlotsContainer.querySelector('.selected');
             if (currentlySelected) {
                 currentlySelected.classList.remove('selected');
             }
 
-            // Đánh dấu nút được chọn
+            // MODIFIED: Mark the selected button.
             const btn = event.target;
             btn.classList.add('selected');
             hiddenTimeInput.value = btn.dataset.time;
         }
     });
 
-    // Sự kiện khi gửi form
+    // MODIFIED: Event when the form is submitted.
     reservationForm.addEventListener("submit", async (event) => {
         event.preventDefault();
         const form = event.target;
@@ -97,6 +98,7 @@ document.addEventListener('DOMContentLoaded', function() {
         status.style.color = '#ccc';
 
         try {
+            // MODIFIED: The backend URL should ideally be configured, not hardcoded.
             const response = await fetch('http://localhost:5000/api/bookings', {
                 method: 'POST',
                 body: JSON.stringify(formData),
@@ -107,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 status.innerHTML = "Merci ! Votre demande a bien été envoyée.";
                 status.style.color = 'lightgreen';
                 form.reset();
-                timeSlotsContainer.innerHTML = '<p class="time-slots-placeholder">Veuillez sélectionner une date d'abord</p>';
+                timeSlotsContainer.innerHTML = '<p class="time-slots-placeholder">Veuillez sélectionner une date d\'abord</p>';
             } else {
                 status.innerHTML = "Désolé, une erreur s'est produite.";
                 status.style.color = 'red';

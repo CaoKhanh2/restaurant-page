@@ -1,22 +1,22 @@
 const Booking = require('../models/booking');
 const nodemailer = require('nodemailer');
 
-// Cấu hình để gửi email
+// MODIFIED: Configuration for sending emails.
 const transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
-        user: process.env.EMAIL_USER, // Lấy từ tệp .env
-        pass: process.env.EMAIL_PASS  // Lấy từ tệp .env
+        user: process.env.EMAIL_USER, // MODIFIED: Get from .env file
+        pass: process.env.EMAIL_PASS  // MODIFIED: Get from .env file
     }
 });
 
-// Logic để tạo một đặt bàn mới
+// MODIFIED: Logic to create a new booking.
 exports.createBooking = async (req, res) => {
     try {
         const newBooking = new Booking(req.body);
         await newBooking.save();
 
-        // Gửi email cho nhà hàng
+        // MODIFIED: Send email to the restaurant.
         await transporter.sendMail({
             from: `"Les 4 Saisons Site" <${process.env.EMAIL_USER}>`,
             to: process.env.RESTAURANT_EMAIL,
@@ -35,7 +35,7 @@ exports.createBooking = async (req, res) => {
             `,
         });
         
-        // Gửi email cho khách hàng
+        // MODIFIED: Send email to the customer.
         await transporter.sendMail({
             from: `"Restaurant Les 4 Saisons" <${process.env.EMAIL_USER}>`,
             to: newBooking.email,
@@ -59,16 +59,55 @@ exports.createBooking = async (req, res) => {
     }
 };
 
-// Logic để kiểm tra giờ trống
+// MODIFIED: Logic to check for available time slots.
 exports.checkAvailability = async (req, res) => {
     try {
         const { date } = req.query;
-        // Logic nghiệp vụ để kiểm tra giờ có thể được thêm ở đây
-        // Ví dụ: kiểm tra xem ngày có phải cuối tuần, hoặc có sự kiện đặc biệt không.
+        // MODIFIED: Business logic to check availability could be added here.
+        // MODIFIED: For example, checking if the date is a weekend or if there's a special event.
+        // MODIFIED: This is currently a static list and serves as a placeholder.
         const availableTimes = ["11:30", "12:00", "12:30", "13:00", "19:00", "19:30", "20:00", "20:30", "21:00"];
         res.status(200).json({ availableTimes });
     } catch (error) {
         console.error('Error in checkAvailability:', error);
         res.status(500).json({ error: 'Could not fetch availability.' });
+    }
+};
+
+// MODIFIED: Add a new function to get all bookings for the dashboard.
+exports.getAllBookings = async (req, res) => {
+    try {
+        // Find all bookings and sort them by creation date in descending order.
+        const bookings = await Booking.find().sort({ createdAt: -1 });
+        res.status(200).json(bookings);
+    } catch (error) {
+        console.error('Error fetching bookings:', error);
+        res.status(500).json({ error: 'Failed to fetch bookings.' });
+    }
+};
+
+// MODIFIED: Add a new function to update a booking's status.
+exports.updateBookingStatus = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { status } = req.body;
+
+        // Validate the new status.
+        if (!['confirmed', 'cancelled'].includes(status)) {
+            return res.status(400).json({ error: 'Invalid status provided.' });
+        }
+
+        const updatedBooking = await Booking.findByIdAndUpdate(id, { status }, { new: true });
+
+        if (!updatedBooking) {
+            return res.status(404).json({ error: 'Booking not found.' });
+        }
+        
+        // Optional: Send a confirmation/cancellation email to the customer here.
+
+        res.status(200).json(updatedBooking);
+    } catch (error) {
+        console.error('Error updating booking status:', error);
+        res.status(500).json({ error: 'Failed to update booking status.' });
     }
 };

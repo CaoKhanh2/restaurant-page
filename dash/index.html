@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Les 4 Saisons</title>
+    <link rel="stylesheet" href="style/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="/images/logo-transparent.png" alt="Logo" class="sidebar-logo">
+                <h2>Dashboard</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="/dash/bookings/"><i class="fas fa-calendar-check"></i> Réservations</a></li>
+                    <li><a href="#"><i class="fas fa-chart-bar"></i> Statistiques</a></li>
+                    <li><a href="#"><i class="fas fa-cog"></i> Paramètres</a></li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="#"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="main-header">
+                <h1>Tableau de Bord Principal</h1>
+            </header>
+            
+            <div class="booking-list-container">
+                <a href="/dash/bookings/" class="card-link">
+                    <i class="fas fa-calendar-check"></i>
+                    <h2>Gérer les Réservations</h2>
+                </a>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
