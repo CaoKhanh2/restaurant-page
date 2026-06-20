@@ -16,6 +16,7 @@ npm-debug.log*
 
 # ai
 .claude
+.antigravitycli
 
 # server seed script — one-time use, delete after running
 server/seed.php
