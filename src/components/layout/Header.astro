@@ -1,0 +1,45 @@
+---
+import { url } from '../../scripts/utils/url.js';
+
+const links = [
+  { href: '/',             key: 'nav.home'    },
+  { href: url('/menu'),    key: 'nav.menu'    },
+  { href: url('/gallery'), key: 'nav.gallery' },
+  { href: url('/about'),   key: 'nav.about'   },
+];
+
+// Active nav theo URL hiện tại
+const path = Astro.url.pathname.replace(/index\.html$/, '').replace(/\/$/, '') || '/';
+const isActive = (href) => {
+  const h = href.replace(/\/$/, '') || '/';
+  return h === path;
+};
+---
+<header>
+  <nav>
+    <a href="/" class="logo" aria-label="Accueil">
+      <img src="/images/logo-transparent.png" alt="Restaurant Les 4 Saisons Logo" />
+    </a>
+    <ul class="main-nav">
+      {links.map((l) => (
+        <li><a href={l.href} class={isActive(l.href) ? 'active' : ''} data-i18n={l.key}>ACCUEIL</a></li>
+      ))}
+    </ul>
+    <a href="tel:+41227005067" class="nav-phone">(+41) 22 700 50 67</a>
+
+    <!-- Language toggle -->
+    <div class="lang-toggle" id="lang-toggle" aria-label="Changer de langue">
+      <button class="lang-btn active" data-lang-btn="fr">FR</button>
+      <span class="lang-sep">|</span>
+      <button class="lang-btn" data-lang-btn="en">EN</button>
+    </div>
+
+    <button id="theme-toggle" class="theme-toggle" aria-label="Basculer thème clair/sombre">
+      <i class="fa-solid fa-moon"></i>
+    </button>
+
+    <button id="mobile-nav-toggle" class="mobile-nav-toggle" aria-label="Menu">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+  </nav>
+</header>

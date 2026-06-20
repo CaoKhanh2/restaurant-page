@@ -1,0 +1,68 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import SliderMenu from '../../components/ui/SliderMenu.astro';
+import '../../styles/pages/category.css';
+---
+<Layout title="Catégorie - Restaurant Les 4 Saisons" description="Découvrez les plats de cette catégorie au restaurant Les 4 Saisons.">
+  <section id="category-page">
+    <div class="menu-header">
+      <h1 id="category-title">Chargement…</h1>
+      <div class="decorator">◆</div>
+    </div>
+    <div id="dish-list-container"></div>
+  </section>
+
+  <SliderMenu />
+</Layout>
+
+<script>
+  import { url } from '../../scripts/utils/url.js';
+
+  const params    = new URLSearchParams(location.search);
+  const key       = params.get('category');
+  const titleEl   = document.getElementById('category-title');
+  const container = document.getElementById('dish-list-container');
+
+  const dishHref = (d) =>
+    url('/menu/dish-detail', '?' +
+    new URLSearchParams({ name: d.name_fr, image: d.image_path, description: d.description_fr, price: d.price }).toString());
+
+  if (!key) {
+    titleEl.textContent = 'Catégorie introuvable';
+    container.innerHTML = "<p style='text-align:center;'>Catégorie introuvable.</p>";
+  } else {
+    (async () => {
+      const res  = await fetch(`/api/menu.php?category=${encodeURIComponent(key)}`);
+      const data = await res.json();
+      const dishes = (data.dishes ?? []).filter((d) => d.image_path && !d.image_path.includes('placeholder'));
+
+      // Category title from first dish or API response
+      if (dishes.length) {
+        titleEl.textContent = dishes[0].title_fr || key;
+        document.title = `${titleEl.textContent} - Restaurant Les 4 Saisons`;
+      } else {
+        titleEl.textContent = key;
+      }
+
+      let html = dishes.map((d) => `
+        <a class="dish-card" href="${dishHref(d)}">
+          <img src="${d.image_path}" alt="${d.name_fr}" class="dish-card-img" loading="lazy">
+          <div class="dish-card-info">
+            <div>
+              <h4>${d.name_fr}</h4>
+              <span class="translation">${d.name_en || ''}</span>
+            </div>
+            <span class="price">${parseFloat(d.price).toFixed(0)}.-</span>
+          </div>
+        </a>`
+      ).join('');
+
+      const per = 3, rem = dishes.length % per;
+      if (dishes.length && rem !== 0) for (let i = 0; i < per - rem; i++) html += '<div class="dish-card phantom"></div>';
+
+      container.innerHTML = dishes.length
+        ? `<div class="imaged-dishes-grid">${html}</div>`
+        : "<p style='text-align:center;'>Aucun plat à afficher dans cette catégorie pour le moment.</p>";
+    })();
+  }
+</script>

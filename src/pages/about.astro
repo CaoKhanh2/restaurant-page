@@ -1,0 +1,116 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SliderMenu from '../components/ui/SliderMenu.astro';
+import { openingHours, phone, phoneHref } from '../data/site.js';
+import '../styles/pages/about.css';
+---
+<Layout
+  title="À Propos - Restaurant Les 4 Saisons"
+  description="Découvrez l'histoire familiale du restaurant Les 4 Saisons, depuis ses débuts à Hong Kong jusqu'à devenir une destination culinaire réputée à Genève."
+>
+  <section id="about-intro">
+    <div class="about-intro-content" data-reveal>
+      <span class="eyebrow" data-i18n="about.page.eyebrow">Notre philosophie</span>
+      <h1 data-i18n="about.page.title">Une histoire de famille</h1>
+      <p data-i18n="about.page.p1">
+        Notre philosophie est simple : proposer une cuisine chinoise authentique, avec un accent
+        particulier sur les saveurs de Hong Kong. Nous nous laissons guider par les saisons pour vous
+        offrir des plats spéciaux, toujours faits maison avec des produits d'une fraîcheur irréprochable.
+      </p>
+      <p data-i18n="about.page.p2">
+        Plus qu'un simple repas, nous souhaitons vous offrir une expérience. Laissez-vous séduire par
+        notre cuisine et l'ambiance chaleureuse de notre établissement.
+      </p>
+    </div>
+  </section>
+
+  <section id="booking-section">
+    <div class="booking-container">
+      <div class="opening-hours" data-reveal>
+        <h2 data-i18n="about.hours.title">Horaires d'ouverture</h2>
+        <ul>
+          {openingHours.map((o) => (
+            <li><span>{o.day}</span> <span>{o.hours}</span></li>
+          ))}
+        </ul>
+        <div class="contact-box">
+          <h3 data-i18n="about.contact.title">Contacter Les 4 Saisons</h3>
+          <a href={phoneHref} class="contact-phone">{phone}</a>
+        </div>
+      </div>
+
+      <div class="reservation-form" data-reveal data-reveal-delay="0.1">
+        <h2 data-i18n="about.form.title">Réserver une table…</h2>
+        <div id="form-success" style="display:none;padding:16px;background:#d4edda;border-radius:8px;margin-bottom:16px;color:#155724">
+          ✓ Votre demande a été envoyée ! Nous vous contacterons bientôt.
+        </div>
+        <div id="form-error" style="display:none;padding:16px;background:#f8d7da;border-radius:8px;margin-bottom:16px;color:#721c24">
+          Une erreur s'est produite. Veuillez réessayer ou nous appeler.
+        </div>
+        <form id="reservationForm">
+          <div class="form-row">
+            <input type="text" name="nom" placeholder="Nom" data-i18n="about.form.nom" required />
+            <input type="text" name="prenom" placeholder="Prénom" data-i18n="about.form.prenom" required />
+          </div>
+          <div class="form-row">
+            <input type="email" name="email" placeholder="E-mail" data-i18n="about.form.email" required />
+          </div>
+          <div class="form-row">
+            <input type="date" name="reservation_date" />
+            <input type="number" name="nb_personnes" placeholder="Nombre de personnes" min="1" max="30" />
+          </div>
+          <div class="form-row">
+            <input type="text" name="objet" placeholder="Objet de la réservation" data-i18n="about.form.objet" />
+          </div>
+          <div class="form-row">
+            <textarea name="message" placeholder="Message…" rows="6" data-i18n="about.form.message"></textarea>
+          </div>
+          <button type="submit" class="btn" data-i18n="about.form.submit">Envoyer</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <SliderMenu />
+</Layout>
+
+<script>
+  const form       = document.getElementById('reservationForm');
+  const successEl  = document.getElementById('form-success');
+  const errorEl    = document.getElementById('form-error');
+
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      successEl.style.display = 'none';
+      errorEl.style.display   = 'none';
+
+      const fd   = new FormData(form);
+      const body = {
+        nom:              fd.get('nom'),
+        prenom:           fd.get('prenom'),
+        email:            fd.get('email'),
+        objet:            fd.get('objet'),
+        message:          fd.get('message'),
+        reservation_date: fd.get('reservation_date') || null,
+        nb_personnes:     fd.get('nb_personnes')     || null,
+      };
+
+      try {
+        const res = await fetch('/api/reservations.php', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify(body),
+        });
+        if (res.ok) {
+          successEl.style.display = 'block';
+          form.reset();
+        } else {
+          errorEl.style.display = 'block';
+        }
+      } catch {
+        errorEl.style.display = 'block';
+      }
+    });
+  }
+</script>

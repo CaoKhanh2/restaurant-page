@@ -1,0 +1,215 @@
+/* =================================================================
+   HOME — Hero cinematic + sections (warm HK)
+   ================================================================= */
+
+/* --- HERO --- */
+#hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 120px 8% 8rem;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+/* Lớp nền riêng để Ken Burns không đụng overlay/nội dung */
+.hero-bg {
+    position: absolute;
+    inset: -6% -6% -6% -6%;        /* dư mép để scale không lộ viền */
+    background: url('/images/image.png') no-repeat center center;
+    background-size: cover;
+    z-index: -2;
+    transform: scale(1.04);
+    will-change: transform;
+}
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+        linear-gradient(105deg, rgba(18,10,6,0.86) 0%, rgba(18,10,6,0.55) 45%, rgba(18,10,6,0.25) 100%),
+        linear-gradient(0deg, rgba(12,8,5,0.85) 0%, rgba(12,8,5,0) 38%);
+}
+
+.hero-content { max-width: 640px; }
+.hero-content .eyebrow { color: var(--gold-bright); }
+.hero-title {
+    font-size: clamp(3rem, 9vw, 6rem);
+    line-height: 1.02;
+    color: #fff;
+    margin-bottom: 1rem;
+    text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+}
+.hero-title .accent { display: block; color: var(--gold); font-style: italic; }
+.hero-tagline {
+    font-size: clamp(1.1rem, 2.2vw, 1.6rem);
+    color: #f0e6d6;
+    font-weight: 300;
+    margin-bottom: 2.2rem;
+    letter-spacing: 0.5px;
+}
+.hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+/* Khởi tạo ẩn cho timeline hero (chỉ khi có JS) */
+html.has-js #hero .hero-content .eyebrow,
+html.has-js #hero .hero-title,
+html.has-js #hero .hero-tagline,
+html.has-js #hero .hero-cta { opacity: 0; }
+
+/* Scroll cue */
+.hero-scroll-indicator {
+    position: absolute;
+    bottom: 2rem; left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255, 248, 235, 0.6);
+    font-size: 1.4rem;
+    z-index: 2;
+    animation: indicatorBounce 2.8s ease-in-out infinite;
+    transition: color 0.3s;
+}
+.hero-scroll-indicator:hover { color: var(--gold); }
+@keyframes indicatorBounce {
+    0%, 100% { transform: translateX(-50%) translateY(0);    opacity: 0.5; }
+    50%      { transform: translateX(-50%) translateY(10px); opacity: 0.9; }
+}
+
+/* --- HOURS STRIP (opening hours dời khỏi hero) --- */
+#hours-strip {
+    background: var(--bg-surface);
+    border-top: 1px solid var(--border-soft);
+    border-bottom: 1px solid var(--border-soft);
+    padding: clamp(2.5rem, 5vw, 4rem) 5%;
+}
+.hours-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 3rem;
+    align-items: center;
+}
+.hours-intro .eyebrow { margin-bottom: 0.6rem; }
+.hours-intro h2 { text-align: left; margin-bottom: 1rem; font-size: clamp(1.8rem, 3.5vw, 2.4rem); }
+.hours-intro p { color: var(--text-sub); margin-bottom: 1.5rem; }
+.hours-intro .hours-phone {
+    font-family: var(--font-heading);
+    font-size: 1.6rem; color: var(--red); font-weight: 700;
+}
+.hours-list { display: grid; gap: 0.2rem; }
+.hours-list li {
+    display: flex; justify-content: space-between;
+    padding: 0.7rem 0.2rem;
+    border-bottom: 1px solid var(--border-soft);
+    color: var(--text-sub);
+}
+.hours-list li span:first-child { font-weight: 700; color: var(--text-main); }
+
+/* --- TAKEAWAY --- */
+#takeaway {
+    position: relative;
+    text-align: center;
+    background: url('/images/food/food3.jpg') no-repeat center center/cover;
+    isolation: isolate;
+}
+#takeaway::before {
+    content: '';
+    position: absolute; inset: 0; z-index: -1;
+    background: linear-gradient(180deg, rgba(20,12,7,0.82), rgba(20,12,7,0.72));
+}
+#takeaway h2 { color: #fff; }
+#takeaway p { font-size: 1.2rem; color: #ecdfcb; margin-bottom: 2rem; }
+
+/* --- ABOUT TEASER (story card 2 cột) --- */
+#about {
+    background: var(--bg-page);
+    padding: clamp(4rem, 8vw, 7rem) 5%;
+}
+.about-story {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: center;
+}
+.about-story-media {
+    position: relative;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-lift);
+    aspect-ratio: 4 / 3;
+}
+.about-story-media img { width: 100%; height: 100%; object-fit: cover; }
+.about-story-media::after {
+    content: '';
+    position: absolute; inset: 0;
+    border: 1px solid rgba(201, 162, 75, 0.4);
+    border-radius: var(--radius);
+    pointer-events: none;
+}
+.about-story-text h2 { text-align: left; margin-bottom: 1.2rem; }
+.about-story-text p { color: var(--text-sub); margin-bottom: 1.2rem; line-height: 1.9; }
+
+/* --- GALLERY STRIP (homepage) --- */
+#gallery {
+    padding: clamp(4rem, 8vw, 6rem) 5%;
+    background-color: var(--bg-surface);
+}
+#gallery h2 {
+    color: var(--text-main);
+    font-size: clamp(2.2rem, 4.5vw, 2.8rem);
+    font-style: italic;
+}
+.gallery-scroll-container { max-width: 1400px; margin: 0 auto; }
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+}
+.gallery-grid .grid-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    aspect-ratio: 3 / 4;
+}
+.gallery-grid img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s var(--ease);
+}
+.gallery-grid .grid-item::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(12,8,5,0.5), rgba(0,0,0,0) 55%);
+    opacity: 0;
+    transition: opacity 0.45s var(--ease);
+}
+.gallery-grid .grid-item:hover img { transform: scale(1.1); }
+.gallery-grid .grid-item:hover::after { opacity: 1; }
+
+/* --- Responsive --- */
+@media (max-width: 992px) {
+    #hero { padding-top: 130px; text-align: left; }
+    .hours-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .hours-intro h2, .hours-intro { text-align: center; }
+    .hours-intro h2 { text-align: center; }
+    .about-story { grid-template-columns: 1fr; }
+    .about-story-text h2 { text-align: center; }
+    .about-story-media { order: -1; }
+}
+@media (max-width: 768px) {
+    .gallery-grid {
+        grid-auto-flow: column;
+        grid-template-columns: repeat(5, 240px);
+        overflow-x: auto;
+    }
+    .gallery-scroll-container { overflow-x: auto; padding-bottom: 1rem; }
+}
+@media (max-width: 576px) {
+    #hero { padding-left: 6%; padding-right: 6%; }
+    .hero-cta { flex-direction: column; }
+    .hero-cta .btn { width: 100%; text-align: center; }
+}

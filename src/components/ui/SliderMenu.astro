@@ -1,0 +1,36 @@
+---
+import { sliderCategories } from '../../data/menu.js';
+import { url } from '../../scripts/utils/url.js';
+
+// Keys dịch label của từng category trong slider
+const labelKeys = {
+  'salades': 'slider.menus',
+  'entrees': 'slider.entrees',
+  'dimsum':  'slider.dimsum',
+  'potages': 'slider.potages',
+  'poulet':  'slider.poulet',
+  'boeuf':   'slider.boeuf',
+};
+
+// Tách path và query string để url() thêm .html đúng chỗ
+const cats = sliderCategories.map((c) => {
+  const [path, query] = c.href.split('?');
+  return { ...c, href: url(path, query ? '?' + query : ''), i18nKey: labelKeys[c.icon] };
+});
+---
+<section id="menu-slider-section" data-reveal>
+  <h2 data-i18n="slider.title">La carte des mets</h2>
+  <div class="menu-scroll-container">
+    <div class="menu-categories">
+      {cats.map((c) => (
+        <a href={c.href} class="category">
+          <picture>
+            <source srcset={`/icon/icon-${c.icon}-new.webp`} type="image/webp" />
+            <img src={`/icon/icon-${c.icon}-new.jpg`} alt={c.label} width="70" height="70" loading="lazy" />
+          </picture>
+          <span data-i18n={c.i18nKey}>{c.label}</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

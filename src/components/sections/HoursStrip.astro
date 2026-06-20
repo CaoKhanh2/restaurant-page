@@ -1,0 +1,24 @@
+---
+import { openingHours, phone, phoneHref } from '../../data/site.js';
+
+// Keys tên ngày theo thứ tự (khớp với openingHours array trong site.js)
+const dayKeys = ['hours.mon','hours.tue','hours.wed','hours.thu','hours.fri','hours.sat','hours.sun'];
+---
+<section id="hours-strip">
+  <div class="hours-inner">
+    <div class="hours-intro" data-reveal>
+      <span class="eyebrow" data-i18n="hours.eyebrow">Bienvenue</span>
+      <h2 data-i18n="hours.title">Horaires d'ouverture</h2>
+      <p data-i18n="hours.desc">Une table vous attend, midi et soir, sept jours sur sept. Réservez par téléphone&nbsp;:</p>
+      <a href={phoneHref} class="hours-phone">{phone}</a>
+    </div>
+    <ul class="hours-list" data-reveal data-reveal-delay="0.1">
+      {openingHours.map((o, i) => (
+        <li>
+          <span data-i18n={dayKeys[i]}>{o.day}</span>
+          <span>{o.hours}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

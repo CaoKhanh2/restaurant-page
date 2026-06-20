@@ -1,0 +1,22 @@
+---
+import { url } from '../../scripts/utils/url.js';
+// Teaser "Une histoire de famille" — story card 2 cột (ảnh + chữ).
+---
+<section id="about">
+  <div class="about-story">
+    <div class="about-story-media" data-reveal>
+      <img src="/images/image2.png" alt="Ambiance du restaurant Les 4 Saisons" loading="lazy" />
+    </div>
+    <div class="about-story-text" data-reveal data-reveal-delay="0.1">
+      <span class="eyebrow" data-i18n="about.eyebrow">Notre histoire</span>
+      <h2 data-i18n="about.title">Une histoire de famille</h2>
+      <p data-i18n="about.desc">
+        Après être arrivés de Hong Kong en 1991, les frères Chung ont travaillé
+        quelques années dans plusieurs restaurants chinois de la région genevoise
+        avant d'ouvrir leur propre établissement. C'est en 1996 que l'histoire du
+        restaurant Les 4 Saisons commence…
+      </p>
+      <a href={url('/about')} class="btn btn-dark" data-i18n="about.btn">Plus sur Les 4 Saisons</a>
+    </div>
+  </div>
+</section>
