@@ -1,15 +1,26 @@
-# MODIFIED: Translated comments to English for clarity and convention.
-
-# Environment file containing sensitive information
-# Specify the path from the git root to the .env file
-backend/.env
-
-# Ignore the entire node_modules directory containing libraries
-backend/node_modules
-
-# OS-generated log and temporary files
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
+# build output
+dist/
+# astro
+.astro/
+# deps
+node_modules/
+# local npm config (proxy TLS workaround — không đưa lên repo/CI)
+.npmrc
+# os / editor
 .DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
+.env
+.env.production
+
+# ai
+.claude
+
+# server seed script — one-time use, delete after running
+server/seed.php
+# backend secrets & runtime — đặt thủ công trên server, KHÔNG commit
+server/config/db.php
+server/uploads/
+# deploy artifact zip
+*.zip

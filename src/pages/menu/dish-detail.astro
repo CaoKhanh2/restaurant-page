@@ -1,0 +1,41 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { url } from '../../scripts/utils/url.js';
+import '../../styles/pages/dish-detail.css';
+---
+<Layout title="Détails du Plat - Restaurant Les 4 Saisons" description="Détails du plat — Restaurant Les 4 Saisons.">
+  <section id="dish-detail-section">
+    <div class="dish-detail-container" data-reveal>
+      <div class="dish-image">
+        <img id="dish-img" src="" alt="Image du plat" />
+      </div>
+      <div class="dish-info">
+        <h1 id="dish-name">Nom du Plat</h1>
+        <p id="dish-description">Description du plat…</p>
+        <div class="dish-price" id="dish-price">--.--</div>
+        <a href={url('/menu')} class="btn"><i class="fas fa-arrow-left"></i> Retour au Menu</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  // Port js/dish-detail.js — đọc query param, đổ nội dung. Path ảnh tuyệt đối (không prefix ../).
+  const params = new URLSearchParams(location.search);
+  const name = params.get('name');
+  let image = params.get('image');
+  const description = params.get('description');
+  const price = params.get('price');
+
+  if (image && image.includes('placeholder')) image = '/images/image-bientot-disponible.svg';
+
+  if (name) {
+    document.getElementById('dish-name').textContent = name;
+    document.title = `${name} - Restaurant Les 4 Saisons`;
+  }
+  const img = document.getElementById('dish-img');
+  if (image) { img.src = image; img.alt = `Image de ${name || 'plat'}`; }
+  document.getElementById('dish-description').textContent =
+    description || 'Aucune description disponible pour ce plat.';
+  if (price) document.getElementById('dish-price').textContent = `${price}.-`;
+</script>

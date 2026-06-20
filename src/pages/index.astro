@@ -1,0 +1,22 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/sections/Hero.astro';
+import HoursStrip from '../components/sections/HoursStrip.astro';
+import SliderMenu from '../components/ui/SliderMenu.astro';
+import Takeaway from '../components/sections/Takeaway.astro';
+import AboutTeaser from '../components/sections/AboutTeaser.astro';
+import Gallery from '../components/ui/Gallery.astro';
+import '../styles/pages/home.css';
+---
+<Layout
+  title="Restaurant Les 4 Saisons - La vrai cuisine Chinois"
+  description="Restaurant Les 4 Saisons à Genève - Découvrez les saveurs authentiques de la cuisine chinoise de Hong Kong. Menu varié, ambiance chaleureuse. Appelez pour réserver !"
+  lang="fr"
+>
+  <Hero />
+  <HoursStrip />
+  <SliderMenu />
+  <Takeaway />
+  <AboutTeaser />
+  <Gallery />
+</Layout>

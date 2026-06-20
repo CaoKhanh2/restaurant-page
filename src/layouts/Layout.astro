@@ -1,0 +1,109 @@
+---
+import '../styles/global/base.css';
+import Preloader from '../components/ui/Preloader.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+
+const {
+  title = 'Restaurant Les 4 Saisons - La vrai cuisine Chinois',
+  description = "Restaurant Les 4 Saisons à Genève - Découvrez les saveurs authentiques de la cuisine chinoise de Hong Kong. Menu varié, ambiance chaleureuse. Appelez pour réserver !",
+  lang = 'fr',
+  bodyClass = '',
+} = Astro.props;
+
+// JSON-LD Restaurant schema (port từ js/schema-loader.js cũ)
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Restaurant',
+  name: 'Restaurant Les 4 Saisons',
+  image: 'https://les-4saisonsgeneve.ch/images/logo-transparent.png',
+  telephone: '+41227005067',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Rue Henri-Blanvalet 3',
+    addressLocality: 'Genève',
+    postalCode: '1207',
+    addressCountry: 'CH',
+  },
+  servesCuisine: 'Chinoise',
+  openingHoursSpecification: [
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'], opens: '11:30', closes: '14:30' },
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'], opens: '18:30', closes: '22:30' },
+  ],
+};
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+
+    <!-- Set theme + lang + has-js trước khi paint (chống FOUC) -->
+    <script is:inline>
+      (function () {
+        var d = document.documentElement;
+        var t = 'dark';
+        try { t = localStorage.getItem('theme') || 'dark'; } catch (e) {}
+        d.setAttribute('data-theme', t);
+        d.classList.add('has-js');
+        // Áp dụng ngôn ngữ trước paint để tránh flash nội dung FR khi người dùng chọn EN
+        var l = 'fr';
+        try { l = localStorage.getItem('lang') || 'fr'; } catch (e) {}
+        d.setAttribute('lang', l);
+      })();
+    </script>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon_io/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon_io/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon_io/favicon-16x16.png" />
+    <link rel="manifest" href="/images/favicon_io/site.webmanifest" />
+    <link rel="shortcut icon" href="/images/favicon_io/favicon.ico" />
+    <meta name="msapplication-TileColor" content="#b3121b" />
+    <meta name="theme-color" content="#17120f" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Roboto:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  </head>
+
+  <body class={bodyClass}>
+    <Preloader />
+    <div id="scroll-progress"></div>
+    <Header />
+
+    <main>
+      <slot />
+    </main>
+
+    <Footer />
+    <a href="#" id="back-to-top" aria-label="Remonter en haut"><i class="fas fa-arrow-up"></i></a>
+
+    <script>
+      import '../scripts/core/main.js';
+    </script>
+
+    <!-- Analytics: log page visit to MySQL -->
+    <script is:inline>
+      (function() {
+        try {
+          navigator.sendBeacon('/api/analytics.php', JSON.stringify({
+            page:     location.pathname,
+            referrer: document.referrer || '',
+          }));
+        } catch(e) {}
+      })();
+    </script>
+  </body>
+</html>

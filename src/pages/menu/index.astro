@@ -1,0 +1,185 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import '../../styles/pages/menu.css';
+
+const setMenus = [
+  { title: 'Menu végétarien', condition: 'Au minimum pour 2 personnes', price: '41.- / pers.', items: ['Potage pékinois piquant 🌶️','Rouleaux de printemps aux légumes','Légumes sautés aux champignons chinois','Tofu au curry rouge','Riz ou nouilles sautées au choix','Dessert au choix'] },
+  { title: 'Menu 1', condition: 'Au minimum pour 2 personnes', price: '41.- / pers.', items: ['Potage pékinois piquant 🌶️','Rouleaux de printemps aux légumes','Poulet sauté Sichuan piquant 🌶️','Crevettes sur ardoise','Riz ou nouilles sautées au choix','Dessert au choix'] },
+  { title: 'Menu 3', condition: 'Au minimum pour 2 personnes', price: '60.- / pers.', items: ['Potage pékinois piquant 🌶️','Rouleaux de printemps vietnamiens «Nems»','Crevettes à la sauce aigre-douce','Magret de canard sur ardoise','Poulet sauté aux légumes','Riz ou nouilles sautées au choix','Dessert au choix'] },
+  { title: 'Menu spécial «Canard Laqué»', condition: 'Au minimum pour 2 personnes', price: '60.- / pers.', items: ['Potage aux fruits de mer','Peau de canard croustillante avec crêpes','Canard sauté aux pousses de soja','Riz ou nouilles sautées au choix','Dessert au choix'] },
+];
+---
+<Layout
+  title="La Carte Des Mets - Restaurant Les 4 Saisons"
+  description="Découvrez notre carte et nos menus spéciaux au restaurant Les 4 Saisons, des célèbres Dim Sum au Canard laqué de Pékin et aux spécialités sichuanaises."
+>
+  <section id="full-menu-page">
+    <div class="menu-header" data-reveal>
+      <span class="subtitle" data-i18n="menu.subtitle">Menu</span>
+      <h1 data-i18n="menu.title">Découvrez nos plats</h1>
+      <div class="decorator">◆</div>
+      <div class="menu-legend">
+        <span class="leg"><span class="ico">🌶️</span><span data-i18n="menu.legend.spicy">Épicé</span></span>
+        <span class="leg"><span class="ico">🌱</span><span data-i18n="menu.legend.veg">Végétarien</span></span>
+      </div>
+    </div>
+
+    <!-- Thanh tab danh mục (sticky) — populated by JS -->
+    <nav class="menu-tabs" aria-label="Catégories du menu">
+      <div class="menu-tabs-inner" id="menu-tabs-inner">
+        <button class="menu-tab active" type="button" data-target="cat-menus" data-i18n="menu.tab.formules">Formules</button>
+      </div>
+    </nav>
+
+    <!-- Formules (set menus) — static -->
+    <section id="cat-menus" class="carte-section" data-reveal>
+      <div class="carte-section-head">
+        <div class="carte-section-titles">
+          <h2 data-i18n="menu.formules.title">Nos Formules</h2>
+          <p class="carte-section-sub" data-i18n="menu.formules.sub">Choisissez une formule, ou composez à la carte.</p>
+        </div>
+      </div>
+      <div class="set-menus-container">
+        {setMenus.map((m) => (
+          <div class="set-menu-card">
+            <h3>{m.title}</h3>
+            <p class="condition">{m.condition}</p>
+            <ul>{m.items.map((it) => <li>{it}</li>)}</ul>
+            <div class="price">{m.price}</div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- À la carte sections — populated dynamically from /api/menu.php -->
+    <div id="carte-sections">
+      <p style="text-align:center;padding:40px;color:#888">Chargement du menu…</p>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  import { url } from '../../scripts/utils/url.js';
+
+  const tabsInner   = document.getElementById('menu-tabs-inner');
+  const carteEl     = document.getElementById('carte-sections');
+  const catIcons    = { potages: 'potages', entrees: 'entrees', dimsum: 'dimsum', poulet: 'poulet', boeuf: 'boeuf' };
+
+  const isPlaceholder = (img) => !img || img.includes('placeholder');
+  const isSpicy       = (name) => name.includes('🌶');
+  const cleanName     = (name) => name.replace(/🌶️/g, '').replace(/🌶/g, '').trim();
+  const splitFrEn     = (t) => { const i = t.indexOf('/'); return i === -1 ? { fr: t.trim(), en: '' } : { fr: t.slice(0, i).trim(), en: t.slice(i + 1).trim() }; };
+
+  const dishHref = (d) =>
+    url('/menu/dish-detail', '?' +
+    new URLSearchParams({ name: d.name_fr, image: d.image_path || '', description: d.description_fr || '', price: d.price }).toString());
+
+  const centerTab = (t) => {
+    if (!tabsInner) return;
+    tabsInner.scrollTo({ left: Math.max(0, t.offsetLeft - (tabsInner.clientWidth - t.clientWidth) / 2), behavior: 'smooth' });
+  };
+
+  const setActive = (id) => {
+    tabsInner.querySelectorAll('.menu-tab').forEach((t) => {
+      const on = t.dataset.target === id;
+      t.classList.toggle('active', on);
+      if (on) centerTab(t);
+    });
+  };
+
+  function bindTabs() {
+    tabsInner.querySelectorAll('.menu-tab').forEach((t) => {
+      t.addEventListener('click', () => {
+        const el = document.getElementById(t.dataset.target);
+        if (!el) return;
+        if (window.__lenis) window.__lenis.scrollTo(el, { offset: -118, duration: 1.1 });
+        else { const y = el.getBoundingClientRect().top + window.pageYOffset - 118; window.scrollTo({ top: y, behavior: 'smooth' }); }
+      });
+    });
+  }
+
+  function initObserver(sections) {
+    if (!('IntersectionObserver' in window) || !sections.length) return;
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) setActive(e.target.id); });
+    }, { rootMargin: '-130px 0px -65% 0px', threshold: 0 });
+    sections.forEach((s) => obs.observe(s));
+  }
+
+  async function loadMenu() {
+    try {
+      const res  = await fetch('/api/menu.php');
+      const data = await res.json();
+      const cats = data.categories ?? [];
+
+      // Build tab buttons (skip the static "Formules" tab already in DOM)
+      cats.forEach((cat) => {
+        const { fr } = splitFrEn(cat.title_fr);
+        const btn = document.createElement('button');
+        btn.className  = 'menu-tab';
+        btn.type       = 'button';
+        btn.dataset.target = `cat-${cat.key}`;
+        btn.textContent = fr;
+        tabsInner.appendChild(btn);
+      });
+
+      // Build à la carte sections
+      carteEl.innerHTML = cats.map((cat) => {
+        const { fr, en } = splitFrEn(cat.title_fr);
+        const icon = catIcons[cat.key];
+        const veg  = cat.key === 'vegetariens';
+
+        const dishCards = (cat.dishes || []).map((d) => {
+          const spicy = isSpicy(d.name_fr);
+          const tags  = (spicy || veg) ? `
+            <div class="carte-card-tags">
+              ${spicy ? '<span class="carte-tag spicy"><span class="ico">🌶️</span>Épicé</span>' : ''}
+              ${veg   ? '<span class="carte-tag veg"><span class="ico">🌱</span>Végé</span>'    : ''}
+            </div>` : '';
+          const media = isPlaceholder(d.image_path)
+            ? '<div class="carte-card-fallback"><i class="fa-solid fa-bowl-food"></i><span>Les 4 Saisons</span></div>'
+            : `<img src="${d.image_path}" alt="${cleanName(d.name_fr)}" loading="lazy">`;
+          const badge = d.is_featured ? '<span class="carte-badge">Signature</span>' : '';
+          return `
+            <a class="carte-card${d.is_featured ? ' is-featured' : ''}" href="${dishHref(d)}">
+              <div class="carte-card-media">${media}${badge}</div>
+              <div class="carte-card-body">
+                ${tags}
+                <h3 class="carte-card-name">${cleanName(d.name_fr)}</h3>
+                ${d.name_en ? `<span class="carte-card-tr">${d.name_en}</span>` : ''}
+                <span class="carte-card-price">${parseFloat(d.price).toFixed(0)}.-</span>
+              </div>
+            </a>`;
+        }).join('');
+
+        const iconHtml = icon ? `
+          <picture class="carte-cat-icon">
+            <source srcset="/icon/icon-${icon}-new.webp" type="image/webp">
+            <img src="/icon/icon-${icon}-new.jpg" alt="" width="56" height="56" loading="lazy">
+          </picture>` : '';
+
+        return `
+          <section id="cat-${cat.key}" class="carte-section" data-reveal>
+            <div class="carte-section-head">
+              ${iconHtml}
+              <div class="carte-section-titles">
+                <h2>${fr}</h2>
+                ${en ? `<span class="carte-section-sub">${en}</span>` : ''}
+              </div>
+            </div>
+            <div class="carte-grid">${dishCards || '<p style="text-align:center">Aucun plat disponible.</p>'}</div>
+          </section>`;
+      }).join('');
+
+      bindTabs();
+      initObserver(Array.from(carteEl.querySelectorAll('section')));
+    } catch (e) {
+      carteEl.innerHTML = '<p style="text-align:center;padding:40px">Impossible de charger le menu.</p>';
+    }
+  }
+
+  // Bind the static "Formules" tab first
+  bindTabs();
+  initObserver([document.getElementById('cat-menus')].filter(Boolean));
+  loadMenu();
+</script>
