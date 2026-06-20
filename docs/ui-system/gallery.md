@@ -7,6 +7,7 @@
 ## Tổng quan
 - Lưới masonry (CSS grid, `grid-auto-flow: dense`, vài ô span 2 hàng/cột qua `:nth-child(5n/7n)`).
 - **Lightbox vanilla** (không thêm lib): bấm ảnh → xem full màn hình.
+- **Dữ liệu hybrid:** ảnh render **tĩnh build-time**, rồi tự nâng cấp từ **`/api/gallery.php`** nếu DB sống (lỗi → giữ tĩnh). Lightbox tự gắn lại sau khi thay ảnh. Xem [menu-data.md](../architecture/menu-data.md).
 
 ---
 

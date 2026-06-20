@@ -1,0 +1,31 @@
+name: CI — Build & PHP Check
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [develop]
+
+jobs:
+  build-check:
+    name: Build & Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm ci || npm install
+
+      - name: Build Astro (verify no errors)
+        run: npm run build
+
+      - name: PHP syntax check
+        run: |
+          find server -name '*.php' \
+            ! -path '*/config/db.php' \
+            ! -name 'seed.php' \
+            | xargs -r php -l

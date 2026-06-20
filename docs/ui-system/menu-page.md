@@ -1,9 +1,11 @@
 # 🍽️ Trang Menu — Layout & cách hoạt động
 
-**File:** `src/pages/menu.astro` + `src/styles/menu.css`
+**File:** `src/pages/menu/index.astro` + `src/styles/pages/menu.css`
 
 > Mục tiêu redesign: trước đây 12 nhóm / ~60 món xếp **2 cột rối mắt, không điều hướng** → khó đọc/chọn.
 > Nay: **tab dính + mỗi danh mục 1 section + card mỗi món**.
+
+> **Dữ liệu hybrid:** card render **tĩnh build-time** từ `menu.js` (SEO + fallback), rồi tự nâng cấp từ **`/api/menu.php`** nếu DB sống (thay innerHTML từng `.carte-grid`; lỗi → giữ tĩnh). Xem [menu-data.md](../architecture/menu-data.md).
 
 ---
 

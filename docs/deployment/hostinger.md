@@ -31,7 +31,7 @@ Mở **hPanel → File Manager** (hoặc dùng FTP/SFTP):
 2. **Xoá nội dung cũ** trong `public_html/` (sao lưu trước nếu cần)
 3. Upload **toàn bộ nội dung BÊN TRONG `dist/`** vào `public_html/`:
    - `index.html`, `menu.html`, `about.html`, `gallery.html`
-   - Thư mục: `sub-page/`, `images/`, `icon/`, `_astro/`
+   - Thư mục: `menu/`, `images/`, `icon/`, `_astro/` (+ `api/`, `admin/`, `config/`, `uploads/` nếu deploy kèm backend)
    - File: `.htaccess`, `404.html`
 
 > ⚠️ Upload **ruột** của `dist/`, **KHÔNG** upload nguyên thư mục `dist` rồi để file nằm trong `public_html/dist/`.
@@ -83,8 +83,8 @@ git push origin main
 
 - [ ] Trang chủ load: preloader chạy gọn → hero Ken Burns + chữ hiện theo lớp
 - [ ] `/menu.html`, `/gallery.html`, `/about.html` hiển thị đúng tông ấm
-- [ ] Bấm 1 món ở menu → mở `/sub-page/dish-detail.html?...` đúng nội dung
-- [ ] Slider "La carte des mets" → bấm category mở `/sub-page/category.html?category=...` ra danh sách món
+- [ ] Bấm 1 món ở menu → mở `/menu/dish-detail.html?...` đúng nội dung
+- [ ] Slider "La carte des mets" → bấm category mở `/menu/category.html?category=...` ra danh sách món
 - [ ] Nút chuyển dark/light hoạt động, lưu lựa chọn
 - [ ] Mở trên điện thoại: menu hamburger, layout không vỡ
 - [ ] Gõ URL sai → ra trang 404 đẹp (nhờ `.htaccess`)

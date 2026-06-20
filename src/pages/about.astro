@@ -48,6 +48,10 @@ import '../styles/pages/about.css';
           Une erreur s'est produite. Veuillez réessayer ou nous appeler.
         </div>
         <form id="reservationForm">
+          <!-- Honeypot anti-spam — ẩn với người thật, đừng điền -->
+          <div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden">
+            <label>Ne pas remplir<input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+          </div>
           <div class="form-row">
             <input type="text" name="nom" placeholder="Nom" data-i18n="about.form.nom" required />
             <input type="text" name="prenom" placeholder="Prénom" data-i18n="about.form.prenom" required />
@@ -78,6 +82,7 @@ import '../styles/pages/about.css';
   const form       = document.getElementById('reservationForm');
   const successEl  = document.getElementById('form-success');
   const errorEl    = document.getElementById('form-error');
+  const formLoaded = Date.now();   // cho time-trap chống bot
 
   if (form) {
     form.addEventListener('submit', async (e) => {
@@ -94,6 +99,8 @@ import '../styles/pages/about.css';
         message:          fd.get('message'),
         reservation_date: fd.get('reservation_date') || null,
         nb_personnes:     fd.get('nb_personnes')     || null,
+        website:          fd.get('website') || '',        // honeypot (phải rỗng)
+        form_time:        Date.now() - formLoaded,        // time-trap (ms)
       };
 
       try {
@@ -106,6 +113,9 @@ import '../styles/pages/about.css';
           successEl.style.display = 'block';
           form.reset();
         } else {
+          if (res.status === 429) {
+            errorEl.textContent = 'Trop de demandes. Veuillez réessayer plus tard ou nous appeler.';
+          }
           errorEl.style.display = 'block';
         }
       } catch {
