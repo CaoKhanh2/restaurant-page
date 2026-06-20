@@ -28,7 +28,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22   # Astro 6 yêu cầu Node >= 22.12
 
       # npm ci nếu có package-lock; không thì fallback npm install.
       # Runner GitHub sạch (không proxy) nên KHÔNG cần .npmrc strict-ssl=false.
