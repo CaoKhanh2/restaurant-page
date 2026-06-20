@@ -17,20 +17,193 @@ const cats = sliderCategories.map((c) => {
   const [path, query] = c.href.split('?');
   return { ...c, href: url(path, query ? '?' + query : ''), i18nKey: labelKeys[c.icon] };
 });
+
+// Create 3 identical sets for the infinite circle loop effect
+const infiniteCats = [...cats, ...cats, ...cats];
 ---
-<section id="menu-slider-section" data-reveal>
-  <h2 data-i18n="slider.title">La carte des mets</h2>
-  <div class="menu-scroll-container">
-    <div class="menu-categories">
-      {cats.map((c) => (
-        <a href={c.href} class="category">
-          <picture>
-            <source srcset={`/icon/icon-${c.icon}-new.webp`} type="image/webp" />
-            <img src={`/icon/icon-${c.icon}-new.jpg`} alt={c.label} width="70" height="70" loading="lazy" />
-          </picture>
-          <span data-i18n={c.i18nKey}>{c.label}</span>
-        </a>
-      ))}
+<section id="menu-slider-section">
+  <h2 data-i18n="slider.title" data-reveal>La carte des mets</h2>
+  <div class="slider-wrapper" data-reveal>
+    <button class="slider-btn prev-btn" aria-label="Previous">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    
+    <div class="menu-scroll-container">
+      <div class="menu-categories">
+        {infiniteCats.map((c, index) => (
+          <a href={c.href} class="category" data-index={index}>
+            <picture>
+              <source srcset={`/icon/icon-${c.icon}-new.webp`} type="image/webp" />
+              <img src={`/icon/icon-${c.icon}-new.jpg`} alt={c.label} width="70" height="70" loading="lazy" />
+            </picture>
+            <span data-i18n={c.i18nKey}>{c.label}</span>
+          </a>
+        ))}
+      </div>
     </div>
+
+    <button class="slider-btn next-btn" aria-label="Next">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
   </div>
 </section>
+
+<style>
+  .slider-wrapper {
+    position: relative;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 40px; /* Space for the buttons */
+  }
+  
+  .slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(23, 18, 15, 0.85);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5), 0 0 0 0 rgba(201, 162, 75, 0.6);
+    animation: pulseGlow 3s infinite ease-in-out;
+  }
+  
+  .slider-btn svg {
+    transition: transform 0.3s ease;
+  }
+
+  .slider-btn:hover {
+    background: linear-gradient(135deg, var(--gold), var(--gold-bright, #e3c178));
+    border-color: transparent;
+    color: #17120f;
+    transform: translateY(-50%) scale(1.15);
+    box-shadow: 0 10px 28px rgba(227, 193, 120, 0.5), 0 0 20px rgba(201, 162, 75, 0.4);
+    animation: none; /* Stop pulsing on hover */
+  }
+
+  /* Bouncy arrow on hover */
+  .prev-btn:hover svg {
+    animation: bounceLeft 1s infinite ease-in-out;
+  }
+  .next-btn:hover svg {
+    animation: bounceRight 1s infinite ease-in-out;
+  }
+
+  @keyframes pulseGlow {
+    0% { box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5), 0 0 0 0 rgba(201, 162, 75, 0.4); }
+    50% { box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5), 0 0 0 10px rgba(201, 162, 75, 0); }
+    100% { box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5), 0 0 0 0 rgba(201, 162, 75, 0); }
+  }
+  
+  @keyframes bounceLeft {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(-4px); }
+  }
+  
+  @keyframes bounceRight {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(4px); }
+  }
+
+  .prev-btn { left: 0; }
+  .next-btn { right: 0; }
+  
+  /* Hide scrollbar completely since we have arrows and drag */
+  .menu-scroll-container::-webkit-scrollbar { display: none; }
+  .menu-scroll-container {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  @media (max-width: 768px) {
+    .slider-btn { display: none; } /* Hide on mobile, users can swipe naturally */
+    .slider-wrapper { padding: 0; }
+  }
+</style>
+
+<script>
+  // Add drag-to-scroll and infinite circle loop functionality
+  const slider = document.querySelector('.menu-scroll-container');
+  const container = document.querySelector('.menu-categories');
+  const prevBtn = document.querySelector('.prev-btn');
+  const nextBtn = document.querySelector('.next-btn');
+  
+  // Wait a brief moment for layout to complete before calculating widths
+  setTimeout(() => {
+    if (slider && container && container.children.length >= 18) {
+      let isDown = false;
+      let startX;
+      let scrollLeft;
+      
+      // The exact width of one original set of 6 items (including gap)
+      const getSetWidth = () => {
+        return container.children[6].offsetLeft - container.children[0].offsetLeft;
+      };
+
+      // Start the user in the middle set (set 2 of 3)
+      slider.scrollLeft = getSetWidth();
+
+      // Seamless infinite scroll snapping
+      let scrollTimeout;
+      slider.addEventListener('scroll', () => {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+          const setWidth = getSetWidth();
+          // If we scrolled deep into the 3rd set, silently snap back to the 2nd set
+          if (slider.scrollLeft >= setWidth * 2 - 100) {
+            slider.scrollLeft -= setWidth;
+          } 
+          // If we scrolled backwards into the 1st set, silently snap forward to the 2nd set
+          else if (slider.scrollLeft <= 100) {
+            slider.scrollLeft += setWidth;
+          }
+        }, 150); // wait until scroll momentum completely finishes
+      });
+
+      // Button clicks
+      if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+          slider.scrollBy({ left: -300, behavior: 'smooth' });
+        });
+      }
+      if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+          slider.scrollBy({ left: 300, behavior: 'smooth' });
+        });
+      }
+
+      // Drag to scroll
+      slider.addEventListener('mousedown', (e) => {
+        isDown = true;
+        startX = e.pageX - slider.offsetLeft;
+        scrollLeft = slider.scrollLeft;
+      });
+      
+      slider.addEventListener('mouseleave', () => {
+        isDown = false;
+      });
+      
+      slider.addEventListener('mouseup', () => {
+        isDown = false;
+      });
+      
+      slider.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - slider.offsetLeft;
+        const walk = (x - startX) * 2; // scroll speed multiplier
+        slider.scrollLeft = scrollLeft - walk;
+      });
+    }
+  }, 100);
+</script>
