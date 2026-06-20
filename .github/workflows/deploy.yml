@@ -1,128 +1,21 @@
-name: Build & Deploy (main → deploy branch → Hostinger)
-
-# Luồng:
-#   1. push main  → job `build` chạy: Astro build + PHP lint + upload artifact
-#   2. job `deploy` chờ approval từ GitHub Environment "production"
-#   3. Sau khi approve → assemble PHP + db.php từ secret → push branch `deploy` → Hostinger pull
-
+name: Deploy to Hostinger
 on:
   push:
     branches: [main]
-  workflow_dispatch: {}
-
-permissions:
-  contents: write
-
-concurrency:
-  group: deploy
-  cancel-in-progress: true
-
 jobs:
-  # ─── Phase 1: Build & Verify ──────────────────────────────────
-  build:
-    name: Build & Verify
+  build-deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: npm ci
+      - run: npm run build
+      - name: Upload via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          node-version: 22
-
-      - name: Install dependencies
-        run: npm ci || npm install
-
-      - name: Build Astro
-        run: npm run build
-
-      - name: PHP syntax check
-        run: |
-          find server -name '*.php' \
-            ! -path '*/config/db.php' \
-            ! -name 'seed.php' \
-            | xargs -r php -l
-
-      - name: Upload dist artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: dist-${{ github.sha }}
-          path: dist/
-          retention-days: 1
-
-  # ─── Phase 2: Deploy (chờ approval tại GitHub Environment) ───
-  deploy:
-    name: Deploy to Production
-    needs: build
-    runs-on: ubuntu-latest
-    environment: production        # ← dừng tại đây, chờ reviewer approve
-    env:
-      HOOK: ${{ secrets.HOSTINGER_DEPLOY_HOOK }}
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Download build artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: dist-${{ github.sha }}
-          path: dist/
-
-      - name: Generate db.php from secret
-        env:
-          DB_PASS: ${{ secrets.DB_PASS }}
-        run: |
-          mkdir -p server/config
-          cat > server/config/db.php << 'HEREDOC'
-<?php
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'u444601569_restaurant');
-define('DB_USER', 'u444601569_dbadmin');
-HEREDOC
-          printf "define('DB_PASS', '%s');\n" "${DB_PASS}" >> server/config/db.php
-          cat >> server/config/db.php << 'HEREDOC'
-define('DB_CHARSET', 'utf8mb4');
-
-function getDB(): PDO {
-    static $pdo = null;
-    if ($pdo === null) {
-        $pdo = new PDO(
-            sprintf('mysql:host=%s;dbname=%s;charset=%s', DB_HOST, DB_NAME, DB_CHARSET),
-            DB_USER,
-            DB_PASS,
-            [
-                PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                PDO::ATTR_EMULATE_PREPARES   => false,
-            ]
-        );
-    }
-    return $pdo;
-}
-HEREDOC
-
-      - name: Assemble backend PHP into dist/
-        run: |
-          if [ -d server/api ]; then
-            mkdir -p dist/api && cp -r server/api/. dist/api/
-          fi
-          if [ -d server/admin ]; then
-            mkdir -p dist/admin && cp -r server/admin/. dist/admin/
-          fi
-          mkdir -p dist/config
-          cp server/config/db.php dist/config/db.php
-          printf 'Deny from all\n' > dist/config/.htaccess
-          mkdir -p dist/uploads/gallery dist/uploads/menu
-          printf 'php_flag engine off\nOptions -Indexes\n' > dist/uploads/.htaccess
-          rm -f dist/api/seed.php dist/admin/seed.php 2>/dev/null || true
-          echo "Backend assembled: api/ admin/ config/ uploads/ → dist/"
-
-      - name: Publish dist/ to deploy branch
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
-          publish_branch: deploy
-          commit_message: "deploy: ${{ github.sha }}"
-
-      - name: Trigger Hostinger auto-deploy
-        if: env.HOOK != ''
-        run: curl -fsSL -X POST "$HOOK" || echo "Webhook failed — Hostinger will pull on schedule."
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./dist/
+          server-dir: ./public_html/
