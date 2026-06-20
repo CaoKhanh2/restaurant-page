@@ -7,7 +7,7 @@
 | Tác vụ | Cách làm đúng |
 |---|---|
 | **Thêm trang mới** | Tạo `src/pages/<tên>.astro`, bọc trong `<Layout>`, import CSS riêng nếu cần. Route = tên file + `.html` |
-| **Thêm internal link** | **Bọc qua `url()`** (`src/utils/url.js`) — vd `href={url('/menu')}`. Hardcode `.html` sẽ **404 ở dev**. Xem [routing.md](../architecture/routing.md) |
+| **Thêm internal link** | **Bọc qua `url()`** (`src/scripts/utils/url.js`) — vd `href={url('/menu')}`. Hardcode `.html` sẽ **404 ở dev**. Xem [routing.md](../architecture/routing.md) |
 | **Thêm chuỗi dịch** | Gắn `data-i18n="key"` + thêm key vào `src/scripts/i18n.js` (FR & EN). Xem [i18n.md](../ui-system/i18n.md) |
 | **Thêm màu mới** | Dùng token trong `base.css`, **không hardcode hex** |
 | **Animate khi scroll** | Thêm `data-reveal` / `data-reveal-stagger` vào element — không cần viết JS |

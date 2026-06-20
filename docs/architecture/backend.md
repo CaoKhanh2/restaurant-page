@@ -49,7 +49,50 @@ Hostinger GIT auto-deploy phải dùng **`git pull`/merge** (giữ file untracke
 ---
 
 ## Bảo mật — bắt buộc
-- `server/config/db.php` **phải gitignore** (đừng đẩy mật khẩu lên repo).
+- `server/config/db.php` **phải gitignore** (đừng đẩy mật khẩu lên repo). Khi deploy, CI **sinh `db.php` từ secret `DB_PASS`** (`deploy.yml`) — không commit mật khẩu.
 - `seed.php` **không** để sót trên server sau khi seed.
 - Đổi mật khẩu admin mặc định ngay.
 - API admin (`server/admin/api/`) phải kiểm tra `auth.php` (session/token) trước mọi thao tác ghi.
+
+---
+
+## 🔌 API endpoints
+| Endpoint | Mô tả |
+|---|---|
+| `GET /api/menu.php` | `{ categories:[{key,title_fr,title_en,dishes:[{name_fr,name_en,price,description_fr,image_path,is_featured}]}] }` |
+| `GET /api/menu.php?category=KEY` | `{ dishes:[...] }` |
+| `GET /api/gallery.php` | `{ images:[{image_path,alt_text,display_order}] }` |
+| `POST /api/reservations.php` | Tạo booking → `{success,id}` |
+| `POST /api/analytics.php` | Ghi lượt xem (204) |
+
+Frontend dùng theo mô hình **hybrid** (tĩnh + nâng cấp DB) — xem [menu-data.md](./menu-data.md).
+
+---
+
+## ✅ Kiểm tra DB đã kết nối chưa
+Không test được từ máy dev (DB ở remote). Cách verify trên Hostinger:
+1. **Nhanh nhất:** mở `https://les-4saisonsgeneve.ch/api/menu.php`:
+   - Ra JSON `{"categories":[…]}` có dữ liệu → ✅ DB OK + đã seed.
+   - Lỗi 500 / `SQLSTATE…` → ❌ sai credential / DB name / chưa có bảng → kiểm `config/db.php` + schema.
+   - 404 → backend **chưa deploy** (chưa có file `/api/menu.php`).
+2. **phpMyAdmin** (hPanel): mở DB `u444601569_restaurant` → đủ 5+ bảng (categories, dishes, gallery, reservations, analytics) + có dữ liệu seed?
+3. Tạm tạo `server/dbtest.php` gọi `getDB()` báo OK/lỗi → mở URL → **xoá ngay**.
+
+---
+
+## 🛡️ Chống spam / quá tải
+
+### ✅ `reservations.php` — ĐÃ thêm (2026-06-20)
+- **Honeypot** field ẩn `website` → bot điền thì **giả thành công, không lưu**.
+- **Time-trap**: submit < 2s sau khi mở form → bỏ (qua `form_time` frontend gửi).
+- **Rate-limit per IP**: ≤ **5 lần/giờ** (file-based + `flock` ở `sys_get_temp_dir()`) → trả **`429`**.
+- **Giới hạn độ dài** mọi field (nom/prenom 80, email 120, objet 150, message 2000) + payload thô **≤ 8KB**.
+- **CORS siết** về `les-4saisonsgeneve.ch` (bỏ `*`).
+- Frontend `about.astro`: thêm honeypot + `form_time`, hiển thị thông báo riêng khi `429`.
+
+### ⚠️ CÒN THIẾU
+| Endpoint | Cần thêm |
+|---|---|
+| `analytics.php` (POST) | **throttle** theo `ip_hash+page` (vd 1 lần/30 phút) hoặc sampling — hiện ghi DB **mỗi view** |
+| `menu.php` · `gallery.php` (GET) | CORS đang `*` (rủi ro thấp: read-only + cache 60s); cân nhắc server-cache nếu traffic lớn |
+| Chung | *(tuỳ chọn)* Cloudflare Turnstile/reCAPTCHA cho form; firewall/rate-limit ở Hostinger/Cloudflare |

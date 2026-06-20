@@ -1,44 +1,71 @@
-name: Build & Deploy (branch deploy → Hostinger)
+name: Build & Deploy (main → deploy branch → Hostinger)
 
-# Push lên main → tự build Astro → đẩy dist/ vào branch `deploy`.
-# Hostinger (GIT) phục vụ branch `deploy` → website cập nhật.
-# KHÔNG cần merge tay main→deploy nữa.
+# Luồng:
+#   1. push main  → job `build` chạy: Astro build + PHP lint + upload artifact
+#   2. job `deploy` chờ approval từ GitHub Environment "production"
+#   3. Sau khi approve → assemble PHP + db.php từ secret → push branch `deploy` → Hostinger pull
 
 on:
   push:
     branches: [main]
-  workflow_dispatch: {}          # cho phép bấm chạy tay trong tab Actions
+  workflow_dispatch: {}
 
 permissions:
-  contents: write                # để GITHUB_TOKEN đẩy được lên branch deploy
+  contents: write
 
 concurrency:
   group: deploy
   cancel-in-progress: true
 
 jobs:
-  build-deploy:
+  # ─── Phase 1: Build & Verify ──────────────────────────────────
+  build:
+    name: Build & Verify
     runs-on: ubuntu-latest
-    env:
-      HOOK: ${{ secrets.HOSTINGER_DEPLOY_HOOK }}   # (tuỳ chọn) webhook auto-deploy của Hostinger
     steps:
-      - name: Checkout main
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: 22   # Astro 6 yêu cầu Node >= 22.12
+          node-version: 22
 
-      # npm ci nếu có package-lock; không thì fallback npm install.
-      # Runner GitHub sạch (không proxy) nên KHÔNG cần .npmrc strict-ssl=false.
       - name: Install dependencies
         run: npm ci || npm install
 
-      - name: Build (Astro static → dist/)
+      - name: Build Astro
         run: npm run build
 
-      # Tạo db.php từ GitHub Secret — KHÔNG bao giờ commit file này vào git.
+      - name: PHP syntax check
+        run: |
+          find server -name '*.php' \
+            ! -path '*/config/db.php' \
+            ! -name 'seed.php' \
+            | xargs -r php -l
+
+      - name: Upload dist artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-${{ github.sha }}
+          path: dist/
+          retention-days: 1
+
+  # ─── Phase 2: Deploy (chờ approval tại GitHub Environment) ───
+  deploy:
+    name: Deploy to Production
+    needs: build
+    runs-on: ubuntu-latest
+    environment: production        # ← dừng tại đây, chờ reviewer approve
+    env:
+      HOOK: ${{ secrets.HOSTINGER_DEPLOY_HOOK }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-${{ github.sha }}
+          path: dist/
+
       - name: Generate db.php from secret
         env:
           DB_PASS: ${{ secrets.DB_PASS }}
@@ -72,8 +99,6 @@ function getDB(): PDO {
 }
 HEREDOC
 
-      # Gộp backend PHP vào output để Hostinger có /api + /admin + /config cùng site static.
-      # LOẠI TRỪ: uploads/ (ảnh runtime), seed.php & schema.sql (chạy 1 lần).
       - name: Assemble backend PHP into dist/
         run: |
           if [ -d server/api ]; then
@@ -82,27 +107,22 @@ HEREDOC
           if [ -d server/admin ]; then
             mkdir -p dist/admin && cp -r server/admin/. dist/admin/
           fi
-          # config/db.php được tạo từ secret ở bước trên — copy + bảo vệ bằng .htaccess
           mkdir -p dist/config
           cp server/config/db.php dist/config/db.php
           printf 'Deny from all\n' > dist/config/.htaccess
-          # uploads/ để Hostinger tự quản lý (ảnh do user upload không đưa vào git)
           mkdir -p dist/uploads/gallery dist/uploads/menu
           printf 'php_flag engine off\nOptions -Indexes\n' > dist/uploads/.htaccess
-          # Dọn thứ không được phép lộ ra public
           rm -f dist/api/seed.php dist/admin/seed.php 2>/dev/null || true
           echo "Backend assembled: api/ admin/ config/ uploads/ → dist/"
 
-      - name: Publish dist/ to `deploy` branch
+      - name: Publish dist/ to deploy branch
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
           publish_branch: deploy
           commit_message: "deploy: ${{ github.sha }}"
-          # Giữ history tuyến tính (không force_orphan) để Hostinger git pull fast-forward.
 
-      # (Tuỳ chọn) báo Hostinger pull ngay — chỉ chạy nếu đã khai báo secret HOSTINGER_DEPLOY_HOOK
       - name: Trigger Hostinger auto-deploy
         if: env.HOOK != ''
-        run: curl -fsSL -X POST "$HOOK" || echo "Gọi webhook thất bại — bỏ qua (Hostinger có thể tự pull theo lịch)."
+        run: curl -fsSL -X POST "$HOOK" || echo "Webhook failed — Hostinger will pull on schedule."

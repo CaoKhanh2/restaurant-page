@@ -124,7 +124,9 @@ const setMenus = [
 </Layout>
 
 <script>
-  // Tab danh mục: click cuộn mượt (Lenis) + active theo scroll (IntersectionObserver). Tĩnh, không fetch.
+  import { url } from '../../scripts/utils/url.js';
+
+  // ── Tab danh mục: click cuộn mượt (Lenis) + active theo scroll ──
   const tabs = Array.from(document.querySelectorAll('.menu-tab'));
   const tabsInner = document.querySelector('.menu-tabs-inner');
   const sections = tabs.map((t) => document.getElementById(t.dataset.target)).filter(Boolean);
@@ -148,4 +150,46 @@ const setMenus = [
     }, { rootMargin: '-130px 0px -65% 0px', threshold: 0 });
     sections.forEach((s) => obs.observe(s));
   }
+
+  // ── Progressive upgrade: nếu /api/menu.php có dữ liệu (DB) → thay nội dung món.
+  //    Nếu API lỗi/không có (DB chưa sống) → GIỮ NGUYÊN bản tĩnh đã render sẵn. ──
+  const esc       = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+  const cleanName = (n) => (n || '').replace(/🌶️/g, '').replace(/🌶/g, '').trim();
+  const isSpicy   = (n) => (n || '').includes('🌶');
+  const isPh      = (img) => !img || img.includes('placeholder');
+  const dishHref  = (d) => url('/menu/dish-detail', '?' + new URLSearchParams({
+    name: d.name_fr, image: d.image_path || '', description: d.description_fr || '', price: d.price,
+  }).toString());
+
+  function cardHTML(d, veg) {
+    const spicy = isSpicy(d.name_fr);
+    const media = isPh(d.image_path)
+      ? `<div class="carte-card-fallback"><i class="fa-solid fa-bowl-food"></i><span>Les 4 Saisons</span></div>`
+      : `<img src="${esc(d.image_path)}" alt="${esc(cleanName(d.name_fr))}" loading="lazy">`;
+    const badge = (d.is_featured == 1) ? `<span class="carte-badge">Signature</span>` : '';
+    const tags  = (spicy || veg)
+      ? `<div class="carte-card-tags">${spicy ? '<span class="carte-tag spicy"><span class="ico">🌶️</span><span>Épicé</span></span>' : ''}${veg ? '<span class="carte-tag veg"><span class="ico">🌱</span><span>Végé</span></span>' : ''}</div>`
+      : '';
+    const tr = d.name_en ? `<span class="carte-card-tr">${esc(d.name_en)}</span>` : '';
+    const p  = parseFloat(d.price); const priceStr = isNaN(p) ? esc(d.price) : p.toFixed(0);
+    return `<a class="carte-card${d.is_featured == 1 ? ' is-featured' : ''}" href="${dishHref(d)}">`
+      + `<div class="carte-card-media">${media}${badge}</div>`
+      + `<div class="carte-card-body">${tags}<h3 class="carte-card-name">${esc(cleanName(d.name_fr))}</h3>${tr}`
+      + `<span class="carte-card-price">${priceStr}.-</span></div></a>`;
+  }
+
+  (async () => {
+    try {
+      const res = await fetch('/api/menu.php', { headers: { Accept: 'application/json' } });
+      if (!res.ok) return;                              // 404/500 → giữ tĩnh
+      const data = await res.json();
+      const cats = data.categories ?? [];
+      if (!cats.length) return;                          // DB rỗng → giữ tĩnh
+      cats.forEach((cat) => {
+        const grid = document.querySelector(`#cat-${cat.key} .carte-grid`);
+        if (!grid || !(cat.dishes || []).length) return; // danh mục rỗng → giữ tĩnh phần đó
+        grid.innerHTML = cat.dishes.map((d) => cardHTML(d, cat.key === 'vegetariens')).join('');
+      });
+    } catch (e) { /* mất mạng/JSON lỗi → giữ tĩnh */ }
+  })();
 </script>

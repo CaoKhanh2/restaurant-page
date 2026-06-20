@@ -1,62 +1,71 @@
-# 🍽️ Luồng dữ liệu Menu
+# 🍽️ Luồng dữ liệu Menu & Gallery (HYBRID: tĩnh + DB)
+
+> Mô hình **progressive enhancement**: render **tĩnh từ code** lúc build (SEO + chạy không cần backend),
+> rồi **tự nâng cấp từ DB** qua API PHP nếu backend sống. API lỗi/không có → giữ bản tĩnh.
 
 ---
 
-## Nguồn dữ liệu duy nhất
+## 2 nguồn dữ liệu
 
-**File:** `src/data/menu.js`
+| Nguồn | Là gì | Vai trò |
+|---|---|---|
+| **Code (build-time)** | `src/data/menu.js` (`menuData`, `menuOrder`, `sliderCategories`) + ảnh `/images` | **Fallback + SEO** — luôn hiển thị, kể cả khi chưa có backend |
+| **DB (runtime)** | MySQL qua API PHP `/api/menu.php`, `/api/gallery.php` | **Nội dung sống** — phản ánh chỉnh sửa từ trang admin |
 
-Chứa 3 export chính:
-
-| Export | Mô tả |
-|---|---|
-| `menuData` | Toàn bộ dữ liệu món ăn |
-| `menuOrder` | Thứ tự hiển thị các category |
-| `sliderCategories` | Danh sách category dùng cho slider trang chủ |
-
-> ✅ Khi cần sửa thực đơn → **chỉ sửa file này**, không chỉnh ở nơi nào khác.
+> DB ban đầu được **seed từ `menu.js`** (xem `server/seed.php`). `menu.js` vẫn giữ làm fallback — **đừng xoá**.
 
 ---
 
-## Sơ đồ luồng dữ liệu
+## Sơ đồ hybrid
 
 ```
-src/data/menu.js
-    │
-    ├──► menu.astro          (Build-time render)
-    │        └──► /menu.html  — render sẵn HTML lúc build, link từng món → dish-detail
-    │
-    ├──► category.astro      (Client-side render)
-    │        └──► /sub-page/category.html?category=...  — đọc query-param, render dish cards
-    │
-    └──► SliderMenu.astro    (Build-time — slider trang chủ)
-             └──► "La carte des mets" slider
+src/data/menu.js ──(build-time)──► HTML tĩnh (menu/gallery hiển thị ngay)
+                                          │
+                            (client) fetch /api/*.php
+                                          │
+                    ┌─────────────────────┴─────────────────────┐
+              API OK + có data                          API lỗi / rỗng
+                    │                                            │
+        thay nội dung = dữ liệu DB                      GIỮ NGUYÊN bản tĩnh
 ```
 
 ---
 
 ## Chi tiết từng trang
 
-### `menu.astro` → `/menu.html`
-- Render à-la-carte **lúc build** (server-render / static)
-- Mỗi món là thẻ `<a>` có sẵn query-param → dish-detail (link build qua `url()`, xem [routing.md](./routing.md))
-- **Không cần JS để điều hướng** (chỉ JS cho tab dính + scroll-spy)
-- Layout: tab danh mục dính + card mỗi món + fallback tile — xem [ui-system/menu-page.md](../ui-system/menu-page.md)
+### `menu/index.astro` → `/menu.html`
+- **Build-time:** render đủ tab + à-la-carte (64 món) từ `menu.js`.
+- **Client:** `fetch('/api/menu.php')` → nếu có `categories[].dishes[]`, **thay innerHTML từng `.carte-grid`** theo `#cat-{key}`. Cấu trúc tab/section giữ nguyên (danh mục cố định).
+- Lỗi/DB rỗng → giữ bản tĩnh.
 
-### `category.astro` → `/sub-page/category.html`
-- Client script `import { menuData }` (bundle vào JS)
-- Đọc `?category=` từ URL
-- Render dish cards phía client
-- Giữ URL format: `category.html?category=...`
+### `gallery.astro` → `/gallery.html`
+- **Build-time:** 15 ảnh `/images/food/*` + lightbox.
+- **Client:** `fetch('/api/gallery.php')` → nếu có `images[]`, thay lưới + gắn lại lightbox.
 
-### `dish-detail.astro` → `/sub-page/dish-detail.html`
-- Client script đọc query-params: `?name=&image=&description=&price=`
-- Đổ nội dung vào DOM
-- Ảnh placeholder: `image-bientot-disponible.svg`
+### `menu/category.astro` → `/menu/category.html`
+- Render **client từ `menuData` bundled** (tĩnh, không API). Đọc `?category=`.
+- *(Tuỳ chọn tương lai: đổi sang `/api/menu.php?category=` để đồng bộ DB.)*
+
+### `menu/dish-detail.astro` → `/menu/dish-detail.html`
+- Đọc query-param `?name=&image=&description=&price=` (truyền từ card). Không gọi API.
+
+### `SliderMenu.astro` (trang chủ + sub)
+- Build-time từ `sliderCategories` trong `menu.js`. Link qua `url()`.
+
+---
+
+## API contract (PHP → JSON)
+
+| Endpoint | Method | Trả về |
+|---|---|---|
+| `/api/menu.php` | GET | `{ categories: [{ key, title_fr, title_en, dishes: [{ name_fr, name_en, price, description_fr, image_path, is_featured }] }] }` |
+| `/api/menu.php?category=KEY` | GET | `{ dishes: [...] }` |
+| `/api/gallery.php` | GET | `{ images: [{ image_path, alt_text, display_order }] }` |
+
+> ⚠️ **Field DB khác field code:** DB dùng `name_fr/name_en/image_path/is_featured`, còn `menu.js` dùng `name/translation/image/featured`. Script client map đúng field DB khi nâng cấp. Chi tiết backend: [backend.md](./backend.md).
 
 ---
 
 ## Lưu ý đường dẫn ảnh
-
-> Đường dẫn ảnh trong `menu.js` là **tuyệt đối** (`/images/...`)
-> → dùng trực tiếp trong `src`, **KHÔNG prefix `../`** như bản vanilla cũ.
+- Ảnh trong `menu.js` (fallback) là path tuyệt đối `/images/...` (deploy qua `public/`).
+- Ảnh từ DB (`image_path`) có thể là `/images/...` (seed) hoặc `/uploads/...` (admin upload) — cần thư mục `uploads/` tồn tại trên server.

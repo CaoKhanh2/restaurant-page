@@ -89,13 +89,11 @@ CREATE TABLE IF NOT EXISTS analytics (
 SET FOREIGN_KEY_CHECKS = 1;
 
 -- ============================================================
--- Seed: default admin user
--- Username: admin  |  Password: change_me_123
--- CHANGE PASSWORD IMMEDIATELY after first login!
+-- Seed: default admin user (username: admin)
+-- CHANGE PASSWORD IMMEDIATELY after first login via phpMyAdmin!
 -- ============================================================
 INSERT INTO admin_users (username, password_hash) VALUES
-('admin', '$2y$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LeGhEGH1PqELCFv.6');
--- Hash above = password_hash('change_me_123', PASSWORD_BCRYPT)
+('admin', '$2b$12$6qUhdSpqKXu2CXzsmYDJDuJKAROds46Fmv19eZOGYekflRSRszAGe');
 
 -- Seed: menu categories (matching src/data/menu.js menuOrder)
 INSERT INTO categories (category_key, title_fr, title_en, display_order) VALUES
