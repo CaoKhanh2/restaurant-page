@@ -38,9 +38,43 @@ jobs:
       - name: Build (Astro static → dist/)
         run: npm run build
 
-      # Gộp backend PHP vào output để Hostinger có /api + /admin cùng site static.
-      # LOẠI TRỪ: config/ (secrets), uploads/ (ảnh runtime), seed.php & schema.sql (chạy 1 lần).
-      - name: Assemble backend PHP (api + admin) into dist/
+      # Tạo db.php từ GitHub Secret — KHÔNG bao giờ commit file này vào git.
+      - name: Generate db.php from secret
+        env:
+          DB_PASS: ${{ secrets.DB_PASS }}
+        run: |
+          mkdir -p server/config
+          cat > server/config/db.php << 'HEREDOC'
+<?php
+define('DB_HOST', 'localhost');
+define('DB_NAME', 'u444601569_restaurant');
+define('DB_USER', 'u444601569_dbadmin');
+HEREDOC
+          printf "define('DB_PASS', '%s');\n" "${DB_PASS}" >> server/config/db.php
+          cat >> server/config/db.php << 'HEREDOC'
+define('DB_CHARSET', 'utf8mb4');
+
+function getDB(): PDO {
+    static $pdo = null;
+    if ($pdo === null) {
+        $pdo = new PDO(
+            sprintf('mysql:host=%s;dbname=%s;charset=%s', DB_HOST, DB_NAME, DB_CHARSET),
+            DB_USER,
+            DB_PASS,
+            [
+                PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                PDO::ATTR_EMULATE_PREPARES   => false,
+            ]
+        );
+    }
+    return $pdo;
+}
+HEREDOC
+
+      # Gộp backend PHP vào output để Hostinger có /api + /admin + /config cùng site static.
+      # LOẠI TRỪ: uploads/ (ảnh runtime), seed.php & schema.sql (chạy 1 lần).
+      - name: Assemble backend PHP into dist/
         run: |
           if [ -d server/api ]; then
             mkdir -p dist/api && cp -r server/api/. dist/api/
@@ -48,10 +82,16 @@ jobs:
           if [ -d server/admin ]; then
             mkdir -p dist/admin && cp -r server/admin/. dist/admin/
           fi
-          # Dọn thứ không được phép lộ ra public (nếu lỡ nằm trong api/admin)
+          # config/db.php được tạo từ secret ở bước trên — copy + bảo vệ bằng .htaccess
+          mkdir -p dist/config
+          cp server/config/db.php dist/config/db.php
+          printf 'Deny from all\n' > dist/config/.htaccess
+          # uploads/ để Hostinger tự quản lý (ảnh do user upload không đưa vào git)
+          mkdir -p dist/uploads/gallery dist/uploads/menu
+          printf 'php_flag engine off\nOptions -Indexes\n' > dist/uploads/.htaccess
+          # Dọn thứ không được phép lộ ra public
           rm -f dist/api/seed.php dist/admin/seed.php 2>/dev/null || true
-          find dist/api dist/admin -name 'db.php' -path '*config*' -delete 2>/dev/null || true
-          echo "Đã gộp backend. Lưu ý: config/db.php & uploads/ đặt THỦ CÔNG trên server (xem docs/architecture/backend.md)."
+          echo "Backend assembled: api/ admin/ config/ uploads/ → dist/"
 
       - name: Publish dist/ to `deploy` branch
         uses: peaceiris/actions-gh-pages@v4
