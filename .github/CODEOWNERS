@@ -1,0 +1,10 @@
+# CODEOWNERS — Quy định ai có quyền review/approve Pull Request
+#
+# Cú pháp: [pattern] [GitHub username(s)]
+# Khi có PR nhắm vào nhánh được bảo vệ, GitHub sẽ tự động
+# yêu cầu review từ các owner được chỉ định bên dưới.
+#
+# Tài liệu: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Mọi file trong repo đều cần CaoKhanh2 approve
+* @CaoKhanh2
