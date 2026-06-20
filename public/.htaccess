@@ -1,0 +1,27 @@
+# .htaccess cho Hostinger (Apache/LiteSpeed) — site tĩnh Astro.
+# Được copy vào dist/ khi build → upload cùng public_html.
+
+# Trang lỗi 404 tuỳ biến
+ErrorDocument 404 /404.html
+
+# Nén + cache asset tĩnh (tuỳ chọn, tăng tốc)
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType image/webp "access plus 6 months"
+  ExpiresByType image/jpeg "access plus 6 months"
+  ExpiresByType image/png "access plus 6 months"
+  ExpiresByType image/svg+xml "access plus 6 months"
+</IfModule>
+
+# Ép HTTPS (bỏ comment nếu domain đã có SSL)
+# <IfModule mod_rewrite.c>
+#   RewriteEngine On
+#   RewriteCond %{HTTPS} off
+#   RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+# </IfModule>

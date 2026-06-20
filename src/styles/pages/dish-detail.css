@@ -1,0 +1,45 @@
+/* =================================================================
+   DISH DETAIL PAGE (warm)
+   ================================================================= */
+#dish-detail-section { padding: 150px 5% 4rem; }
+.dish-detail-container {
+    display: grid; grid-template-columns: 1fr 1.5fr;
+    gap: 4rem; align-items: center;
+    max-width: 1200px; margin: 0 auto;
+}
+.dish-image img {
+    width: 100%; height: auto; aspect-ratio: 1 / 1;
+    object-fit: cover; border-radius: var(--radius);
+    border: 3px solid var(--gold);
+    box-shadow: var(--shadow-lift);
+}
+.dish-info h1 { font-family: var(--font-heading); font-size: clamp(2.2rem, 5vw, 3.5rem); color: var(--text-main); margin-bottom: 1.5rem; }
+.dish-info .dish-translation { color: var(--gold); font-style: italic; font-size: 1.1rem; margin-bottom: 1.2rem; }
+.dish-info p { font-size: 1.1rem; color: var(--text-sub); line-height: 1.9; margin-bottom: 2rem; }
+.dish-price { font-size: 2.5rem; font-weight: 700; color: var(--red); margin-bottom: 2.5rem; }
+.dish-info .btn { background: linear-gradient(135deg, var(--gold), var(--gold-bright)); color: #2a1c08; border-color: transparent; }
+.dish-info .btn::before { background: #2a1c08; }
+.dish-info .btn:hover { color: var(--gold-bright); }
+
+#related-dishes { padding: 4rem 5%; background-color: var(--bg-surface); }
+#related-dishes h2 { text-align: center; margin-bottom: 3rem; color: var(--text-main); }
+.related-dishes-container {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem; max-width: 1200px; margin: 0 auto;
+}
+.related-dish-card {
+    background-color: var(--bg-surface-alt);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius); overflow: hidden;
+    transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
+    cursor: pointer;
+}
+.related-dish-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lift); }
+.related-dish-card img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+.related-dish-card-info { padding: 1.5rem; }
+.related-dish-card-info h3 { font-size: 1.2rem; margin-bottom: 0.5rem; color: var(--text-main); }
+.related-dish-card-info .price { color: var(--red); font-weight: 700; }
+
+@media (max-width: 768px) {
+    .dish-detail-container { grid-template-columns: 1fr; gap: 2rem; }
+}

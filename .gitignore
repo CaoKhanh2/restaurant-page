@@ -1,0 +1,26 @@
+# build output
+dist/
+# astro
+.astro/
+# deps
+node_modules/
+# local npm config (proxy TLS workaround — không đưa lên repo/CI)
+.npmrc
+# os / editor
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
+.env
+.env.production
+
+# ai
+.claude
+
+# server seed script — one-time use, delete after running
+server/seed.php
+# backend secrets & runtime — đặt thủ công trên server, KHÔNG commit
+server/config/db.php
+server/uploads/
+# deploy artifact zip
+*.zip

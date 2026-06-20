@@ -1,0 +1,25 @@
+---
+const photos = [
+  { webp: '/images/food/food6.webp',  jpg: '/images/food/food6.jpg',  alt: 'Plat 1' },
+  { webp: '/images/food/food5.webp',  jpg: '/images/food/food5.jpg',  alt: 'Plat 2' },
+  { webp: '/images/food/food8.webp',  jpg: '/images/food/food8.jpg',  alt: 'Plat 3' },
+  { webp: '/images/food/food7.webp',  jpg: '/images/food/food7.jpg',  alt: 'Plat 4' },
+  { webp: '/images/food/food19.webp', jpg: '/images/food/food19.jpg', alt: 'Plat 5' },
+];
+---
+<section id="gallery">
+  <span class="eyebrow" style="display:block;text-align:center" data-reveal>Galerie</span>
+  <h2 data-reveal>Nos saveurs en images</h2>
+  <div class="gallery-scroll-container">
+    <div class="gallery-grid" data-reveal-stagger>
+      {photos.map((p) => (
+        <div class="grid-item">
+          <picture>
+            <source srcset={p.webp} type="image/webp" />
+            <img src={p.jpg} alt={p.alt} width="400" height="533" loading="lazy" />
+          </picture>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

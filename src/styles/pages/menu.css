@@ -1,0 +1,224 @@
+/* =================================================================
+   MENU PAGE — La Carte des Mets (warm) · tab dính + card grid
+   ================================================================= */
+#full-menu-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 140px 5% 6rem;
+    font-family: var(--font-body);
+}
+
+/* --- Header --- */
+.menu-header { text-align: center; margin-bottom: 2rem; }
+.menu-header .subtitle {
+    font-size: 0.85rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold);
+}
+.menu-header h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(2.4rem, 5vw, 3.5rem);
+    color: var(--text-main);
+    margin: 0.5rem 0;
+}
+.menu-header .decorator { font-size: 1.3rem; color: var(--gold); }
+
+/* Legend */
+.menu-legend {
+    display: flex; justify-content: center; flex-wrap: wrap;
+    gap: 1.5rem; margin-top: 1.2rem;
+    font-size: 0.9rem; color: var(--text-muted);
+}
+.menu-legend .leg { display: inline-flex; align-items: center; gap: 0.4rem; }
+.menu-legend .ico { font-size: 1rem; }
+
+/* --- Sticky category tabs --- */
+.menu-tabs {
+    position: sticky;
+    top: 84px;
+    z-index: 900;
+    margin: 0 -5% 3rem;          /* tràn mép cho nền liền mạch */
+    padding: 0.6rem 5%;
+    background: color-mix(in srgb, var(--bg-page) 86%, transparent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-top: 1px solid var(--border-soft);
+    border-bottom: 1px solid var(--border-soft);
+}
+.menu-tabs-inner {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    gap: 0.6rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+}
+.menu-tabs-inner::-webkit-scrollbar { display: none; }
+.menu-tab {
+    flex: 0 0 auto;
+    padding: 0.5rem 1.1rem;
+    border: 1px solid var(--border-medium);
+    border-radius: 50px;
+    background: transparent;
+    color: var(--text-sub);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: color 0.25s var(--ease), background-color 0.25s var(--ease), border-color 0.25s var(--ease), transform 0.25s var(--ease);
+}
+.menu-tab:hover { color: var(--text-main); border-color: var(--gold); transform: translateY(-1px); }
+.menu-tab.active {
+    background: linear-gradient(135deg, var(--gold), var(--gold-bright));
+    border-color: transparent;
+    color: #2a1c08;
+}
+
+/* --- Category section --- */
+.carte-section { margin-bottom: 4rem; scroll-margin-top: 150px; }
+.carte-section-head {
+    display: flex; align-items: center; gap: 1rem;
+    margin-bottom: 1.8rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid var(--border-medium);
+}
+.carte-cat-icon {
+    width: 56px; height: 56px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 252, 245, 0.96);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3), 0 0 0 2px rgba(201,162,75,0.5);
+    overflow: hidden;
+}
+.carte-cat-icon img { width: 44px; height: 44px; object-fit: contain; }
+.carte-section-titles h2 {
+    text-align: left; margin: 0;
+    font-size: clamp(1.6rem, 3vw, 2.1rem); color: var(--text-main);
+}
+.carte-section-sub { color: var(--text-muted); font-style: italic; font-size: 0.95rem; }
+
+/* --- Dish card grid --- */
+.carte-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+}
+.carte-card {
+    display: flex; flex-direction: column;
+    background: var(--bg-surface-alt);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius);
+    overflow: hidden;
+    color: inherit;
+    transition: transform 0.35s var(--ease), border-color 0.35s var(--ease), box-shadow 0.35s var(--ease);
+}
+.carte-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--gold);
+    box-shadow: var(--shadow-lift);
+}
+.carte-card-media {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--bg-surface);
+}
+.carte-card-media img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.5s var(--ease);
+}
+.carte-card:hover .carte-card-media img { transform: scale(1.07); }
+
+/* Fallback tile (món chưa có ảnh) */
+.carte-card-fallback {
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 0.5rem;
+    background:
+        radial-gradient(120% 120% at 50% 0%, rgba(201,162,75,0.10), transparent 70%),
+        linear-gradient(160deg, var(--bg-surface) 0%, var(--bg-hover) 100%);
+    color: var(--gold);
+}
+.carte-card-fallback i { font-size: 2rem; opacity: 0.85; }
+.carte-card-fallback span {
+    font-family: var(--font-heading); font-style: italic;
+    font-size: 0.8rem; color: var(--text-muted); letter-spacing: 0.05em;
+}
+
+/* Signature badge */
+.carte-badge {
+    position: absolute; top: 0.7rem; left: 0.7rem;
+    background: linear-gradient(135deg, var(--gold), var(--gold-bright));
+    color: #2a1c08;
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.6rem; border-radius: 50px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+.carte-card.is-featured { border-color: rgba(201,162,75,0.5); }
+
+/* Body */
+.carte-card-body {
+    display: flex; flex-direction: column;
+    padding: 1rem 1.1rem 1.2rem;
+    flex-grow: 1;
+}
+.carte-card-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.5rem; }
+.carte-tag {
+    display: inline-flex; align-items: center; gap: 0.25rem;
+    font-size: 0.72rem; font-weight: 600;
+    padding: 0.15rem 0.5rem; border-radius: 50px;
+    border: 1px solid var(--border-medium);
+    color: var(--text-sub);
+}
+.carte-tag.spicy { border-color: rgba(179,18,27,0.4); color: #d9534f; }
+.carte-tag.veg   { border-color: rgba(90,140,60,0.45); color: #6faa4f; }
+.carte-card-name {
+    font-family: var(--font-heading);
+    font-size: 1.02rem; line-height: 1.3; color: var(--text-main);
+    margin: 0 0 0.25rem;
+}
+.carte-card-tr {
+    font-size: 0.85rem; font-style: italic; color: var(--text-faint);
+    margin-bottom: 0.8rem;
+}
+.carte-card-price {
+    margin-top: auto;
+    font-weight: 700; font-size: 1.2rem; color: var(--red);
+}
+
+/* --- Set menus (Formules) --- */
+.set-menus-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+.set-menu-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius);
+    padding: 2rem;
+    display: flex; flex-direction: column;
+    transition: transform 0.35s var(--ease), border-color 0.35s var(--ease), box-shadow 0.35s var(--ease);
+}
+.set-menu-card:hover { transform: translateY(-6px); border-color: var(--gold); box-shadow: var(--shadow-lift); }
+.set-menu-card h3 { font-family: var(--font-heading); font-size: 1.5rem; color: var(--text-main); margin-bottom: 0.5rem; }
+.set-menu-card .condition { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.5rem; font-style: italic; }
+.set-menu-card ul { padding: 0; margin: 0 0 1.5rem 0; flex-grow: 1; }
+.set-menu-card ul li { color: var(--text-sub); margin-bottom: 0.8rem; padding-left: 1.2rem; position: relative; }
+.set-menu-card ul li::before { content: '◆'; position: absolute; left: 0; color: var(--gold); font-size: 0.7rem; top: 0.25rem; }
+.set-menu-card .price { font-size: 1.4rem; font-weight: 700; color: var(--red); text-align: right; }
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    #full-menu-page { padding-top: 110px; }
+    .menu-tabs { top: 70px; }
+    .carte-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; }
+}
+@media (max-width: 480px) {
+    .carte-grid { grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+    .carte-card-body { padding: 0.8rem 0.8rem 1rem; }
+    .carte-card-name { font-size: 0.95rem; }
+    .carte-card-tr { display: none; }
+}

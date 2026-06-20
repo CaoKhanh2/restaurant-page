@@ -1,0 +1,22 @@
+---
+import { url } from '../../scripts/utils/url.js';
+// Hero cinematic — nền Ken Burns (.hero-bg) + reveal theo lớp (animations.js).
+---
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <span class="eyebrow" data-i18n="hero.eyebrow">Genève · Cuisine de Hong Kong · depuis 1996</span>
+    <h1 class="hero-title">Restaurant<span class="accent">Les 4 Saisons</span></h1>
+    <p class="hero-tagline" data-i18n="hero.tagline">La vraie cuisine Chinois, au fil des saisons.</p>
+    <div class="hero-cta">
+      <a href="tel:+41227005067" class="btn btn-gold">(+41) 22 700 50 67</a>
+      <a href={url('/menu')} class="btn" data-i18n="hero.cta.menu">Voir la carte</a>
+    </div>
+  </div>
+
+  <a href="#menu-slider-section" class="hero-scroll-indicator" aria-label="Défiler vers le menu">
+    <i class="fas fa-chevron-down"></i>
+  </a>
+</section>

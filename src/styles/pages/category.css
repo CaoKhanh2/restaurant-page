@@ -1,0 +1,35 @@
+/* =================================================================
+   CATEGORY PAGE (warm) — bổ sung cho lưới dish-card ở base.css
+   ================================================================= */
+#category-page {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 150px 5% 5rem;
+}
+#category-page .menu-header { text-align: center; margin-bottom: 3.5rem; }
+#category-page .menu-header h1 {
+    font-family: var(--font-heading);
+    font-size: clamp(2.2rem, 5vw, 3.2rem);
+    color: var(--text-main);
+    margin-bottom: 0.4rem;
+}
+#category-page .menu-header .decorator { font-size: 1.4rem; color: var(--gold); }
+
+/* Fallback grid (nếu base.css chưa nạp vì lý do nào đó) */
+.imaged-dishes-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; padding: 0 1rem; }
+.dish-card {
+    background-color: var(--bg-surface-alt);
+    border: 1px solid var(--border-soft);
+    border-radius: var(--radius);
+    text-align: center; overflow: hidden;
+    transition: transform 0.35s var(--ease), border-color 0.35s var(--ease), box-shadow 0.35s var(--ease);
+    cursor: pointer;
+    display: flex; flex-direction: column;
+    width: 100%; max-width: 420px;
+}
+.dish-card:hover { transform: translateY(-6px); border-color: var(--gold); box-shadow: var(--shadow-lift); }
+.dish-card .dish-card-img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.dish-card .dish-card-info { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+.dish-card .dish-card-info h4 { font-family: var(--font-heading); font-size: 1.2rem; color: var(--text-main); margin-bottom: 0.5rem; }
+.dish-card .dish-card-info .translation { font-size: 0.9em; font-style: italic; color: var(--text-faint); display: block; margin-bottom: 1rem; }
+.dish-card .dish-card-info .price { font-weight: 700; color: var(--red); font-size: 1.3rem; margin-top: auto; }
