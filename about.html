@@ -1,161 +1,34 @@
-<!DOCTYPE html>
-<html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Découvrez l'histoire familiale du restaurant Les 4 Saisons, depuis ses débuts à Hong Kong jusqu'à devenir une destination culinaire réputée à Genève.">
-    <title>À Propos - Restaurant Les 4 Saisons</title>
-
-    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon_io/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon_io/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon_io/favicon-16x16.png">
-    <link rel="manifest" href="images/favicon_io/site.webmanifest">
-    <link rel="shortcut icon" href="images/favicon_io/favicon.ico">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="theme-color" content="#ffffff">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@300;400&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-    />
-    <link rel="stylesheet" href="style/base.css" />
-    <link rel="stylesheet" href="style/about.css" />
-    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
-
-    <script src="/js/router.js" defer></script>
-  </head>
-  <body>
-    <div id="header-placeholder"></div>
-    <main>
-      <section id="about-intro">
-        <div class="about-content" data-aos="fade-up">
-          <h1>Une histoire de famille</h1>
-          <p>
-            Notre philosophie est simple : proposer une cuisine chinoise
-            authentique, avec un accent particulier sur les saveurs de Hong
-            Kong. Nous nous laissons guider par les saisons pour vous offrir des
-            plats spéciaux, toujours faits maison avec des produits d'une
-            fraîcheur irréprochable. Chaque plat est une invitation à découvrir
-            de nouvelles saveurs et à partager un moment de convivialité.
-          </p>
-          <p>
-            Plus qu'un simple repas, nous souhaitons vous offrir une expérience.
-            Laissez-vous séduire par notre cuisine et l'ambiance chaleureuse de
-            notre établissement. Nous vous attendons pour partager notre
-            histoire et notre amour de la gastronomie.
-          </p>
-        </div>
-      </section>
-
-      <section id="booking-section">
-        <div class="booking-container">
-          <div class="opening-hours" data-aos="fade-right">
-            <h2>Horaires d'ouverture</h2>
-            <ul>
-              <li>
-                <span>Lundi</span> <span>11:30 - 14:30, 18:30 - 22:30</span>
-              </li>
-              <li>
-                <span>Mardi</span> <span>11:30 - 14:30, 18:30 - 22:30</span>
-              </li>
-              <li>
-                <span>Mercredi</span> <span>11:30 - 14:30, 18:30 - 22:30</span>
-              </li>
-              <li>
-                <span>Jeudi</span> <span>11:30 - 14:30, 18:30 - 22:30</span>
-              </li>
-              <li>
-                <span>Vendredi</span> <span>11:30 - 14:30, 18:30 - 22:30</span>
-              </li>
-              <li>
-                <span>Samedi</span> <span>11:30 - 14:30, 18:30 - 22:30</span>
-              </li>
-              <li>
-                <span>Dimanche</span> <span>11:30 - 14:30, 18:30 - 22:30</span>
-              </li>
-            </ul>
-            <div class="contact-box">
-              <h3>Contacter Restaurant Les 4 Saisons</h3>
-              <a href="tel:+41227005067" class="contact-phone"
-                >(+41) 22 700 50 67</a
-              >
-            </div>
-          </div>
-
-          <div class="reservation-form" data-aos="fade-left">
-            <div id="booking-notice" class="booking-notice-overlay">
-              <div class="notice-content">
-                <i class="fas fa-info-circle"></i>
-                <h3>Fonctionnalité indisponible</h3>
-                <p>
-                  La réservation en ligne est actuellement en cours de mise à
-                  jour. Pour réserver une table, veuillez nous contacter
-                  directement au numéro de téléphone suivant :
-                </p>
-                <a href="tel:+41227005067" class="notice-phone"
-                  >(+41) 22 700 50 67</a
-                >
-              </div>
-            </div>
-            <h2>Réserver une table...</h2>
-            <form action="#" id="reservationForm">
-              <div class="form-row">
-                <input type="text" name="nom" placeholder="Nom" required />
-                <input
-                  type="text"
-                  name="prenom"
-                  placeholder="Prénom"
-                  required
-                />
-              </div>
-              <div class="form-row">
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="E-mail"
-                  required
-                />
-              </div>
-              <div class="form-row">
-                <input
-                  type="text"
-                  name="objet"
-                  placeholder="Objet de la réservation"
-                />
-              </div>
-              <div class="form-row">
-                <textarea
-                  name="message"
-                  placeholder="Message..."
-                  rows="6"
-                ></textarea>
-              </div>
-              <button type="submit" class="btn">Envoyer</button>
-            </form>
-          </div>
-        </div>
-      </section>
-
-      <div id="slider-menu-placeholder"></div>
-    </main>
-    <div id="footer-placeholder"></div>
-    <a href="#" id="back-to-top" aria-label="Cuộn lên đầu trang"
-      ><i class="fas fa-arrow-up"></i
-    ></a>
-    <script src="js/main.js"></script>
-    <script src="js/about.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-      AOS.init({
-        duration: 800,
-        once: true,
-      });
-    </script>
-  </body>
-</html>
+<!DOCTYPE html><html lang="fr"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="Découvrez l'histoire familiale du restaurant Les 4 Saisons, depuis ses débuts à Hong Kong jusqu'à devenir une destination culinaire réputée à Genève."><title>À Propos - Restaurant Les 4 Saisons</title><!-- Set theme + lang + has-js trước khi paint (chống FOUC) --><script>
+      (function () {
+        var d = document.documentElement;
+        var t = 'dark';
+        try { t = localStorage.getItem('theme') || 'dark'; } catch (e) {}
+        d.setAttribute('data-theme', t);
+        d.classList.add('has-js');
+        // Áp dụng ngôn ngữ trước paint để tránh flash nội dung FR khi người dùng chọn EN
+        var l = 'fr';
+        try { l = localStorage.getItem('lang') || 'fr'; } catch (e) {}
+        d.setAttribute('lang', l);
+      })();
+    </script><link rel="apple-touch-icon" sizes="180x180" href="/images/favicon_io/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/images/favicon_io/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/images/favicon_io/favicon-16x16.png"><link rel="manifest" href="/images/favicon_io/site.webmanifest"><link rel="shortcut icon" href="/images/favicon_io/favicon.ico"><meta name="msapplication-TileColor" content="#b3121b"><meta name="theme-color" content="#17120f"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Restaurant","name":"Restaurant Les 4 Saisons","image":"https://les-4saisonsgeneve.ch/images/logo-transparent.png","telephone":"+41227005067","address":{"@type":"PostalAddress","streetAddress":"Rue Henri-Blanvalet 3","addressLocality":"Genève","postalCode":"1207","addressCountry":"CH"},"servesCuisine":"Chinoise","openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"11:30","closes":"14:30"},{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"18:30","closes":"22:30"}]}</script><link rel="stylesheet" href="/_astro/Layout.BDZXeVNK.css"><style>#about-intro{padding:150px 5% 4rem;text-align:center;background:linear-gradient(180deg,rgba(0,0,0,0) 60%,var(--bg-surface) 100%),var(--bg-page)}.about-intro-content{max-width:860px;margin:0 auto}.about-intro-content .eyebrow{margin-bottom:.8rem}.about-intro-content h1{font-size:clamp(2.4rem,5vw,3.5rem);margin-bottom:1.8rem;color:var(--text-main)}.about-intro-content p{font-size:1.1rem;line-height:1.9;color:var(--text-sub);margin-bottom:1.2rem}#booking-section{background-color:var(--bg-surface);padding:clamp(4rem,7vw,6rem) 5%}.booking-container{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1.5fr;gap:4rem;align-items:flex-start}.opening-hours h2,.reservation-form h2{font-size:clamp(1.8rem,3.5vw,2.5rem);text-align:left;margin-bottom:2rem}.opening-hours ul{padding:0;margin-bottom:3rem}.opening-hours ul li{display:flex;justify-content:space-between;padding:.8rem 0;border-bottom:1px solid var(--border-soft);font-size:1rem;color:var(--text-sub)}.opening-hours ul li span:first-child{font-weight:700;color:var(--text-main);margin-right:1rem}.contact-box{margin-top:3rem;padding:2rem;border:1px solid var(--border-medium);border-radius:var(--radius);text-align:center}.contact-box h3{margin-bottom:1rem;font-size:1.4rem;color:var(--text-main)}.contact-phone{font-size:1.5rem;font-weight:700;color:var(--red)}.reservation-form{position:relative}.reservation-form form{display:flex;flex-direction:column;gap:1.5rem}.form-row{display:flex;gap:1.5rem}.reservation-form input,.reservation-form textarea{width:100%;padding:1rem;background-color:var(--bg-input);border:1px solid var(--border-medium);color:var(--text-main);font-family:var(--font-body);font-size:1rem;border-radius:var(--radius-sm);transition:border-color .3s ease}.reservation-form input::placeholder,.reservation-form textarea::placeholder{color:var(--text-muted)}.reservation-form input:focus,.reservation-form textarea:focus{outline:none;border-color:var(--gold)}.reservation-form .btn{align-self:flex-start;background:linear-gradient(135deg,var(--red),#7d0f15);border-color:transparent;color:#fff}.reservation-form .btn:before{background:#fff}.reservation-form .btn:hover{color:var(--red)}.booking-notice-overlay{position:absolute;inset:0;background-color:#140e09e0;backdrop-filter:blur(5px);z-index:10;opacity:0;visibility:hidden;transition:opacity .4s ease,visibility .4s ease;display:flex;justify-content:center;align-items:center;text-align:center;padding:20px;border-radius:var(--radius)}.booking-notice-overlay.visible{opacity:1;visibility:visible}.booking-notice-overlay .notice-content{color:#fff}.booking-notice-overlay .notice-content i{font-size:2.5rem;color:var(--gold-bright);margin-bottom:1rem}.booking-notice-overlay .notice-content h3{font-size:1.5rem;margin-bottom:.5rem}.booking-notice-overlay .notice-content p{font-size:1rem;line-height:1.6;max-width:400px;margin-bottom:1.5rem;color:#e7dac6}.booking-notice-overlay .notice-content .notice-phone{display:inline-block;background-color:var(--gold);color:#2a1c08;padding:12px 24px;border-radius:50px;font-weight:700;font-size:1.1rem;transition:background-color .3s ease}.booking-notice-overlay .notice-content .notice-phone:hover{background-color:var(--gold-bright)}@media(max-width:992px){.booking-container{grid-template-columns:1fr}.opening-hours h2,.reservation-form h2{text-align:center}.reservation-form .btn{align-self:center}}@media(max-width:576px){.form-row{flex-direction:column;gap:1.5rem}}
+</style></head> <body class> <div id="preloader" aria-hidden="true"> <div class="preloader-inner"> <img src="/images/logo-transparent.png" alt="Restaurant Les 4 Saisons" width="180" height="180"> <span class="preloader-line"></span> </div> </div> <div id="scroll-progress"></div> <header> <nav> <a href="/" class="logo" aria-label="Accueil"> <img src="/images/logo-transparent.png" alt="Restaurant Les 4 Saisons Logo"> </a> <ul class="main-nav"> <li><a href="/" class data-i18n="nav.home">ACCUEIL</a></li><li><a href="/menu.html" class data-i18n="nav.menu">ACCUEIL</a></li><li><a href="/gallery.html" class data-i18n="nav.gallery">ACCUEIL</a></li><li><a href="/about.html" class="active" data-i18n="nav.about">ACCUEIL</a></li> </ul> <a href="tel:+41227005067" class="nav-phone">(+41) 22 700 50 67</a> <!-- Language toggle --> <div class="lang-toggle" id="lang-toggle" aria-label="Changer de langue"> <button class="lang-btn active" data-lang-btn="fr">FR</button> <span class="lang-sep">|</span> <button class="lang-btn" data-lang-btn="en">EN</button> </div> <button id="theme-toggle" class="theme-toggle" aria-label="Basculer thème clair/sombre"> <i class="fa-solid fa-moon"></i> </button> <button id="mobile-nav-toggle" class="mobile-nav-toggle" aria-label="Menu"> <i class="fa-solid fa-bars"></i> </button> </nav> </header> <main>  <section id="about-intro"> <div class="about-intro-content" data-reveal> <span class="eyebrow" data-i18n="about.page.eyebrow">Notre philosophie</span> <h1 data-i18n="about.page.title">Une histoire de famille</h1> <p data-i18n="about.page.p1">
+Notre philosophie est simple : proposer une cuisine chinoise authentique, avec un accent
+        particulier sur les saveurs de Hong Kong. Nous nous laissons guider par les saisons pour vous
+        offrir des plats spéciaux, toujours faits maison avec des produits d'une fraîcheur irréprochable.
+</p> <p data-i18n="about.page.p2">
+Plus qu'un simple repas, nous souhaitons vous offrir une expérience. Laissez-vous séduire par
+        notre cuisine et l'ambiance chaleureuse de notre établissement.
+</p> </div> </section> <section id="booking-section"> <div class="booking-container"> <div class="opening-hours" data-reveal> <h2 data-i18n="about.hours.title">Horaires d'ouverture</h2> <ul> <li><span>Lundi</span> <span>11:30 - 14:30, 18:30 - 22:30</span></li><li><span>Mardi</span> <span>11:30 - 14:30, 18:30 - 22:30</span></li><li><span>Mercredi</span> <span>11:30 - 14:30, 18:30 - 22:30</span></li><li><span>Jeudi</span> <span>11:30 - 14:30, 18:30 - 22:30</span></li><li><span>Vendredi</span> <span>11:30 - 14:30, 18:30 - 22:30</span></li><li><span>Samedi</span> <span>11:30 - 14:30, 18:30 - 22:30</span></li><li><span>Dimanche</span> <span>11:30 - 14:30, 18:30 - 22:30</span></li> </ul> <div class="contact-box"> <h3 data-i18n="about.contact.title">Contacter Les 4 Saisons</h3> <a href="tel:+41227005067" class="contact-phone">(+41) 22 700 50 67</a> </div> </div> <div class="reservation-form" data-reveal data-reveal-delay="0.1"> <h2 data-i18n="about.form.title">Réserver une table…</h2> <div id="form-success" style="display:none;padding:16px;background:#d4edda;border-radius:8px;margin-bottom:16px;color:#155724">
+✓ Votre demande a été envoyée ! Nous vous contacterons bientôt.
+</div> <div id="form-error" style="display:none;padding:16px;background:#f8d7da;border-radius:8px;margin-bottom:16px;color:#721c24">
+Une erreur s'est produite. Veuillez réessayer ou nous appeler.
+</div> <form id="reservationForm"> <div class="form-row"> <input type="text" name="nom" placeholder="Nom" data-i18n="about.form.nom" required> <input type="text" name="prenom" placeholder="Prénom" data-i18n="about.form.prenom" required> </div> <div class="form-row"> <input type="email" name="email" placeholder="E-mail" data-i18n="about.form.email" required> </div> <div class="form-row"> <input type="date" name="reservation_date"> <input type="number" name="nb_personnes" placeholder="Nombre de personnes" min="1" max="30"> </div> <div class="form-row"> <input type="text" name="objet" placeholder="Objet de la réservation" data-i18n="about.form.objet"> </div> <div class="form-row"> <textarea name="message" placeholder="Message…" rows="6" data-i18n="about.form.message"></textarea> </div> <button type="submit" class="btn" data-i18n="about.form.submit">Envoyer</button> </form> </div> </div> </section> <section id="menu-slider-section" data-reveal> <h2 data-i18n="slider.title">La carte des mets</h2> <div class="menu-scroll-container"> <div class="menu-categories"> <a href="/menu.html" class="category"> <picture> <source srcset="/icon/icon-salades-new.webp" type="image/webp"> <img src="/icon/icon-salades-new.jpg" alt="Menus" width="70" height="70" loading="lazy"> </picture> <span data-i18n="slider.menus">Menus</span> </a><a href="/menu/category.html?category=entrees" class="category"> <picture> <source srcset="/icon/icon-entrees-new.webp" type="image/webp"> <img src="/icon/icon-entrees-new.jpg" alt="Entrées" width="70" height="70" loading="lazy"> </picture> <span data-i18n="slider.entrees">Entrées</span> </a><a href="/menu/category.html?category=dimsum" class="category"> <picture> <source srcset="/icon/icon-dimsum-new.webp" type="image/webp"> <img src="/icon/icon-dimsum-new.jpg" alt="Dim Sum" width="70" height="70" loading="lazy"> </picture> <span data-i18n="slider.dimsum">Dim Sum</span> </a><a href="/menu/category.html?category=potages" class="category"> <picture> <source srcset="/icon/icon-potages-new.webp" type="image/webp"> <img src="/icon/icon-potages-new.jpg" alt="Potages et soupes" width="70" height="70" loading="lazy"> </picture> <span data-i18n="slider.potages">Potages et soupes</span> </a><a href="/menu/category.html?category=poulet" class="category"> <picture> <source srcset="/icon/icon-poulet-new.webp" type="image/webp"> <img src="/icon/icon-poulet-new.jpg" alt="Poulet" width="70" height="70" loading="lazy"> </picture> <span data-i18n="slider.poulet">Poulet</span> </a><a href="/menu/category.html?category=boeuf" class="category"> <picture> <source srcset="/icon/icon-boeuf-new.webp" type="image/webp"> <img src="/icon/icon-boeuf-new.jpg" alt="Bœuf" width="70" height="70" loading="lazy"> </picture> <span data-i18n="slider.boeuf">Bœuf</span> </a> </div> </div> </section>  </main> <footer> <div class="footer-content"> <div class="footer-logo"> <img src="/images/logo-transparent.png" alt="Restaurant Les 4 Saisons Logo"> </div> <div class="footer-contact-info"> <p class="restaurant-name">Restaurant Les 4 Saisons</p> <p>Rue Henri-Blanvalet 3</p> <p>1207 Genève, Suisse</p> </div> <div class="footer-phone"> <a href="tel:+41227005067" class="phone-number">(+41) 22 700 50 67</a> </div> <div class="footer-social"> <p class="social-heading" data-i18n="footer.follow">Suivez-nous</p> <div class="social-icons"> <a href="https://www.facebook.com/restaurantles4saisons/" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a> <a href="https://www.instagram.com/restaurant_les4saisons/?hl=fr" aria-label="Instagram"><i class="fab fa-instagram"></i></a> </div> </div> </div> <div class="footer-bottom"> <span data-i18n="footer.privacy">Politique de confidentialité</span> <span>© 2025 Restaurant Les 4 Saisons — All Rights Reserved</span> <span data-i18n="footer.credit">Réalisé par Cain</span> </div> </footer> <a href="#" id="back-to-top" aria-label="Remonter en haut"><i class="fas fa-arrow-up"></i></a> <script type="module" src="/_astro/Layout.astro_astro_type_script_index_0_lang.BD3nn6EC.js"></script> <!-- Analytics: log page visit to MySQL --> <script>
+      (function() {
+        try {
+          navigator.sendBeacon('/api/analytics.php', JSON.stringify({
+            page:     location.pathname,
+            referrer: document.referrer || '',
+          }));
+        } catch(e) {}
+      })();
+    </script> </body> </html> <script type="module">const t=document.getElementById("reservationForm"),n=document.getElementById("form-success"),s=document.getElementById("form-error");t&&t.addEventListener("submit",async o=>{o.preventDefault(),n.style.display="none",s.style.display="none";const e=new FormData(t),r={nom:e.get("nom"),prenom:e.get("prenom"),email:e.get("email"),objet:e.get("objet"),message:e.get("message"),reservation_date:e.get("reservation_date")||null,nb_personnes:e.get("nb_personnes")||null};try{(await fetch("/api/reservations.php",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(r)})).ok?(n.style.display="block",t.reset()):s.style.display="block"}catch{s.style.display="block"}});</script>
