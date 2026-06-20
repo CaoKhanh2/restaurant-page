@@ -11,13 +11,18 @@ jobs:
       - name: Setup Node.js 22
         uses: actions/setup-node@v5
         with:
-          node-version: 22
+          node-version: '22'
+
+      - name: Verify Node version
+        run: node --version
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts
 
       - name: Build Astro site
         run: npm run build
+        env:
+          NODE_ENV: production
 
       - name: Upload via FTP to Hostinger
         uses: SamKirkland/FTP-Deploy-Action@v4.4.0
