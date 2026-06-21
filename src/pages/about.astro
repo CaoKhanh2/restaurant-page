@@ -42,31 +42,26 @@ import '../styles/pages/about.css';
       <div class="reservation-form" data-reveal data-reveal-delay="0.1">
         <h2 data-i18n="about.form.title">Réserver une table…</h2>
 
-        <!-- Form wrapper: locked with CSS, all inputs disabled -->
-        <div class="form-lock-wrapper">
-          <form id="reservationForm" aria-hidden="true" tabindex="-1">
-            <div class="form-row">
-              <input type="text" name="nom" placeholder="Nom" data-i18n="about.form.nom" disabled tabindex="-1" />
-              <input type="text" name="prenom" placeholder="Prénom" data-i18n="about.form.prenom" disabled tabindex="-1" />
-            </div>
-            <div class="form-row">
-              <input type="email" name="email" placeholder="E-mail" data-i18n="about.form.email" disabled tabindex="-1" />
-            </div>
-            <div class="form-row">
-              <input type="date" name="reservation_date" disabled tabindex="-1" />
-              <input type="number" name="nb_personnes" placeholder="Nombre de personnes" min="1" max="30" disabled tabindex="-1" />
-            </div>
-            <div class="form-row">
-              <input type="text" name="objet" placeholder="Objet de la réservation" data-i18n="about.form.objet" disabled tabindex="-1" />
-            </div>
-            <div class="form-row">
-              <textarea name="message" placeholder="Message…" rows="6" data-i18n="about.form.message" disabled tabindex="-1"></textarea>
-            </div>
-            <button type="button" id="form-lock-trigger" class="btn" data-i18n="about.form.submit">Envoyer</button>
-          </form>
-
-          <!-- Full-cover clickable overlay -->
-          <div id="form-lock-overlay" aria-hidden="true"></div>
+        <!-- Fake form: visual only, no real inputs — clicking anywhere shows the modal -->
+        <div class="fake-form" id="fake-reservation-form" role="button" tabindex="0" aria-label="Réserver une table" style="cursor:pointer">
+          <div class="fake-form-row">
+            <div class="fake-input" data-i18n="about.form.nom">Nom</div>
+            <div class="fake-input" data-i18n="about.form.prenom">Prénom</div>
+          </div>
+          <div class="fake-form-row">
+            <div class="fake-input fake-input--full" data-i18n="about.form.email">E-mail</div>
+          </div>
+          <div class="fake-form-row">
+            <div class="fake-input">dd/mm/yyyy</div>
+            <div class="fake-input" data-i18n="about.form.nb">Nombre de personnes</div>
+          </div>
+          <div class="fake-form-row">
+            <div class="fake-input fake-input--full" data-i18n="about.form.objet">Objet de la réservation</div>
+          </div>
+          <div class="fake-form-row">
+            <div class="fake-textarea" data-i18n="about.form.message">Message…</div>
+          </div>
+          <button type="button" class="btn" data-i18n="about.form.submit" id="form-lock-trigger">Envoyer</button>
         </div>
 
         <!-- The Popup Modal -->
@@ -97,25 +92,47 @@ import '../styles/pages/about.css';
 </Layout>
 
 <style>
-  /* Form lock wrapper */
-  .form-lock-wrapper {
-    position: relative;
+  /* ── Fake form (visual replica, no real inputs) ── */
+  .fake-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    outline: none;
   }
-  /* The overlay sits on top of everything inside the form wrapper */
-  #form-lock-overlay {
-    position: absolute;
-    inset: 0;
-    z-index: 20;
-    cursor: pointer;
-    /* Fully transparent but still intercepts all pointer events */
-    background: transparent;
+  .fake-form-row {
+    display: flex;
+    gap: 14px;
   }
-  /* Dim the locked form visually */
-  #form-lock-overlay ~ form,
-  .form-lock-wrapper form {
-    opacity: 0.7;
+  .fake-input {
+    flex: 1;
+    padding: 11px 16px;
+    border: 1px solid var(--border-soft, rgba(255,255,255,0.12));
+    border-radius: var(--radius-md, 8px);
+    background: var(--bg-input, rgba(255,255,255,0.05));
+    color: var(--text-muted, rgba(255,255,255,0.35));
+    font-size: 0.9rem;
+    font-family: inherit;
+    transition: border-color 0.2s;
     user-select: none;
-    pointer-events: none;
+  }
+  .fake-input--full {
+    flex: 1 1 100%;
+  }
+  .fake-textarea {
+    flex: 1 1 100%;
+    min-height: 120px;
+    padding: 11px 16px;
+    border: 1px solid var(--border-soft, rgba(255,255,255,0.12));
+    border-radius: var(--radius-md, 8px);
+    background: var(--bg-input, rgba(255,255,255,0.05));
+    color: var(--text-muted, rgba(255,255,255,0.35));
+    font-size: 0.9rem;
+    font-family: inherit;
+    user-select: none;
+  }
+  .fake-form:hover .fake-input,
+  .fake-form:hover .fake-textarea {
+    border-color: var(--gold, #c9a84c);
   }
 
   /* Premium Modal Styles */
@@ -229,11 +246,10 @@ import '../styles/pages/about.css';
 </style>
 
 <script>
-  const overlay  = document.getElementById('form-lock-overlay');
+  const fakeForm = document.getElementById('fake-reservation-form');
   const trigger  = document.getElementById('form-lock-trigger');
   const modal    = document.getElementById('dev-popup-modal');
   const closeBtn = document.getElementById('close-dev-popup');
-  const form     = document.getElementById('reservationForm');
 
   const showModal = () => {
     modal.style.display = 'flex';
@@ -245,27 +261,16 @@ import '../styles/pages/about.css';
     setTimeout(() => { modal.style.display = 'none'; }, 400);
   };
 
-  // Block ALL form submission absolutely
-  if (form) {
-    form.addEventListener('submit', (e) => { e.preventDefault(); showModal(); });
-  }
+  // Any click anywhere on the fake form → show modal
+  if (fakeForm) fakeForm.addEventListener('click', showModal);
 
-  // Block keyboard access: intercept Tab key on the entire form area
-  if (form) {
-    form.addEventListener('keydown', (e) => { e.preventDefault(); });
-  }
-
-  // Overlay click → show modal
-  if (overlay) overlay.addEventListener('click', showModal);
-
-  // Envoyer button click → show modal (button is inside form, overlay sits on top but
-  // the button gets z-index stacking on some browsers; catch it here too)
-  if (trigger) trigger.addEventListener('click', (e) => { e.preventDefault(); showModal(); });
+  // Enter/Space key on the fake form (keyboard a11y)
+  if (fakeForm) fakeForm.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); showModal(); }
+  });
 
   // Close handlers
   if (closeBtn) closeBtn.addEventListener('click', hideModal);
   if (modal) modal.addEventListener('click', (e) => { if (e.target === modal) hideModal(); });
-
-  // Close on Escape key
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') hideModal(); });
 </script>
