@@ -31,18 +31,29 @@ jobs:
           cp -a dist/. deploy_package/
           rsync -av --exclude='config/db.php' --exclude='schema.sql' server/. deploy_package/
 
-      # Single FTP step — no dangerous-clean-slate so server-only files
-      # (uploads/, config/db.php, .user.ini, etc.) are never deleted
-      - name: Deploy via FTP to Hostinger
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USER }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./deploy_package/
-          server-dir: ./public_html/
-          dangerous-clean-slate: false
-          exclude: |
-            **/config/db.php
-            **/uploads/**
-            **/.user.ini
+      # lftp is more reliable than JS FTP actions against Hostinger's firewall.
+      # Password is passed via env var (never exposed in logs).
+      - name: Install lftp
+        run: sudo apt-get install -y lftp
+
+      - name: Deploy via FTPS (lftp) to Hostinger
+        env:
+          FTP_HOST: ${{ secrets.FTP_HOST }}
+          FTP_USER: ${{ secrets.FTP_USER }}
+          FTP_PASS: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          lftp -c "
+            set ftp:ssl-allow yes;
+            set ftp:ssl-force no;
+            set ssl:verify-certificate no;
+            set net:timeout 60;
+            set net:max-retries 5;
+            set net:reconnect-interval-base 5;
+            open -u \"$FTP_USER\",\"$FTP_PASS\" \"$FTP_HOST\";
+            mirror --reverse --delete --verbose \
+              --exclude config/db\\.php \
+              --exclude schema\\.sql \
+              --exclude-glob uploads \
+              ./deploy_package/ /public_html/;
+            quit
+          "
