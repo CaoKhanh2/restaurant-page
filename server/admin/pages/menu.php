@@ -5,7 +5,7 @@ $pageScript  = <<<'JS'
 let allDishes = [], categories = [], currentCat = '';
 
 async function loadMenu() {
-  const data = await api('/admin/api/menu.php');
+  const data = await api('/api/menu.php');
   if (!data) return;
   allDishes  = data.dishes;
   categories = data.categories;
@@ -66,7 +66,7 @@ function renderDishes() {
 async function toggleDish(id, active) {
   const dish = allDishes.find(d => d.id == id);
   if (!dish) return;
-  await api(`/admin/api/menu.php?id=${id}`, { method: 'PUT', body: JSON.stringify({ ...dish, is_active: active ? 1 : 0 }) });
+  await api(`/api/menu.php?id=${id}`, { method: 'PUT', body: JSON.stringify({ ...dish, is_active: active ? 1 : 0 }) });
   dish.is_active = active ? 1 : 0;
   toast(active ? 'Dish enabled' : 'Dish hidden');
 }
@@ -148,14 +148,14 @@ async function saveDish() {
     is_active:      form.querySelector('[name=is_active]').checked   ? 1 : 0,
   };
   const res = id
-    ? await api(`/admin/api/menu.php?id=${id}`, { method: 'PUT',  body: JSON.stringify(body) })
-    : await api(`/admin/api/menu.php`,           { method: 'POST', body: JSON.stringify(body) });
+    ? await api(`/api/menu.php?id=${id}`, { method: 'PUT',  body: JSON.stringify(body) })
+    : await api(`/api/menu.php`,           { method: 'POST', body: JSON.stringify(body) });
   if (res) { closeModal(); toast(id ? 'Dish updated' : 'Dish added'); loadMenu(); }
 }
 
 function deleteDish(id, name) {
   confirmDelete(`Delete "${name}"?`, async () => {
-    await api(`/admin/api/menu.php?id=${id}`, { method: 'DELETE' });
+    await api(`/api/menu.php?id=${id}`, { method: 'DELETE' });
     toast('Deleted', 'error');
     loadMenu();
   });

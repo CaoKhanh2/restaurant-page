@@ -31,7 +31,7 @@ jobs:
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASSWORD }}
           port: 65002
-          source: "dist/*"
+          source: "dist/*,server/*"
           target: "/home/${{ secrets.FTP_USER }}/domains/les-4saisonsgeneve.ch/public_html/"
           strip_components: 1
           overwrite: true
