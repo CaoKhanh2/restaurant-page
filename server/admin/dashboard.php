@@ -4,7 +4,7 @@ $pageActions = '';
 $pageScript  = <<<'JS'
 (async () => {
   // Load stats
-  const data = await api('/admin/api/analytics.php?period=week');
+  const data = await api('/api/analytics.php?period=week');
   if (!data) return;
 
   document.getElementById('stat-today').textContent = data.today;
@@ -36,7 +36,7 @@ $pageScript  = <<<'JS'
   });
 
   // Recent reservations
-  const rData = await api('/admin/api/reservations.php?limit=5');
+  const rData = await api('/api/reservations.php?limit=5');
   if (!rData) return;
   const tbody = document.getElementById('res-tbody');
   if (!rData.reservations.length) {
@@ -89,11 +89,11 @@ require_once __DIR__ . '/includes/header.php';
   <div class="card">
     <div class="card-title">Quick Actions</div>
     <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px">
-      <a href="/admin/pages/reservations.php" class="btn btn-secondary">📅 View all reservations</a>
-      <a href="/admin/pages/menu.php"         class="btn btn-secondary">🍜 Manage menu</a>
-      <a href="/admin/pages/gallery.php"      class="btn btn-secondary">🖼️ Manage gallery</a>
-      <a href="/admin/pages/banners.php"      class="btn btn-secondary">📣 Manage banners</a>
-      <a href="/admin/pages/analytics.php"    class="btn btn-secondary">📊 Full analytics</a>
+      <a href="/pages/reservations.php" class="btn btn-secondary">📅 View all reservations</a>
+      <a href="/pages/menu.php"         class="btn btn-secondary">🍜 Manage menu</a>
+      <a href="/pages/gallery.php"      class="btn btn-secondary">🖼️ Manage gallery</a>
+      <a href="/pages/banners.php"      class="btn btn-secondary">📣 Manage banners</a>
+      <a href="/pages/analytics.php"    class="btn btn-secondary">📊 Full analytics</a>
     </div>
   </div>
 </div>
@@ -102,7 +102,7 @@ require_once __DIR__ . '/includes/header.php';
 <div class="card">
   <div class="flex-between" style="margin-bottom:16px">
     <div class="card-title" style="margin-bottom:0">Recent Reservations</div>
-    <a href="/admin/pages/reservations.php" class="btn btn-sm btn-secondary">View all →</a>
+    <a href="/pages/reservations.php" class="btn btn-sm btn-secondary">View all →</a>
   </div>
   <div class="table-wrap">
     <table>

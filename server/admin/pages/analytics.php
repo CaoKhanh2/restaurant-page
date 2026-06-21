@@ -5,7 +5,7 @@ let chart;
 
 async function loadAnalytics(period = 'week') {
   document.querySelectorAll('[data-period]').forEach(b => b.classList.toggle('active', b.dataset.period === period));
-  const data = await api(`/admin/api/analytics.php?period=${period}`);
+  const data = await api(`/api/analytics.php?period=${period}`);
   if (!data) return;
 
   document.getElementById('stat-today').textContent = data.today;
