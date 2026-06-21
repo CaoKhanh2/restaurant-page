@@ -24,14 +24,17 @@ jobs:
         env:
           NODE_ENV: production
 
-      - name: Deploy via SFTP to Hostinger
-        uses: appleboy/scp-action@v0.1.7
+      - name: Prepare deployment package
+        run: |
+          mkdir -p deploy_package
+          cp -a dist/. deploy_package/
+          cp -a server/. deploy_package/
+
+      - name: Deploy via FTP to Hostinger
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          host: ${{ secrets.FTP_HOST }}
+          server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASSWORD }}
-          port: 65002
-          source: "dist/*,server/*"
-          target: "/home/${{ secrets.FTP_USER }}/domains/les-4saisonsgeneve.ch/public_html/"
-          strip_components: 1
-          overwrite: true
+          local-dir: ./deploy_package/
+          server-dir: ./public_html/
