@@ -10,8 +10,8 @@ if (isset($_SESSION['admin'])) {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Admin Login — Les 4 Saisons</title>
-<link rel="stylesheet" href="/assets/css/admin.css">
+<title>Dashboard Login — Les 4 Saisons</title>
+<link rel="stylesheet" href="/assets/css/admin.css?v=2">
 </head>
 <body>
 <div class="login-page">
@@ -35,7 +35,7 @@ if (isset($_SESSION['admin'])) {
   </div>
 </div>
 
-<script src="/assets/js/admin.js"></script>
+<script src="/assets/js/admin.js?v=2"></script>
 <script>
 async function doLogin(e) {
   e.preventDefault();
