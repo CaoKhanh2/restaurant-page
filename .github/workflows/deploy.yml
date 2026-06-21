@@ -22,27 +22,27 @@ jobs:
         env:
           NODE_ENV: production
 
-      # ── Step 1: Deploy Astro static site → public_html/ ──────────────────
-      - name: Deploy Astro site via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USER }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./dist/
-          server-dir: ./public_html/
-          dangerous-clean-slate: true
+      # Merge dist/ + server/ into one deploy_package/
+      # Astro dist/ goes first, then server/ overlays on top (admin/, api/, config/)
+      # We intentionally SKIP config/db.php and schema.sql — managed manually on server
+      - name: Prepare deployment package
+        run: |
+          mkdir -p deploy_package
+          cp -a dist/. deploy_package/
+          rsync -av --exclude='config/db.php' --exclude='schema.sql' server/. deploy_package/
 
-      # ── Step 2: Deploy PHP server files → public_html/ (merge) ───────────
-      # Excludes config/db.php (contains DB credentials, managed manually on server)
-      - name: Deploy PHP server files via FTP
+      # Single FTP step — no dangerous-clean-slate so server-only files
+      # (uploads/, config/db.php, .user.ini, etc.) are never deleted
+      - name: Deploy via FTP to Hostinger
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./server/
+          local-dir: ./deploy_package/
           server-dir: ./public_html/
+          dangerous-clean-slate: false
           exclude: |
             **/config/db.php
-            **/schema.sql
+            **/uploads/**
+            **/.user.ini
