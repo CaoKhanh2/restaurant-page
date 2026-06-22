@@ -3,16 +3,25 @@ on:
   push:
     branches: [main]
 
-# NOTE: Hostinger's built-in Git deploy (branch `deploy`) aborts on `git pull`
-# whenever untracked files exist in public_html (e.g. hashed _astro assets from a
-# prior FTP run). To avoid that fight, this workflow deploys DIRECTLY via FTP with
-# forced overwrite — no reliance on Hostinger pulling the deploy branch.
+# Flow: merge -> main triggers this workflow. It builds the Astro site (this build
+# step doubles as the CI gate — a broken build fails here and nothing is published),
+# then publishes the built output to the `deploy` branch. Hostinger's built-in Git
+# integration (hPanel -> Advanced -> GIT, branch: deploy) pulls `deploy` into
+# public_html — via its auto-deployment webhook, or a manual "Deploy" click.
+#
+# IMPORTANT: we commit ON TOP of the existing `deploy` history (no `git init`),
+# so Hostinger's `git pull` always fast-forwards cleanly. rsync --delete removes
+# stale hashed assets so no orphan _astro files remain to block future pulls.
+
+permissions:
+  contents: write
 
 jobs:
-  build-deploy:
+  build-publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - name: Checkout main
+        uses: actions/checkout@v5
 
       - name: Setup Node.js 22
         uses: actions/setup-node@v5
@@ -22,44 +31,42 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build Astro site
+      - name: Build Astro site (CI gate)
         run: npm run build
         env:
           NODE_ENV: production
 
-      - name: Prepare deployment package
+      # What Hostinger should serve = Astro dist/ + server overlay (admin/, api/).
+      # Skip config/ and schema.sql — managed manually on the server.
+      - name: Assemble deploy package
         run: |
           mkdir -p deploy_package
           cp -a dist/. deploy_package/
-          rsync -av --exclude='config/db.php' --exclude='schema.sql' server/. deploy_package/
+          rsync -av --exclude='config' --exclude='schema.sql' server/. deploy_package/
+          touch deploy_package/.nojekyll
 
-      - name: Install lftp
-        run: sudo apt-get install -y lftp
-
-      - name: Deploy via FTPS (force overwrite) to Hostinger
+      - name: Publish to deploy branch (preserve history)
         env:
-          FTP_HOST: ${{ secrets.FTP_HOST }}
-          FTP_USER: ${{ secrets.FTP_USER }}
-          FTP_PASS: ${{ secrets.FTP_PASSWORD }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          lftp -c "
-            set ftp:ssl-allow yes;
-            set ftp:ssl-force no;
-            set ssl:verify-certificate no;
-            set net:timeout 60;
-            set net:max-retries 5;
-            set net:reconnect-interval-base 5;
-            open -u \"$FTP_USER\",\"$FTP_PASS\" \"$FTP_HOST\";
-            echo '--- before: docroot listing ---';
-            cls -l /public_html/index.html;
-            echo '--- wiping stale _astro then force-mirroring ---';
-            rm -rf /public_html/_astro;
-            mirror --reverse --delete --verbose --ignore-time --no-perms \
-              --exclude config/db\\.php \
-              --exclude schema\\.sql \
-              --exclude-glob uploads \
-              ./deploy_package/ /public_html/;
-            echo '--- after: docroot listing ---';
-            cls -l /public_html/index.html;
-            quit
-          "
+          git clone --branch deploy --single-branch \
+            "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" out
+          cd out
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # Sync new build over the working tree; --delete drops stale files (old _astro).
+          rsync -av --delete --exclude='.git' ../deploy_package/ ./
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to publish."
+          else
+            git commit -m "deploy: build from ${GITHUB_SHA::7}"
+            git push origin deploy
+          fi
+
+      # Optional full automation: add the hPanel auto-deployment Webhook URL as repo
+      # secret HOSTINGER_DEPLOY_WEBHOOK and Hostinger will pull automatically.
+      # Without it, click Deploy in hPanel -> Advanced -> GIT after each run.
+      - name: Trigger Hostinger Git pull (webhook)
+        if: ${{ secrets.HOSTINGER_DEPLOY_WEBHOOK != '' }}
+        run: curl -fsS -X POST "${{ secrets.HOSTINGER_DEPLOY_WEBHOOK }}" && echo "Hostinger pull triggered"
