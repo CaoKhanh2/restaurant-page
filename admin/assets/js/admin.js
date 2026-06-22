@@ -5,14 +5,14 @@ async function api(url, opts = {}) {
     headers: { 'Content-Type': 'application/json', ...(opts.headers || {}) },
     ...opts,
   });
-  if (res.status === 401) { location.href = '/admin/index.php'; return null; }
+  if (res.status === 401) { location.href = '/index.php'; return null; }
   if (res.status === 204) return null;
   return res.json();
 }
 
 async function adminLogout() {
-  await api('/admin/api/auth.php', { method: 'DELETE' });
-  location.href = '/admin/index.php';
+  await api('/api/auth.php', { method: 'DELETE' });
+  location.href = '/index.php';
 }
 
 // Modal

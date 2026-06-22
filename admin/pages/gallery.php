@@ -2,7 +2,7 @@
 $pageTitle   = 'Gallery';
 $pageScript  = <<<'JS'
 async function loadGallery() {
-  const data = await api('/admin/api/gallery.php');
+  const data = await api('/api/gallery.php');
   if (!data) return;
   const grid = document.getElementById('img-grid');
   document.getElementById('img-count').textContent = `${data.images.length} images`;
@@ -22,7 +22,7 @@ async function loadGallery() {
 
 async function deleteImg(id) {
   confirmDelete('Remove this image from the gallery?', async () => {
-    await api(`/admin/api/gallery.php?id=${id}`, { method: 'DELETE' });
+    await api(`/api/gallery.php?id=${id}`, { method: 'DELETE' });
     document.getElementById(`img-${id}`).remove();
     toast('Image removed', 'error');
   });
@@ -55,7 +55,7 @@ async function uploadFile(file) {
   fd.append('image', file);
   fd.append('alt_text', file.name.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' '));
 
-  const res = await fetch('/admin/api/gallery.php', { method: 'POST', body: fd });
+  const res = await fetch('/api/gallery.php', { method: 'POST', body: fd });
   if (res.ok) {
     toast(`Uploaded: ${file.name}`);
   } else {

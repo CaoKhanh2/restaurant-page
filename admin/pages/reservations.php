@@ -5,7 +5,7 @@ $pageScript  = <<<'JS'
 let reservations = [];
 
 async function loadReservations(status = '') {
-  const url = '/admin/api/reservations.php' + (status ? `?status=${status}` : '');
+  const url = '/api/reservations.php' + (status ? `?status=${status}` : '');
   const data = await api(url);
   if (!data) return;
   reservations = data.reservations;
@@ -40,7 +40,7 @@ function renderTable() {
 }
 
 async function setStatus(id, status) {
-  const res = await api(`/admin/api/reservations.php?id=${id}`, {
+  const res = await api(`/api/reservations.php?id=${id}`, {
     method: 'PATCH',
     body: JSON.stringify({ status }),
   });
@@ -49,7 +49,7 @@ async function setStatus(id, status) {
 
 function deleteRes(id) {
   confirmDelete('Delete this reservation?', async () => {
-    const res = await api(`/admin/api/reservations.php?id=${id}`, { method: 'DELETE' });
+    const res = await api(`/api/reservations.php?id=${id}`, { method: 'DELETE' });
     if (res) { toast('Deleted', 'error'); loadReservations(); }
   });
 }

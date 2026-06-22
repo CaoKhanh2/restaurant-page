@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['admin'])) {
-    header('Location: /admin/index.php');
+    header('Location: /index.php');
     exit;
 }
 
@@ -18,7 +18,7 @@ function isActive(string $match, string $page, string $dir): string {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title><?= htmlspecialchars($pageTitle ?? 'Admin') ?> — Restaurant Admin</title>
-<link rel="stylesheet" href="/admin/assets/css/admin.css">
+<link rel="stylesheet" href="/assets/css/admin.css?v=2">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 </head>
 <body>
@@ -31,22 +31,22 @@ function isActive(string $match, string $page, string $dir): string {
       <p>Restaurant Admin</p>
     </div>
     <nav class="sidebar-nav">
-      <a href="/admin/dashboard.php" class="nav-item <?= isActive('dashboard', $currentPage, $currentDir) ?>">
+      <a href="/dashboard.php" class="nav-item <?= isActive('dashboard', $currentPage, $currentDir) ?>">
         <span class="icon">🏠</span> Dashboard
       </a>
-      <a href="/admin/pages/reservations.php" class="nav-item <?= isActive('reservations', $currentPage, $currentDir) ?>">
+      <a href="/pages/reservations.php" class="nav-item <?= isActive('reservations', $currentPage, $currentDir) ?>">
         <span class="icon">📅</span> Reservations
       </a>
-      <a href="/admin/pages/menu.php" class="nav-item <?= isActive('menu', $currentPage, $currentDir) ?>">
+      <a href="/pages/menu.php" class="nav-item <?= isActive('menu', $currentPage, $currentDir) ?>">
         <span class="icon">🍜</span> Menu
       </a>
-      <a href="/admin/pages/gallery.php" class="nav-item <?= isActive('gallery', $currentPage, $currentDir) ?>">
+      <a href="/pages/gallery.php" class="nav-item <?= isActive('gallery', $currentPage, $currentDir) ?>">
         <span class="icon">🖼️</span> Gallery
       </a>
-      <a href="/admin/pages/banners.php" class="nav-item <?= isActive('banners', $currentPage, $currentDir) ?>">
+      <a href="/pages/banners.php" class="nav-item <?= isActive('banners', $currentPage, $currentDir) ?>">
         <span class="icon">📣</span> Banners
       </a>
-      <a href="/admin/pages/analytics.php" class="nav-item <?= isActive('analytics', $currentPage, $currentDir) ?>">
+      <a href="/pages/analytics.php" class="nav-item <?= isActive('analytics', $currentPage, $currentDir) ?>">
         <span class="icon">📊</span> Analytics
       </a>
     </nav>

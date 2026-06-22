@@ -14,7 +14,7 @@
   </div>
 </div>
 
-<script src="/admin/assets/js/admin.js"></script>
+<script src="/assets/js/admin.js?v=2"></script>
 <?php if (!empty($pageScript)): ?>
 <script><?= $pageScript ?></script>
 <?php endif; ?>

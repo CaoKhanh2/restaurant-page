@@ -5,7 +5,7 @@ $pageScript  = <<<'JS'
 let banners = [];
 
 async function loadBanners() {
-  const data = await api('/admin/api/banners.php');
+  const data = await api('/api/banners.php');
   if (!data) return;
   banners = data.banners;
   renderBanners();
@@ -42,7 +42,7 @@ function renderBanners() {
 async function toggleBanner(id, active) {
   const b = banners.find(x => x.id == id);
   if (!b) return;
-  await api(`/admin/api/banners.php?id=${id}`, {
+  await api(`/api/banners.php?id=${id}`, {
     method: 'PUT',
     body: JSON.stringify({ ...b, is_active: active ? 1 : 0 }),
   });
@@ -99,14 +99,14 @@ async function saveBanner() {
     ends_at:   fd.get('ends_at')   || null,
   };
   const res = id
-    ? await api(`/admin/api/banners.php?id=${id}`, { method: 'PUT',  body: JSON.stringify(body) })
-    : await api(`/admin/api/banners.php`,           { method: 'POST', body: JSON.stringify(body) });
+    ? await api(`/api/banners.php?id=${id}`, { method: 'PUT',  body: JSON.stringify(body) })
+    : await api(`/api/banners.php`,           { method: 'POST', body: JSON.stringify(body) });
   if (res) { closeModal(); toast(id ? 'Banner updated' : 'Banner created'); loadBanners(); }
 }
 
 function deleteBanner(id) {
   confirmDelete('Delete this banner?', async () => {
-    await api(`/admin/api/banners.php?id=${id}`, { method: 'DELETE' });
+    await api(`/api/banners.php?id=${id}`, { method: 'DELETE' });
     toast('Deleted', 'error');
     loadBanners();
   });
