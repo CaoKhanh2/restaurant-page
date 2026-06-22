@@ -68,5 +68,11 @@ jobs:
       # secret HOSTINGER_DEPLOY_WEBHOOK and Hostinger will pull automatically.
       # Without it, click Deploy in hPanel -> Advanced -> GIT after each run.
       - name: Trigger Hostinger Git pull (webhook)
-        if: ${{ secrets.HOSTINGER_DEPLOY_WEBHOOK != '' }}
-        run: curl -fsS -X POST "${{ secrets.HOSTINGER_DEPLOY_WEBHOOK }}" && echo "Hostinger pull triggered"
+        env:
+          WEBHOOK: ${{ secrets.HOSTINGER_DEPLOY_WEBHOOK }}
+        run: |
+          if [ -n "$WEBHOOK" ]; then
+            curl -fsS -X POST "$WEBHOOK" && echo "Hostinger pull triggered"
+          else
+            echo "No HOSTINGER_DEPLOY_WEBHOOK secret set; skipping. Click Deploy in hPanel."
+          fi
