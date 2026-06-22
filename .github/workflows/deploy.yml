@@ -50,7 +50,12 @@ jobs:
             set net:max-retries 5;
             set net:reconnect-interval-base 5;
             open -u \"$FTP_USER\",\"$FTP_PASS\" \"$FTP_HOST\";
+            echo '--- Remote working dir + listing (verify docroot) ---';
+            pwd;
+            cls -l /public_html/;
+            echo '--- Start mirror ---';
             mirror --reverse --delete --verbose \
+              --ignore-time \
               --exclude config/db\\.php \
               --exclude schema\\.sql \
               --exclude-glob uploads \
