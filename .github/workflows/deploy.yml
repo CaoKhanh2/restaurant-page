@@ -63,16 +63,3 @@ jobs:
             git commit -m "deploy: build from ${GITHUB_SHA::7}"
             git push origin deploy
           fi
-
-      # Optional full automation: add the hPanel auto-deployment Webhook URL as repo
-      # secret HOSTINGER_DEPLOY_WEBHOOK and Hostinger will pull automatically.
-      # Without it, click Deploy in hPanel -> Advanced -> GIT after each run.
-      - name: Trigger Hostinger Git pull (webhook)
-        env:
-          WEBHOOK: ${{ secrets.HOSTINGER_DEPLOY_WEBHOOK }}
-        run: |
-          if [ -n "$WEBHOOK" ]; then
-            curl -fsS -X POST "$WEBHOOK" && echo "Hostinger pull triggered"
-          else
-            echo "No HOSTINGER_DEPLOY_WEBHOOK secret set; skipping. Click Deploy in hPanel."
-          fi
