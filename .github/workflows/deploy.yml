@@ -3,6 +3,11 @@ on:
   push:
     branches: [main]
 
+# NOTE: Hostinger's built-in Git deploy (branch `deploy`) aborts on `git pull`
+# whenever untracked files exist in public_html (e.g. hashed _astro assets from a
+# prior FTP run). To avoid that fight, this workflow deploys DIRECTLY via FTP with
+# forced overwrite — no reliance on Hostinger pulling the deploy branch.
+
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
@@ -22,21 +27,16 @@ jobs:
         env:
           NODE_ENV: production
 
-      # Merge dist/ + server/ into one deploy_package/
-      # Astro dist/ goes first, then server/ overlays on top (admin/, api/, config/)
-      # We intentionally SKIP config/db.php and schema.sql — managed manually on server
       - name: Prepare deployment package
         run: |
           mkdir -p deploy_package
           cp -a dist/. deploy_package/
           rsync -av --exclude='config/db.php' --exclude='schema.sql' server/. deploy_package/
 
-      # lftp is more reliable than JS FTP actions against Hostinger's firewall.
-      # Password is passed via env var (never exposed in logs).
       - name: Install lftp
         run: sudo apt-get install -y lftp
 
-      - name: Deploy via FTPS (lftp) to Hostinger
+      - name: Deploy via FTPS (force overwrite) to Hostinger
         env:
           FTP_HOST: ${{ secrets.FTP_HOST }}
           FTP_USER: ${{ secrets.FTP_USER }}
@@ -50,15 +50,16 @@ jobs:
             set net:max-retries 5;
             set net:reconnect-interval-base 5;
             open -u \"$FTP_USER\",\"$FTP_PASS\" \"$FTP_HOST\";
-            echo '--- Remote working dir + listing (verify docroot) ---';
-            pwd;
-            cls -l /public_html/;
-            echo '--- Start mirror ---';
-            mirror --reverse --delete --verbose \
-              --ignore-time \
+            echo '--- before: docroot listing ---';
+            cls -l /public_html/index.html;
+            echo '--- wiping stale _astro then force-mirroring ---';
+            rm -rf /public_html/_astro;
+            mirror --reverse --delete --verbose --ignore-time --no-perms \
               --exclude config/db\\.php \
               --exclude schema\\.sql \
               --exclude-glob uploads \
               ./deploy_package/ /public_html/;
+            echo '--- after: docroot listing ---';
+            cls -l /public_html/index.html;
             quit
           "
