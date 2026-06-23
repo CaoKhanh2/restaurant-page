@@ -14,10 +14,41 @@
 </style></head> <body class> <div id="preloader" aria-hidden="true"> <div class="preloader-inner"> <img src="/images/logo-transparent.png" alt="Restaurant Les 4 Saisons" width="180" height="180"> <span class="preloader-line"></span> </div> </div> <div id="scroll-progress"></div> <header> <nav> <a href="/" class="logo" aria-label="Accueil"> <img src="/images/logo-transparent.png" alt="Restaurant Les 4 Saisons Logo"> </a> <ul class="main-nav"> <li><a href="/" class data-i18n="nav.home">ACCUEIL</a></li><li><a href="/menu.html" class data-i18n="nav.menu">ACCUEIL</a></li><li><a href="/gallery.html" class data-i18n="nav.gallery">ACCUEIL</a></li><li><a href="/about.html" class data-i18n="nav.about">ACCUEIL</a></li> </ul> <a href="tel:+41227005067" class="nav-phone">(+41) 22 700 50 67</a> <!-- Language toggle --> <div class="lang-toggle" id="lang-toggle" aria-label="Changer de langue"> <button class="lang-btn active" data-lang-btn="fr">FR</button> <span class="lang-sep">|</span> <button class="lang-btn" data-lang-btn="en">EN</button> </div> <button id="theme-toggle" class="theme-toggle" aria-label="Basculer thème clair/sombre"> <i class="fa-solid fa-moon"></i> </button> <button id="mobile-nav-toggle" class="mobile-nav-toggle" aria-label="Menu"> <i class="fa-solid fa-bars"></i> </button> </nav> </header> <main>  <section id="dish-detail-section"> <div class="dish-detail-container" data-reveal> <div class="dish-image"> <img id="dish-img" src="" alt="Image du plat"> </div> <div class="dish-info"> <h1 id="dish-name">Nom du Plat</h1> <p id="dish-description">Description du plat…</p> <div class="dish-price" id="dish-price">--.--</div> <a href="/menu.html" class="btn"><i class="fas fa-arrow-left"></i> Retour au Menu</a> </div> </div> </section>  </main> <footer> <div class="footer-content"> <div class="footer-logo"> <img src="/images/logo-transparent.png" alt="Restaurant Les 4 Saisons Logo"> </div> <div class="footer-contact-info"> <p class="restaurant-name">Restaurant Les 4 Saisons</p> <p>Rue Henri-Blanvalet 3</p> <p>1207 Genève, Suisse</p> </div> <div class="footer-phone"> <a href="tel:+41227005067" class="phone-number">(+41) 22 700 50 67</a> </div> <div class="footer-social"> <p class="social-heading" data-i18n="footer.follow">Suivez-nous</p> <div class="social-icons"> <a href="https://www.facebook.com/restaurantles4saisons/" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a> <a href="https://www.instagram.com/restaurant_les4saisons/?hl=fr" aria-label="Instagram"><i class="fab fa-instagram"></i></a> </div> </div> </div> <div class="footer-bottom"> <span data-i18n="footer.privacy">Politique de confidentialité</span> <span>© 2025 Restaurant Les 4 Saisons — All Rights Reserved</span> <span data-i18n="footer.credit">Réalisé par Cain</span> </div> </footer> <a href="#" id="back-to-top" aria-label="Remonter en haut"><i class="fas fa-arrow-up"></i></a> <script type="module" src="/_astro/Layout.astro_astro_type_script_index_0_lang.BD3nn6EC.js"></script> <!-- Analytics: log page visit to MySQL --> <script>
       (function() {
         try {
-          navigator.sendBeacon('/api/analytics.php', JSON.stringify({
+          var key = 'les4saisons_visitor_id';
+          var visitorId = '';
+
+          try {
+            visitorId = localStorage.getItem(key) || '';
+            if (!/^[A-Za-z0-9_-]{16,128}$/.test(visitorId)) {
+              var bytes = new Uint8Array(16);
+              if (window.crypto && window.crypto.getRandomValues) {
+                window.crypto.getRandomValues(bytes);
+                visitorId = Array.prototype.map.call(bytes, function(byte) {
+                  return byte.toString(16).padStart(2, '0');
+                }).join('');
+              } else {
+                visitorId = String(Date.now()) + String(Math.random()).slice(2);
+              }
+              localStorage.setItem(key, visitorId);
+            }
+          } catch (e) {}
+
+          var payload = JSON.stringify({
             page:     location.pathname,
             referrer: document.referrer || '',
-          }));
+            visitor_id: visitorId,
+          });
+
+          if (navigator.sendBeacon) {
+            navigator.sendBeacon('/api/analytics.php', new Blob([payload], { type: 'application/json' }));
+          } else {
+            fetch('/api/analytics.php', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: payload,
+              keepalive: true,
+            });
+          }
         } catch(e) {}
       })();
     </script> </body> </html> <script type="module">const n=new URLSearchParams(location.search),t=n.get("name");let e=n.get("image");const c=n.get("description"),i=n.get("price");e&&e.includes("placeholder")&&(e="/images/image-bientot-disponible.svg");t&&(document.getElementById("dish-name").textContent=t,document.title=`${t} - Restaurant Les 4 Saisons`);const s=document.getElementById("dish-img");e&&(s.src=e,s.alt=`Image de ${t||"plat"}`);document.getElementById("dish-description").textContent=c||"Aucune description disponible pour ce plat.";i&&(document.getElementById("dish-price").textContent=`${i}.-`);</script>

@@ -19,10 +19,41 @@ Après être arrivés de Hong Kong en 1991, les frères Chung ont travaillé
 </p> <a href="/about.html" class="btn btn-dark" data-i18n="about.btn">Plus sur Les 4 Saisons</a> </div> </div> </section> <section id="gallery"> <span class="eyebrow" style="display:block;text-align:center" data-reveal>Galerie</span> <h2 data-reveal>Nos saveurs en images</h2> <div class="gallery-scroll-container"> <div class="gallery-grid" data-reveal-stagger> <div class="grid-item"> <picture> <source srcset="/images/food/food6.webp" type="image/webp"> <img src="/images/food/food6.jpg" alt="Plat 1" width="400" height="533" loading="lazy"> </picture> </div><div class="grid-item"> <picture> <source srcset="/images/food/food5.webp" type="image/webp"> <img src="/images/food/food5.jpg" alt="Plat 2" width="400" height="533" loading="lazy"> </picture> </div><div class="grid-item"> <picture> <source srcset="/images/food/food8.webp" type="image/webp"> <img src="/images/food/food8.jpg" alt="Plat 3" width="400" height="533" loading="lazy"> </picture> </div><div class="grid-item"> <picture> <source srcset="/images/food/food7.webp" type="image/webp"> <img src="/images/food/food7.jpg" alt="Plat 4" width="400" height="533" loading="lazy"> </picture> </div><div class="grid-item"> <picture> <source srcset="/images/food/food19.webp" type="image/webp"> <img src="/images/food/food19.jpg" alt="Plat 5" width="400" height="533" loading="lazy"> </picture> </div> </div> </div> </section>  </main> <footer> <div class="footer-content"> <div class="footer-logo"> <img src="/images/logo-transparent.png" alt="Restaurant Les 4 Saisons Logo"> </div> <div class="footer-contact-info"> <p class="restaurant-name">Restaurant Les 4 Saisons</p> <p>Rue Henri-Blanvalet 3</p> <p>1207 Genève, Suisse</p> </div> <div class="footer-phone"> <a href="tel:+41227005067" class="phone-number">(+41) 22 700 50 67</a> </div> <div class="footer-social"> <p class="social-heading" data-i18n="footer.follow">Suivez-nous</p> <div class="social-icons"> <a href="https://www.facebook.com/restaurantles4saisons/" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a> <a href="https://www.instagram.com/restaurant_les4saisons/?hl=fr" aria-label="Instagram"><i class="fab fa-instagram"></i></a> </div> </div> </div> <div class="footer-bottom"> <span data-i18n="footer.privacy">Politique de confidentialité</span> <span>© 2025 Restaurant Les 4 Saisons — All Rights Reserved</span> <span data-i18n="footer.credit">Réalisé par Cain</span> </div> </footer> <a href="#" id="back-to-top" aria-label="Remonter en haut"><i class="fas fa-arrow-up"></i></a> <script type="module" src="/_astro/Layout.astro_astro_type_script_index_0_lang.BD3nn6EC.js"></script> <!-- Analytics: log page visit to MySQL --> <script>
       (function() {
         try {
-          navigator.sendBeacon('/api/analytics.php', JSON.stringify({
+          var key = 'les4saisons_visitor_id';
+          var visitorId = '';
+
+          try {
+            visitorId = localStorage.getItem(key) || '';
+            if (!/^[A-Za-z0-9_-]{16,128}$/.test(visitorId)) {
+              var bytes = new Uint8Array(16);
+              if (window.crypto && window.crypto.getRandomValues) {
+                window.crypto.getRandomValues(bytes);
+                visitorId = Array.prototype.map.call(bytes, function(byte) {
+                  return byte.toString(16).padStart(2, '0');
+                }).join('');
+              } else {
+                visitorId = String(Date.now()) + String(Math.random()).slice(2);
+              }
+              localStorage.setItem(key, visitorId);
+            }
+          } catch (e) {}
+
+          var payload = JSON.stringify({
             page:     location.pathname,
             referrer: document.referrer || '',
-          }));
+            visitor_id: visitorId,
+          });
+
+          if (navigator.sendBeacon) {
+            navigator.sendBeacon('/api/analytics.php', new Blob([payload], { type: 'application/json' }));
+          } else {
+            fetch('/api/analytics.php', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: payload,
+              keepalive: true,
+            });
+          }
         } catch(e) {}
       })();
     </script> </body> </html>

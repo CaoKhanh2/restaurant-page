@@ -19,9 +19,13 @@ $cfg = $intervals[$period] ?? $intervals['week'];
 
 // Visitors over time
 $stmt = $db->prepare("
-    SELECT DATE_FORMAT(visited_at, ?) AS label, COUNT(*) AS visits
-    FROM analytics
-    WHERE visited_at >= NOW() - INTERVAL ? DAY
+    SELECT DATE_FORMAT(first_seen, ?) AS label, COUNT(*) AS visits
+    FROM (
+        SELECT ip_hash, MIN(visited_at) AS first_seen
+        FROM analytics
+        WHERE visited_at >= NOW() - INTERVAL ? DAY
+        GROUP BY ip_hash
+    ) unique_visitors
     GROUP BY label
     ORDER BY label ASC
 ");
@@ -41,10 +45,18 @@ $stmt2->execute([$cfg['days']]);
 $topPages = $stmt2->fetchAll();
 
 // Today total
-$todayCount = $db->query("SELECT COUNT(*) FROM analytics WHERE DATE(visited_at) = CURDATE()")->fetchColumn();
+$todayCount = $db->query("
+    SELECT COUNT(DISTINCT ip_hash)
+    FROM analytics
+    WHERE visited_at >= CURDATE()
+")->fetchColumn();
 
 // This week total
-$weekCount = $db->query("SELECT COUNT(*) FROM analytics WHERE visited_at >= NOW() - INTERVAL 7 DAY")->fetchColumn();
+$weekCount = $db->query("
+    SELECT COUNT(DISTINCT ip_hash)
+    FROM analytics
+    WHERE visited_at >= NOW() - INTERVAL 7 DAY
+")->fetchColumn();
 
 // Pending reservations
 $pendingRes = $db->query("SELECT COUNT(*) FROM reservations WHERE status = 'pending'")->fetchColumn();
