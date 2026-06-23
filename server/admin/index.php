@@ -21,14 +21,14 @@ if (isset($_SESSION['admin'])) {
       <p>Restaurant Dashboard</p>
     </div>
     <div id="error-msg"></div>
-    <form id="loginForm" onsubmit="doLogin(event)">
+    <form id="loginForm" onsubmit="doLogin(event)" autocomplete="off">
       <div class="form-group">
         <label>Username</label>
-        <input type="text" name="username" class="form-control" placeholder="admin" required autofocus>
+        <input type="text" name="username" class="form-control" autocomplete="off" required autofocus>
       </div>
       <div class="form-group">
         <label>Password</label>
-        <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+        <input type="password" name="password" class="form-control" autocomplete="new-password" required>
       </div>
       <button type="submit" class="btn btn-primary" id="submitBtn">Sign in</button>
     </form>
