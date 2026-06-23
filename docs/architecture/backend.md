@@ -49,7 +49,7 @@ Hostinger GIT auto-deploy phải dùng **`git pull`/merge** (giữ file untracke
 ---
 
 ## Bảo mật — bắt buộc
-- `server/config/db.php` **phải gitignore** (đừng đẩy mật khẩu lên repo). Khi deploy, CI **sinh `db.php` từ secret `DB_PASS`** (`deploy.yml`) — không commit mật khẩu.
+- `server/config/db.php` **phải gitignore** (đừng đẩy mật khẩu lên repo). CI không deploy file này; tạo `public_html/config/db.php` thủ công từ `server/config/db.example.php`.
 - `seed.php` **không** để sót trên server sau khi seed.
 - Đổi mật khẩu admin mặc định ngay.
 - API admin (`server/admin/api/`) phải kiểm tra `auth.php` (session/token) trước mọi thao tác ghi.

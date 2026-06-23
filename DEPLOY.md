@@ -82,8 +82,8 @@ Khai báo `FTP_HOST`, `FTP_USER`, `FTP_PASSWORD` trong **GitHub → Settings →
 3. Kiểm tra: 7 bảng đã tạo + 12 categories seeded
 
 ### Bước 3: Cấu hình database
-- Mở `server/config/db.php`
-- Điền DB_NAME, DB_USER, DB_PASS đúng với bước 1
+- Copy `server/config/db.example.php` thành `public_html/config/db.php`
+- Điền DB name, username, password đúng với bước 1
 - **KHÔNG commit file này lên git!**
 
 ### Bước 4: Tạo subdomain admin
