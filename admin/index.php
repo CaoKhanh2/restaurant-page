@@ -41,25 +41,48 @@ async function doLogin(e) {
   e.preventDefault();
   const btn = document.getElementById('submitBtn');
   btn.disabled = true;
-  btn.textContent = 'Signing in…';
+  btn.textContent = 'Signing in...';
 
   const fd   = new FormData(e.target);
   const body = { username: fd.get('username'), password: fd.get('password') };
-  const res  = await fetch('/api/auth.php', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
-  });
+  try {
+    const res = await fetch('/api/auth.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
 
-  if (res.ok) {
-    location.href = '/dashboard.php';
-  } else {
-    const data = await res.json();
-    document.getElementById('error-msg').innerHTML =
-      `<div class="alert alert-error">${data.error || 'Login failed'}</div>`;
+    if (res.ok) {
+      location.href = '/dashboard.php';
+      return;
+    }
+
+    let message = res.status >= 500
+      ? `Server error (${res.status}). Check backend configuration.`
+      : `Login failed (${res.status})`;
+
+    if ((res.headers.get('content-type') || '').includes('application/json')) {
+      const data = await res.json();
+      message = data.error || message;
+    }
+
+    showLoginError(message);
+  } catch (error) {
+    showLoginError('Network error. Please try again.');
+  } finally {
     btn.disabled = false;
     btn.textContent = 'Sign in';
   }
+}
+
+function showLoginError(message) {
+  const target = document.getElementById('error-msg');
+  target.innerHTML = '';
+
+  const alert = document.createElement('div');
+  alert.className = 'alert alert-error';
+  alert.textContent = message;
+  target.appendChild(alert);
 }
 </script>
 </body>
