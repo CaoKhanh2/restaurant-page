@@ -37,12 +37,12 @@ jobs:
           NODE_ENV: production
 
       # What Hostinger should serve = Astro dist/ + server overlay (admin/, api/).
-      # Skip config/ and schema.sql — managed manually on the server.
+      # Skip config/db.php and schema.sql; DB secrets stay manual on the server.
       - name: Assemble deploy package
         run: |
           mkdir -p deploy_package
           cp -a dist/. deploy_package/
-          rsync -av --exclude='config' --exclude='schema.sql' server/. deploy_package/
+          rsync -av --exclude='config/db.php' --exclude='schema.sql' server/. deploy_package/
           touch deploy_package/.nojekyll
 
       - name: Publish to deploy branch (preserve history)
