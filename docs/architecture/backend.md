@@ -93,6 +93,6 @@ Không test được từ máy dev (DB ở remote). Cách verify trên Hostinger
 ### ⚠️ CÒN THIẾU
 | Endpoint | Cần thêm |
 |---|---|
-| `analytics.php` (POST) | **throttle** theo `ip_hash+page` (vd 1 lần/30 phút) hoặc sampling — hiện ghi DB **mỗi view** |
+| `analytics.php` (POST) | Visitor stats dùng `COUNT(DISTINCT ip_hash)`; vẫn có thể thêm throttle/sampling nếu cần giảm số dòng page-event trong DB |
 | `menu.php` · `gallery.php` (GET) | CORS đang `*` (rủi ro thấp: read-only + cache 60s); cân nhắc server-cache nếu traffic lớn |
 | Chung | *(tuỳ chọn)* Cloudflare Turnstile/reCAPTCHA cho form; firewall/rate-limit ở Hostinger/Cloudflare |
