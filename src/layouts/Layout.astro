@@ -98,10 +98,41 @@ const schema = {
     <script is:inline>
       (function() {
         try {
-          navigator.sendBeacon('/api/analytics.php', JSON.stringify({
+          var key = 'les4saisons_visitor_id';
+          var visitorId = '';
+
+          try {
+            visitorId = localStorage.getItem(key) || '';
+            if (!/^[A-Za-z0-9_-]{16,128}$/.test(visitorId)) {
+              var bytes = new Uint8Array(16);
+              if (window.crypto && window.crypto.getRandomValues) {
+                window.crypto.getRandomValues(bytes);
+                visitorId = Array.prototype.map.call(bytes, function(byte) {
+                  return byte.toString(16).padStart(2, '0');
+                }).join('');
+              } else {
+                visitorId = String(Date.now()) + String(Math.random()).slice(2);
+              }
+              localStorage.setItem(key, visitorId);
+            }
+          } catch (e) {}
+
+          var payload = JSON.stringify({
             page:     location.pathname,
             referrer: document.referrer || '',
-          }));
+            visitor_id: visitorId,
+          });
+
+          if (navigator.sendBeacon) {
+            navigator.sendBeacon('/api/analytics.php', new Blob([payload], { type: 'application/json' }));
+          } else {
+            fetch('/api/analytics.php', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: payload,
+              keepalive: true,
+            });
+          }
         } catch(e) {}
       })();
     </script>
