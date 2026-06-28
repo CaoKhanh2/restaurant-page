@@ -1,109 +1,172 @@
 <?php
 $pageTitle  = 'Analytics';
 $pageScript = <<<'JS'
-let chart;
+(() => {
+  let analyticsChart = null;
 
-async function loadAnalytics(period = 'week') {
-  document.querySelectorAll('[data-period]').forEach(b => b.classList.toggle('active', b.dataset.period === period));
-  const data = await api(`/api/analytics.php?period=${period}`);
-  if (!data) return;
-
-  document.getElementById('stat-today').textContent = data.today;
-  document.getElementById('stat-week').textContent  = data.this_week;
-  document.getElementById('stat-res').textContent   = data.pending_res;
-
-  // Timeline chart
-  if (chart) chart.destroy();
-  const ctx = document.getElementById('visitorChart').getContext('2d');
-  chart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: data.timeline.map(r => r.label),
-      datasets: [{
-        label: 'Visitors',
-        data:  data.timeline.map(r => r.visits),
-        backgroundColor: 'rgba(201,168,76,.7)',
-        borderColor: '#c9a84c',
-        borderWidth: 1,
-        borderRadius: 4,
-      }],
+  Vue.createApp({
+    data() {
+      return {
+        loading: true,
+        error: '',
+        period: 'week',
+        data: {
+          timeline: [],
+          top_pages: [],
+          today: 0,
+          this_week: 0,
+          pending_res: 0,
+        },
+      };
     },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: { y: { beginAtZero: true, ticks: { precision: 0 } } },
+    computed: {
+      periods() {
+        return [
+          { label: 'Today', value: 'day' },
+          { label: '7 days', value: 'week' },
+          { label: '30 days', value: 'month' },
+        ];
+      },
+      maxPageVisits() {
+        return Math.max(1, ...this.data.top_pages.map((page) => Number(page.visits || 0)));
+      },
     },
-  });
+    methods: {
+      async loadAnalytics(period = this.period) {
+        this.period = period;
+        this.loading = true;
+        this.error = '';
+        try {
+          this.data = await adminApi(`/api/analytics.php?period=${period}`);
+          this.$nextTick(this.renderChart);
+        } catch (error) {
+          this.error = error.message || 'Could not load analytics.';
+        } finally {
+          this.loading = false;
+        }
+      },
+      renderChart() {
+        const canvas = document.getElementById('analyticsVisitorChart');
+        if (!canvas || !window.Chart) return;
+        if (analyticsChart) analyticsChart.destroy();
 
-  // Top pages
-  const tbody = document.getElementById('pages-tbody');
-  if (!data.top_pages.length) {
-    tbody.innerHTML = '<tr><td colspan="2" style="text-align:center;color:#999">No data yet</td></tr>';
-    return;
-  }
-  const max = data.top_pages[0].visits;
-  tbody.innerHTML = data.top_pages.map(p => `
-    <tr>
-      <td>
-        <div style="font-family:monospace;font-size:.82rem">${p.page_url}</div>
-        <div style="background:rgba(201,168,76,.25);height:4px;border-radius:2px;margin-top:4px;width:${Math.round(p.visits/max*100)}%"></div>
-      </td>
-      <td style="text-align:right;font-weight:600">${p.visits}</td>
-    </tr>
-  `).join('');
-}
-
-document.querySelectorAll('[data-period]').forEach(btn => {
-  btn.addEventListener('click', () => loadAnalytics(btn.dataset.period));
-});
-
-loadAnalytics('week');
+        analyticsChart = new Chart(canvas.getContext('2d'), {
+          type: 'bar',
+          data: {
+            labels: this.data.timeline.map((row) => row.label),
+            datasets: [{
+              label: 'Unique visitors',
+              data: this.data.timeline.map((row) => row.visits),
+              backgroundColor: 'rgba(160, 120, 47, .72)',
+              borderColor: '#a0782f',
+              borderWidth: 1,
+              borderRadius: 4,
+            }],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: true, ticks: { precision: 0 } } },
+          },
+        });
+      },
+      pageWidth(page) {
+        return `${Math.round((Number(page.visits || 0) / this.maxPageVisits) * 100)}%`;
+      },
+    },
+    mounted() {
+      this.loadAnalytics('week');
+    },
+  }).mount('#analytics-app');
+})();
 JS;
 require_once __DIR__ . '/../includes/header.php';
 ?>
 
-<div class="stats-grid" style="margin-bottom:24px">
-  <div class="stat-card accent">
-    <div class="stat-icon">👁️</div>
-    <div class="stat-value" id="stat-today">—</div>
-    <div class="stat-label">Visitors today</div>
-  </div>
-  <div class="stat-card accent">
-    <div class="stat-icon">📈</div>
-    <div class="stat-value" id="stat-week">—</div>
-    <div class="stat-label">Visitors this week</div>
-  </div>
-  <div class="stat-card accent">
-    <div class="stat-icon">📅</div>
-    <div class="stat-value" id="stat-res">—</div>
-    <div class="stat-label">Pending reservations</div>
-  </div>
-</div>
-
-<div class="card" style="margin-bottom:20px">
-  <div class="flex-between" style="margin-bottom:16px">
-    <div class="card-title" style="margin-bottom:0">Visitor Traffic</div>
-    <div class="tab-bar" style="margin-bottom:0">
-      <button class="tab" data-period="day">Today</button>
-      <button class="tab active" data-period="week">7 Days</button>
-      <button class="tab" data-period="month">30 Days</button>
+<div id="analytics-app" class="admin-vue-page" v-cloak>
+  <div class="toolbar">
+    <div>
+      <p class="eyebrow">Website demand</p>
+      <h2>Analytics</h2>
+    </div>
+    <div class="tab-bar period-tabs">
+      <button
+        v-for="item in periods"
+        :key="item.value"
+        type="button"
+        class="tab"
+        :class="{ active: period === item.value }"
+        @click="loadAnalytics(item.value)"
+      >
+        {{ item.label }}
+      </button>
     </div>
   </div>
-  <div class="chart-container">
-    <canvas id="visitorChart"></canvas>
-  </div>
-</div>
 
-<div class="card">
-  <div class="card-title">Top Pages</div>
-  <div class="table-wrap">
-    <table>
-      <thead><tr><th>Page</th><th style="text-align:right">Visits</th></tr></thead>
-      <tbody id="pages-tbody">
-        <tr><td colspan="2" style="text-align:center;padding:24px;color:#999">Loading…</td></tr>
-      </tbody>
-    </table>
+  <div class="kpi-grid analytics-kpis">
+    <article class="kpi-card tone-neutral">
+      <div class="kpi-icon"><i class="fa-solid fa-eye"></i></div>
+      <div><div class="kpi-value">{{ data.today }}</div><div class="kpi-label">Visitors today</div></div>
+    </article>
+    <article class="kpi-card tone-accent">
+      <div class="kpi-icon"><i class="fa-solid fa-chart-line"></i></div>
+      <div><div class="kpi-value">{{ data.this_week }}</div><div class="kpi-label">Visitors this week</div></div>
+    </article>
+    <article class="kpi-card tone-warning">
+      <div class="kpi-icon"><i class="fa-solid fa-inbox"></i></div>
+      <div><div class="kpi-value">{{ data.pending_res }}</div><div class="kpi-label">Pending reservations</div></div>
+    </article>
   </div>
+
+  <div v-if="error" class="alert alert-error">{{ error }}</div>
+  <div v-if="loading" class="loading-panel"><i class="fa-solid fa-circle-notch spin"></i> Loading analytics...</div>
+
+  <template v-else>
+    <div class="card">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Traffic</p>
+          <h3>Unique visitors</h3>
+        </div>
+        <span class="text-muted small">Based on distinct visitor hashes</span>
+      </div>
+      <div class="chart-container">
+        <canvas id="analyticsVisitorChart"></canvas>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Page demand</p>
+          <h3>Top pages</h3>
+        </div>
+        <span class="text-muted small">Page events, not unique visitors</span>
+      </div>
+
+      <div v-if="!data.top_pages.length" class="empty-state">
+        <i class="fa-regular fa-chart-bar"></i>
+        <strong>No analytics yet.</strong>
+        <span>Traffic data will appear after public visitors browse the site.</span>
+      </div>
+
+      <div v-else class="table-wrap">
+        <table>
+          <thead><tr><th>Page</th><th class="text-right">Visits</th></tr></thead>
+          <tbody>
+            <tr v-for="page in data.top_pages" :key="page.page_url">
+              <td>
+                <code>{{ page.page_url }}</code>
+                <div class="metric-bar"><span :style="{ width: pageWidth(page) }"></span></div>
+              </td>
+              <td class="text-right"><strong>{{ page.visits }}</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </template>
 </div>
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>
