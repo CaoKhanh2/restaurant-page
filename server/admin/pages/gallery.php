@@ -1,94 +1,181 @@
 <?php
 $pageTitle   = 'Gallery';
+$pageActions = '';
 $pageScript  = <<<'JS'
-async function loadGallery() {
-  const data = await api('/api/gallery.php');
-  if (!data) return;
-  const grid = document.getElementById('img-grid');
-  document.getElementById('img-count').textContent = `${data.images.length} images`;
-  if (!data.images.length) {
-    grid.innerHTML = '<p class="text-muted">No images yet. Upload one below.</p>';
-    return;
-  }
-  grid.innerHTML = data.images.map(img => `
-    <div class="img-item" id="img-${img.id}">
-      <img src="${img.image_path}" alt="${img.alt_text || ''}">
-      <div class="img-actions">
-        <button class="btn btn-sm btn-danger" onclick="deleteImg(${img.id})">🗑 Delete</button>
-      </div>
-    </div>
-  `).join('');
-}
+(() => {
+  Vue.createApp({
+    data() {
+      return {
+        loading: true,
+        uploading: false,
+        dragging: false,
+        error: '',
+        images: [],
+      };
+    },
+    computed: {
+      activeCount() {
+        return this.images.filter((image) => Number(image.is_active) === 1).length;
+      },
+    },
+    methods: {
+      async loadGallery() {
+        this.loading = true;
+        this.error = '';
+        try {
+          const data = await adminApi('/api/gallery.php');
+          this.images = data.images || [];
+        } catch (error) {
+          this.error = error.message || 'Could not load gallery.';
+        } finally {
+          this.loading = false;
+        }
+      },
+      chooseFiles() {
+        this.$refs.fileInput.click();
+      },
+      handleDrop(event) {
+        this.dragging = false;
+        this.uploadFiles(event.dataTransfer.files);
+      },
+      async handleInput(event) {
+        await this.uploadFiles(event.target.files);
+        event.target.value = '';
+      },
+      async uploadFiles(fileList) {
+        const files = Array.from(fileList || []);
+        if (!files.length) return;
 
-async function deleteImg(id) {
-  confirmDelete('Remove this image from the gallery?', async () => {
-    await api(`/api/gallery.php?id=${id}`, { method: 'DELETE' });
-    document.getElementById(`img-${id}`).remove();
-    toast('Image removed', 'error');
-  });
-}
+        this.uploading = true;
+        for (const file of files) {
+          if (!file.type.startsWith('image/')) {
+            adminToast('Only image files are allowed', 'error');
+            continue;
+          }
 
-// Upload
-const zone  = document.getElementById('upload-zone');
-const input = document.getElementById('file-input');
+          const form = new FormData();
+          form.append('image', file);
+          form.append('alt_text', file.name.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' '));
 
-zone.addEventListener('click', () => input.click());
-zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('dragover'); });
-zone.addEventListener('dragleave', ()  => zone.classList.remove('dragover'));
-zone.addEventListener('drop', e => {
-  e.preventDefault();
-  zone.classList.remove('dragover');
-  handleFiles(e.dataTransfer.files);
-});
-input.addEventListener('change', () => handleFiles(input.files));
-
-async function handleFiles(files) {
-  for (const file of files) {
-    if (!file.type.startsWith('image/')) { toast('Only image files allowed', 'error'); continue; }
-    await uploadFile(file);
-  }
-  loadGallery();
-}
-
-async function uploadFile(file) {
-  const fd = new FormData();
-  fd.append('image', file);
-  fd.append('alt_text', file.name.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' '));
-
-  const res = await fetch('/api/gallery.php', { method: 'POST', body: fd });
-  if (res.ok) {
-    toast(`Uploaded: ${file.name}`);
-  } else {
-    const err = await res.json();
-    toast(err.error || 'Upload failed', 'error');
-  }
-}
-
-loadGallery();
+          try {
+            await adminApi('/api/gallery.php', { method: 'POST', body: form });
+            adminToast(`Uploaded ${file.name}`);
+          } catch (error) {
+            adminToast(error.message || `Could not upload ${file.name}`, 'error');
+          }
+        }
+        this.uploading = false;
+        await this.loadGallery();
+      },
+      async toggleImage(image) {
+        const previous = Number(image.is_active) === 1 ? 1 : 0;
+        image.is_active = previous ? 0 : 1;
+        try {
+          await adminApi(`/api/gallery.php?id=${image.id}`, {
+            method: 'PUT',
+            body: JSON.stringify({
+              alt_text: image.alt_text || null,
+              display_order: Number(image.display_order || 0),
+              is_active: image.is_active ? 1 : 0,
+            }),
+          });
+          adminToast(image.is_active ? 'Image visible' : 'Image hidden');
+        } catch (error) {
+          image.is_active = previous;
+          adminToast(error.message || 'Could not update image', 'error');
+        }
+      },
+      deleteImage(image) {
+        confirmDelete('Remove this image from the gallery?', async () => {
+          try {
+            await adminApi(`/api/gallery.php?id=${image.id}`, { method: 'DELETE' });
+            this.images = this.images.filter((item) => item.id !== image.id);
+            adminToast('Image removed', 'error');
+          } catch (error) {
+            adminToast(error.message || 'Could not delete image', 'error');
+          }
+        });
+      },
+    },
+    mounted() {
+      this.loadGallery();
+    },
+  }).mount('#gallery-app');
+})();
 JS;
 require_once __DIR__ . '/../includes/header.php';
 ?>
 
-<div class="card" style="margin-bottom:20px">
-  <div class="flex-between" style="margin-bottom:16px">
-    <div class="card-title" style="margin-bottom:0">Upload Images</div>
-    <span class="text-muted" style="font-size:.82rem">JPG, PNG, WebP, GIF — max 10MB</span>
+<div id="gallery-app" class="admin-vue-page" v-cloak>
+  <div class="toolbar">
+    <div>
+      <p class="eyebrow">Public gallery</p>
+      <h2>Restaurant photos</h2>
+    </div>
+    <div class="toolbar-actions">
+      <span class="refresh-note">{{ activeCount }} visible / {{ images.length }} total</span>
+      <button class="btn btn-secondary" type="button" @click="loadGallery">
+        <i class="fa-solid fa-rotate"></i>
+        Refresh
+      </button>
+    </div>
   </div>
-  <div class="upload-zone" id="upload-zone">
-    <input type="file" id="file-input" accept="image/*" multiple>
-    <p style="font-size:1.8rem;margin-bottom:8px">☁️</p>
-    <p><strong>Drag & drop images here</strong> or click to browse</p>
-    <p class="text-muted" style="font-size:.82rem;margin-top:4px">Multiple files supported</p>
-  </div>
-</div>
 
-<div class="card">
-  <div class="flex-between" style="margin-bottom:16px">
-    <div class="card-title" style="margin-bottom:0">Gallery Images</div>
-    <span class="text-muted" style="font-size:.82rem" id="img-count">Loading…</span>
+  <div class="card upload-card">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Upload</p>
+        <h3>Add gallery images</h3>
+      </div>
+      <span class="text-muted small">JPG, PNG, WebP, GIF</span>
+    </div>
+    <div
+      class="upload-zone"
+      :class="{ dragover: dragging }"
+      @click="chooseFiles"
+      @dragover.prevent="dragging = true"
+      @dragleave.prevent="dragging = false"
+      @drop.prevent="handleDrop"
+    >
+      <input ref="fileInput" type="file" accept="image/*" multiple @change="handleInput">
+      <i class="fa-solid fa-cloud-arrow-up upload-icon"></i>
+      <strong>{{ uploading ? 'Uploading images...' : 'Drop images here or click to browse' }}</strong>
+      <span>Multiple files supported</span>
+    </div>
   </div>
-  <div class="img-grid" id="img-grid">
-    <p class="text-muted">Loading…</p>
+
+  <div v-if="error" class="alert alert-error">{{ error }}</div>
+  <div v-if="loading" class="loading-panel"><i class="fa-solid fa-circle-notch spin"></i> Loading gallery...</div>
+
+  <div v-else class="card">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Gallery</p>
+        <h3>Visible website imagery</h3>
+      </div>
+      <span class="badge badge-active">{{ images.length }} images</span>
+    </div>
+
+    <div v-if="!images.length" class="empty-state">
+      <i class="fa-regular fa-images"></i>
+      <strong>No images yet.</strong>
+      <span>Upload restaurant photos to populate the public gallery.</span>
+    </div>
+
+    <div v-else class="img-grid admin-gallery-grid">
+      <article v-for="image in images" :key="image.id" class="img-item">
+        <img :src="image.image_path" :alt="image.alt_text || ''">
+        <div class="img-actions">
+          <button class="icon-button" type="button" :class="{ success: Number(image.is_active) === 1 }" :title="Number(image.is_active) === 1 ? 'Hide image' : 'Show image'" @click="toggleImage(image)">
+            <i class="fa-solid" :class="Number(image.is_active) === 1 ? 'fa-eye' : 'fa-eye-slash'"></i>
+          </button>
+          <button class="icon-button danger" type="button" title="Delete" @click="deleteImage(image)">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </div>
+        <div class="image-caption">{{ image.alt_text || 'Untitled image' }}</div>
+      </article>
+    </div>
   </div>
 </div>
 
