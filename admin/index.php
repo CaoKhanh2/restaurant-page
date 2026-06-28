@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (isset($_SESSION['admin'])) {
-    header('Location: /dashboard.php');
+    header('Location: dashboard.php');
     exit;
 }
 ?>
@@ -11,7 +11,7 @@ if (isset($_SESSION['admin'])) {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dashboard Login — Les 4 Saisons</title>
-<link rel="stylesheet" href="/assets/css/admin.css?v=2">
+<link rel="stylesheet" href="assets/css/admin.css?v=2">
 </head>
 <body>
 <div class="login-page">
@@ -35,7 +35,7 @@ if (isset($_SESSION['admin'])) {
   </div>
 </div>
 
-<script src="/assets/js/admin.js?v=2"></script>
+<script src="assets/js/admin.js?v=2"></script>
 <script>
 async function doLogin(e) {
   e.preventDefault();
@@ -46,14 +46,14 @@ async function doLogin(e) {
   const fd   = new FormData(e.target);
   const body = { username: fd.get('username'), password: fd.get('password') };
   try {
-    const res = await fetch('/api/auth.php', {
+    const res = await fetch('api/auth.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
 
     if (res.ok) {
-      location.href = '/dashboard.php';
+      location.href = 'dashboard.php';
       return;
     }
 
