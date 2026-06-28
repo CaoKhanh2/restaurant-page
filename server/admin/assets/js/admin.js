@@ -59,9 +59,16 @@ function toast(msg, type = 'success') {
 function confirmDelete(msg, callback) {
   openModal('Confirm Delete',
     `<p>${escapeHtml(msg)}</p>`,
-    `<button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
-     <button class="btn btn-danger" onclick="closeModal();(${callback.toString()})()">Delete</button>`
+    `<button class="btn btn-secondary" type="button" data-confirm-cancel>Cancel</button>
+     <button class="btn btn-danger" type="button" data-confirm-delete>Delete</button>`
   );
+
+  const footer = document.getElementById('modal-footer');
+  footer.querySelector('[data-confirm-cancel]')?.addEventListener('click', closeModal);
+  footer.querySelector('[data-confirm-delete]')?.addEventListener('click', () => {
+    closeModal();
+    callback();
+  });
 }
 
 function escapeHtml(value) {
