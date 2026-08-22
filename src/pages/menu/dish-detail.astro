@@ -20,7 +20,7 @@ import '../../styles/pages/dish-detail.css';
 </Layout>
 
 <script>
-  // Port js/dish-detail.js — đọc query param, đổ nội dung. Path ảnh tuyệt đối (không prefix ../).
+  // Port of js/dish-detail.js — read query params and fill in the content. Absolute image path (no ../ prefix).
   const params = new URLSearchParams(location.search);
   const name = params.get('name');
   let image = params.get('image');

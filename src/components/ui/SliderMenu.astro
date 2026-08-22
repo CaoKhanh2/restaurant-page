@@ -2,7 +2,7 @@
 import { sliderCategories } from '../../data/menu.js';
 import { url } from '../../scripts/utils/url.js';
 
-// Keys dịch label của từng category trong slider
+// i18n keys for each category label in the slider
 const labelKeys = {
   'salades': 'slider.menus',
   'entrees': 'slider.entrees',
@@ -12,7 +12,7 @@ const labelKeys = {
   'boeuf':   'slider.boeuf',
 };
 
-// Tách path và query string để url() thêm .html đúng chỗ
+// Split path and query string so url() appends .html in the right place
 const cats = sliderCategories.map((c) => {
   const [path, query] = c.href.split('?');
   return { ...c, href: url(path, query ? '?' + query : ''), i18nKey: labelKeys[c.icon] };

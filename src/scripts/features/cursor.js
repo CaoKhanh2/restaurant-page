@@ -1,4 +1,4 @@
-// cursor.js — custom cursor 2 lớp (dot + ring). Chỉ bật trên thiết bị pointer:fine.
+// cursor.js — two-layer custom cursor (dot + ring). Only enabled on pointer:fine devices.
 export function initCursor() {
     const fine = window.matchMedia('(pointer: fine)').matches;
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -25,7 +25,7 @@ export function initCursor() {
         }
     }, { passive: true });
 
-    // Ring trượt mượt theo sau con trỏ
+    // Ring smoothly trails the pointer
     const raf = () => {
         ringX += (mouseX - ringX) * 0.18;
         ringY += (mouseY - ringY) * 0.18;
@@ -35,7 +35,7 @@ export function initCursor() {
     };
     requestAnimationFrame(raf);
 
-    // Phóng to ring khi hover phần tử tương tác
+    // Enlarge the ring when hovering interactive elements
     const hoverSel = 'a, button, .category, .dish-card, .grid-item, .related-dish-card, .set-menu-card';
     document.addEventListener('mouseover', (e) => {
         if (e.target.closest(hoverSel)) ring.classList.add('is-hover');
@@ -44,7 +44,7 @@ export function initCursor() {
         if (e.target.closest(hoverSel)) ring.classList.remove('is-hover');
     });
 
-    // Ẩn khi rời cửa sổ
+    // Hide when the mouse leaves the window
     document.addEventListener('mouseleave', () => {
         dot.style.opacity = '0'; ring.style.opacity = '0';
     });

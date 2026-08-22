@@ -1,14 +1,14 @@
 import { defineConfig } from 'astro/config';
 
-// Static build (no SSR/adapter) → output `dist/` HTML thuần, upload thẳng vào
-// public_html của Hostinger. KHÔNG đổi sang output:'server' (sẽ cần Node runtime).
+// Static build (no SSR/adapter) → outputs plain `dist/` HTML, upload directly to
+// Hostinger's public_html. Do NOT switch to output:'server' (would require a Node runtime).
 export default defineConfig({
   site: 'https://les-4saisonsgeneve.ch',
   base: '/',
   output: 'static',
   build: {
-    // Giữ URL .html như site cũ (/menu.html, /about.html…) để không vỡ SEO/link.
+    // Keep .html URLs like the old site (/menu.html, /about.html…) so SEO/links don't break.
     format: 'file',
   },
-  // Lenis/GSAP là client-side; không cần tối ưu đặc biệt ở server.
+  // Lenis/GSAP are client-side; no special server-side optimization needed.
 });

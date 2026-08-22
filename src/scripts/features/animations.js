@@ -10,7 +10,7 @@ gsap.registerPlugin(ScrollTrigger);
 const REDUCE = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 export function initAnimations() {
-    // ── Lenis smooth scroll (tắt khi reduced-motion) ──────────────
+    // ── Lenis smooth scroll (disabled when reduced-motion) ────────
     if (!REDUCE) {
         const lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
         lenis.on('scroll', ScrollTrigger.update);
@@ -44,18 +44,18 @@ export function initAnimations() {
         }
     }
 
-    // ── Ken Burns trên nền hero ───────────────────────────────────
+    // ── Ken Burns on the hero background ──────────────────────────
     const heroBg = document.querySelector('.hero-bg');
     if (heroBg && !REDUCE) {
         gsap.to(heroBg, { scale: 1.14, ease: 'none', duration: 14, repeat: -1, yoyo: true });
-        // Parallax nhẹ theo scroll
+        // Slight parallax on scroll
         gsap.to(heroBg, {
             yPercent: 12, ease: 'none',
             scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: 1.5 },
         });
     }
 
-    // ── Parallax background các section có ảnh nền ────────────────
+    // ── Parallax background for sections with background images ───
     if (!REDUCE) {
         ['#takeaway'].forEach((sel) => {
             const el = document.querySelector(sel);
@@ -84,7 +84,7 @@ export function initAnimations() {
         });
     }
 
-    // ── Gạch chân trang trí dưới h2 (chờ DOM ổn định) ────────────
+    // ── Decorative underline under h2 (wait for DOM to settle) ────
     const initLines = () => {
         document.querySelectorAll('section h2').forEach((h2) => {
             if (h2.closest('.about-story-text') || h2.querySelector('.gsap-title-line')) return;

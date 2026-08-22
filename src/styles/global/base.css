@@ -1,14 +1,14 @@
 /* =================================================================
-   BASE — Design system "ấm áp & mộc mạc Hong Kong"
+   BASE — Design system "warm & rustic Hong Kong"
    Tokens (dark warm + light cream) · typography · header · footer
    · preloader · custom cursor · reveal · menu slider · dish grid
    ================================================================= */
 
 :root {
-    /* --- Brand accents (giữ identity đỏ/gold, ấm hơn) --- */
+    /* --- Brand accents (keep red/gold identity, warmer) --- */
     --gold:        #c9a24b;
     --gold-bright: #e3c178;
-    --red:         #b3121b;   /* lacquer red — giá & CTA */
+    --red:         #b3121b;   /* lacquer red — prices & CTA */
     --wine-1:      #6a0f12;   /* gradient slider */
     --wine-2:      #9c1b1b;
     --wine-3:      #4a0a0d;
@@ -30,7 +30,7 @@
     --shadow-lift: 0 22px 50px rgba(20, 12, 6, 0.45);
     --ease: cubic-bezier(0.22, 1, 0.36, 1);
 
-    /* --- Dark theme (warm charcoal — mặc định) --- */
+    /* --- Dark theme (warm charcoal — default) --- */
     --bg-page:        #17120f;
     --bg-surface:     #1f1813;
     --bg-surface-alt: #271e17;
@@ -85,7 +85,7 @@
     --shadow-lift: 0 22px 50px rgba(120, 90, 50, 0.28);
 }
 
-/* Smooth transition khi toggle theme */
+/* Smooth transition when toggling theme */
 html.theme-transitioning *,
 html.theme-transitioning *::before,
 html.theme-transitioning *::after {
@@ -102,7 +102,7 @@ body {
     background-color: var(--bg-page);
     color: var(--text-main);
     line-height: 1.65;
-    overflow-x: clip; /* clip (không phải hidden) để position:sticky của .menu-tabs vẫn hoạt động */
+    overflow-x: clip; /* clip (not hidden) so .menu-tabs position:sticky still works */
 }
 
 h1, h2, h3 { font-family: var(--font-heading); font-weight: 700; line-height: 1.12; }
@@ -158,7 +158,7 @@ section { padding: clamp(3.5rem, 7vw, 6rem) 5%; }
 .btn:hover::before { right: 0; }
 .btn:hover { color: var(--bg-page); transform: translateY(-2px); }
 
-/* Nút gold đặc (CTA chính) */
+/* Solid gold button (main CTA) */
 .btn-gold {
     background: linear-gradient(135deg, var(--gold), var(--gold-bright));
     border-color: transparent;
@@ -419,7 +419,7 @@ footer {
 #back-to-top.show { opacity: 1; visibility: visible; }
 
 /* =================================================================
-   CUSTOM CURSOR (chỉ pointer:fine)
+   CUSTOM CURSOR (pointer:fine only)
    ================================================================= */
 .cursor-dot,
 .cursor-ring {
@@ -427,7 +427,7 @@ footer {
     top: 0; left: 0;
     border-radius: 50%;
     pointer-events: none;
-    z-index: 10050; /* trên lightbox (10002) để con trỏ luôn nhìn thấy khi xem ảnh */
+    z-index: 10050; /* above the lightbox (10002) so the cursor stays visible while viewing images */
     transform: translate(-50%, -50%);
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -454,13 +454,13 @@ body.has-cursor .category,
 body.has-cursor .dish-card { cursor: none; }
 
 /* =================================================================
-   REVEAL (GSAP-driven). Ẩn ban đầu chỉ khi có JS.
+   REVEAL (GSAP-driven). Hidden initially only when JS is available.
    ================================================================= */
 html.has-js [data-reveal],
 html.has-js [data-reveal-stagger] > * { opacity: 0; will-change: transform, opacity; }
 
 /* =================================================================
-   MENU SLIDER — "La carte des mets" (shared mọi trang)
+   MENU SLIDER — "La carte des mets" (shared across all pages)
    ================================================================= */
 #menu-slider-section {
     background:
@@ -632,7 +632,7 @@ html.has-js [data-reveal-stagger] > * { opacity: 0; will-change: transform, opac
 .grid-item { background-color: var(--bg-surface); border-radius: var(--radius-sm); overflow: hidden; }
 .grid-item img, .category img { display: block; width: 100%; height: 100%; object-fit: cover; }
 
-/* Decorative GSAP underline dưới h2 */
+/* Decorative GSAP underline below h2 */
 .gsap-title-line {
     display: block;
     width: 58px; height: 3px;

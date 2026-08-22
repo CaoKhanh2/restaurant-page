@@ -55,7 +55,7 @@
 .gallery-grid-container .grid-item:nth-child(5n) { grid-row: span 2; }
 .gallery-grid-container .grid-item:nth-child(7n) { grid-column: span 2; grid-row: span 2; }
 
-/* Icon phóng to khi hover → báo ảnh bấm được */
+/* Zoom icon on hover → signals the image is clickable */
 .grid-zoom {
     position: absolute; top: 50%; left: 50%;
     transform: translate(-50%, -50%) scale(0.8);

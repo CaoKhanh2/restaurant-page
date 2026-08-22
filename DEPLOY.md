@@ -1,45 +1,45 @@
-# Hướng dẫn Deploy — Hostinger (site tĩnh Astro)
+# Deployment Guide — Hostinger (Astro static site)
 
-Trang web giờ build bằng **Astro** ở chế độ **static** → sinh ra thư mục `dist/` chỉ gồm HTML/CSS/JS thuần.
-Hostinger (shared hosting) **chỉ phục vụ file tĩnh, không chạy Node** → **không có conflict**. Quy trình: build ở máy → upload `dist/`.
+The website is now built with **Astro** in **static** mode → it produces a `dist/` folder containing only plain HTML/CSS/JS.
+Hostinger (shared hosting) **only serves static files, no Node runtime** → **no conflict**. Process: build locally → upload `dist/`.
 
-> ⚠️ Tuyệt đối **không** đổi `astro.config.mjs` sang `output: 'server'` hay thêm adapter SSR — cái đó mới cần Node runtime và sẽ không chạy trên shared hosting.
-
----
-
-## 1. Build ở máy
-
-```bash
-npm install        # lần đầu (đã có .npmrc xử lý lỗi TLS proxy nội bộ)
-npm run build      # sinh ra dist/
-```
-
-Kiểm tra thử bản tĩnh trước khi upload:
-
-```bash
-npm run preview    # mở http://localhost:4321
-```
-
-## 2. Upload lên Hostinger
-
-Mở **hPanel → File Manager** (hoặc dùng FTP/SFTP):
-
-1. Vào thư mục `public_html/` của domain `les-4saisonsgeneve.ch`.
-2. **Xoá nội dung cũ** trong `public_html/` (sao lưu trước nếu cần).
-3. Upload **toàn bộ nội dung BÊN TRONG `dist/`** vào `public_html/`
-   (tức là `index.html`, `menu.html`, `about.html`, `gallery.html`, thư mục `sub-page/`, `images/`, `icon/`, `_astro/`, `.htaccess`, `404.html`…).
-   → Lưu ý: upload **ruột** của `dist/`, KHÔNG upload nguyên thư mục `dist` rồi để file nằm trong `public_html/dist/`.
-
-Xong. Truy cập `https://les-4saisonsgeneve.ch` để kiểm tra.
-
-### Mẹo upload nhanh
-Nén `dist/` thành `.zip`, upload 1 file zip vào `public_html/`, rồi dùng **Extract** của File Manager để giải nén tại chỗ (nhớ đưa file ra đúng `public_html/`).
+> ⚠️ Absolutely do **not** change `astro.config.mjs` to `output: 'server'` or add an SSR adapter — that requires a Node runtime and will not run on shared hosting.
 
 ---
 
-## 3. (Tuỳ chọn) Tự động hoá bằng GitHub Actions → FTP
+## 1. Build locally
 
-Tạo `.github/workflows/deploy.yml`:
+```bash
+npm install        # first time only (.npmrc already handles internal TLS proxy errors)
+npm run build      # produces dist/
+```
+
+Check the static build before uploading:
+
+```bash
+npm run preview    # open http://localhost:4321
+```
+
+## 2. Upload to Hostinger
+
+Open **hPanel → File Manager** (or use FTP/SFTP):
+
+1. Go to the `public_html/` folder of the domain `les-4saisonsgeneve.ch`.
+2. **Delete the old contents** of `public_html/` (back up first if needed).
+3. Upload **everything INSIDE `dist/`** into `public_html/`
+   (i.e. `index.html`, `menu.html`, `about.html`, `gallery.html`, the `sub-page/` folder, `images/`, `icon/`, `_astro/`, `.htaccess`, `404.html`…).
+   → Note: upload the **contents** of `dist/`, do NOT upload the `dist` folder itself and end up with files inside `public_html/dist/`.
+
+Done. Visit `https://les-4saisonsgeneve.ch` to verify.
+
+### Quick upload tip
+Zip `dist/` into a `.zip`, upload the single zip file to `public_html/`, then use the File Manager's **Extract** feature to unzip it in place (make sure the files end up directly in `public_html/`).
+
+---
+
+## 3. (Optional) Automate with GitHub Actions → FTP
+
+Create `.github/workflows/deploy.yml`:
 
 ```yaml
 name: Deploy to Hostinger
@@ -65,68 +65,68 @@ jobs:
           server-dir: ./public_html/
 ```
 
-Khai báo `FTP_HOST`, `FTP_USER`, `FTP_PASSWORD` trong **GitHub → Settings → Secrets**
-(lấy thông tin FTP trong hPanel → Files → FTP Accounts). CI dùng `npm ci` trên runner sạch nên **không gặp lỗi TLS** như máy nội bộ → không cần `.npmrc`.
+Declare `FTP_HOST`, `FTP_USER`, `FTP_PASSWORD` under **GitHub → Settings → Secrets**
+(get FTP credentials from hPanel → Files → FTP Accounts). CI uses `npm ci` on a clean runner so there's **no TLS error** like on local machines → no need for `.npmrc`.
 
 ---
 
-## Admin Dashboard — Hướng dẫn deploy riêng
+## Admin Dashboard — Dedicated deployment guide
 
-### Bước 1: Tạo MySQL Database
-1. hPanel → **Cơ sở dữ liệu** → Tạo MySQL mới
-2. Ghi lại: DB name, username, password (prefix `u444601569_`)
+### Step 1: Create MySQL Database
+1. hPanel → **Databases** → Create new MySQL database
+2. Note down: DB name, username, password (prefix `u444601569_`)
 
-### Bước 2: Import schema
-1. hPanel → **phpMyAdmin** → chọn database vừa tạo
-2. Tab **Import** → chọn file `server/schema.sql` → Execute
-3. Kiểm tra: 7 bảng đã tạo + 12 categories seeded
+### Step 2: Import schema
+1. hPanel → **phpMyAdmin** → select the newly created database
+2. **Import** tab → select `server/schema.sql` → Execute
+3. Verify: 7 tables created + 12 categories seeded
 
-### Bước 3: Cấu hình database
-- Copy `server/config/db.example.php` thành `public_html/config/db.php`
-- Điền DB name, username, password đúng với bước 1
-- **KHÔNG commit file này lên git!**
+### Step 3: Configure the database
+- Copy `server/config/db.example.php` to `public_html/config/db.php`
+- Fill in the DB name, username, password matching Step 1
+- **Do NOT commit this file to git!**
 
-### Bước 4: Tạo subdomain admin
+### Step 4: Create the admin subdomain
 1. hPanel → **Domains** → Subdomains
-2. Tạo `admin.les-4saisonsgeneve.ch` → trỏ vào `public_html/admin/`
+2. Create `admin.les-4saisonsgeneve.ch` → point it to `public_html/admin/`
 
-### Bước 5: Upload files PHP
-Upload toàn bộ nội dung `server/` vào `public_html/` (merge, không xoá file Astro):
+### Step 5: Upload PHP files
+Upload the entire contents of `server/` into `public_html/` (merge, don't delete Astro files):
 ```
 public_html/
-├── api/          ← từ server/api/
-├── config/       ← từ server/config/
-├── uploads/      ← từ server/uploads/
-└── admin/        ← từ server/admin/
+├── api/          ← from server/api/
+├── config/       ← from server/config/
+├── uploads/      ← from server/uploads/
+└── admin/        ← from server/admin/
 ```
 
-### Bước 6: Seed data menu
-1. Mở `server/seed.php` → đổi `SEED_TOKEN` thành chuỗi random
-2. Upload file → truy cập: `https://les-4saisonsgeneve.ch/seed.php?token=CHUOI_RANDOM`
-3. Xem kết quả "73 dishes inserted" → **XOÁ seed.php ngay lập tức!**
+### Step 6: Seed menu data
+1. Open `server/seed.php` → change `SEED_TOKEN` to a random string
+2. Upload the file → visit: `https://les-4saisonsgeneve.ch/seed.php?token=RANDOM_STRING`
+3. Check for "73 dishes inserted" → **DELETE seed.php immediately!**
 
-### Bước 7: Deploy Astro site
+### Step 7: Deploy the Astro site
 ```bash
 npm run build
 ```
-Upload `dist/` lên `public_html/` (giữ api/, config/, uploads/, admin/ không xoá)
+Upload `dist/` into `public_html/` (keep api/, config/, uploads/, admin/ — do not delete them)
 
-### Bước 8: Đổi mật khẩu admin
-Truy cập `https://admin.les-4saisonsgeneve.ch`  
+### Step 8: Change the admin password
+Visit `https://admin.les-4saisonsgeneve.ch`  
 Login: `admin` / `change_me_123`  
-→ **Đổi ngay trong database via phpMyAdmin** (chạy query UPDATE với password_hash mới)
+→ **Change it right away in the database via phpMyAdmin** (run an UPDATE query with a new password_hash)
 
 ---
 
-## Checklist sau deploy
+## Post-deployment checklist
 
-- [ ] Trang chủ load: preloader chạy gọn → hero Ken Burns + chữ hiện theo lớp.
-- [ ] `/menu` load dishes từ API (không còn hardcode).
-- [ ] `/gallery` load images từ API.
-- [ ] Form đặt bàn ở `/about` submit → nhận "Votre demande a été envoyée".
-- [ ] `admin.les-4saisonsgeneve.ch` → login thành công.
-- [ ] Dashboard hiện stats + chart visitors.
-- [ ] Thêm 1 món mới trong admin → xuất hiện trên `/menu`.
-- [ ] Slider "La carte des mets" → bấm category → danh sách món từ API.
-- [ ] Nút chuyển dark/light hoạt động, lưu lựa chọn.
-- [ ] Mở trên điện thoại: menu hamburger, layout không vỡ.
+- [ ] Home page loads: preloader runs briefly → hero Ken Burns + text appears layer by layer.
+- [ ] `/menu` loads dishes from the API (no more hardcoded data).
+- [ ] `/gallery` loads images from the API.
+- [ ] Booking form on `/about` submits → receives "Votre demande a été envoyée".
+- [ ] `admin.les-4saisonsgeneve.ch` → login succeeds.
+- [ ] Dashboard shows stats + visitors chart.
+- [ ] Add a new dish in admin → it appears on `/menu`.
+- [ ] "La carte des mets" slider → click a category → dish list loads from the API.
+- [ ] Dark/light toggle works and persists the choice.
+- [ ] Test on mobile: hamburger menu works, layout doesn't break.

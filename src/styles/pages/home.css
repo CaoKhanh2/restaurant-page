@@ -14,10 +14,10 @@
     isolation: isolate;
 }
 
-/* Lớp nền riêng để Ken Burns không đụng overlay/nội dung */
+/* Dedicated background layer so Ken Burns does not affect overlay/content */
 .hero-bg {
     position: absolute;
-    inset: -6% -6% -6% -6%;        /* dư mép để scale không lộ viền */
+    inset: -6% -6% -6% -6%;        /* extra margin so scaling never reveals edges */
     background: url('/images/image.png') no-repeat center center;
     background-size: cover;
     z-index: -2;
@@ -52,7 +52,7 @@
 }
 .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
 
-/* Khởi tạo ẩn cho timeline hero (chỉ khi có JS) */
+/* Hidden initial state for the hero timeline (only when JS is available) */
 html.has-js #hero .hero-content .eyebrow,
 html.has-js #hero .hero-title,
 html.has-js #hero .hero-tagline,
@@ -75,7 +75,7 @@ html.has-js #hero .hero-cta { opacity: 0; }
     50%      { transform: translateX(-50%) translateY(10px); opacity: 0.9; }
 }
 
-/* --- HOURS STRIP (opening hours dời khỏi hero) --- */
+/* --- HOURS STRIP (opening hours moved out of the hero) --- */
 #hours-strip {
     background: var(--bg-surface);
     border-top: 1px solid var(--border-soft);
@@ -121,7 +121,7 @@ html.has-js #hero .hero-cta { opacity: 0; }
 #takeaway h2 { color: #fff; }
 #takeaway p { font-size: 1.2rem; color: #ecdfcb; margin-bottom: 2rem; }
 
-/* --- ABOUT TEASER (story card 2 cột) --- */
+/* --- ABOUT TEASER (two-column story card) --- */
 #about {
     background: var(--bg-page);
     padding: clamp(4rem, 8vw, 7rem) 5%;

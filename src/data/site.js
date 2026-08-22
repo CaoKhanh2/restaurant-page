@@ -1,4 +1,4 @@
-// Thông tin chung của nhà hàng — dùng lại ở nhiều trang.
+// General restaurant information — reused across multiple pages.
 export const phone = '(+41) 22 700 50 67';
 export const phoneHref = 'tel:+41227005067';
 

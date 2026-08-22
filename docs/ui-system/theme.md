@@ -1,70 +1,70 @@
-# 🎨 Hệ thống Theme (Dark / Light)
+# 🎨 Theme System (Dark / Light)
 
 ---
 
-## Cơ chế hoạt động
+## How it works
 
-### 1. Chống FOUC — `Layout.astro`
-Có một `<script is:inline>` chạy **trước khi paint**:
-- Đọc `localStorage.theme`
-- Set `data-theme` trên thẻ `<html>`
-- Thêm class `has-js` (bật ẩn-ban-đầu cho reveal animation)
+### 1. FOUC prevention — `Layout.astro`
+An `<script is:inline>` runs **before paint**:
+- Reads `localStorage.theme`
+- Sets `data-theme` on the `<html>` tag
+- Adds the `has-js` class (enables hidden-initial state for reveal animations)
 
 ### 2. CSS Tokens — `src/styles/base.css`
-Tokens được khai báo trong:
-- `:root` → **dark warm** (mặc định)
-- `[data-theme="light"]` → **cream (sáng ấm)**
+Tokens are declared in:
+- `:root` → **warm dark** (default)
+- `[data-theme="light"]` → **warm cream (light)**
 
 ### 3. Toggle — `src/scripts/main.js → initThemeToggle()`
-- Nút moon/sun
-- Toggle + lưu vào `localStorage`
-- Transition mượt qua class `.theme-transitioning`
+- Moon/sun button
+- Toggles + persists to `localStorage`
+- Smooth transition via the `.theme-transitioning` class
 
 ---
 
-## Bảng CSS Tokens chính (`base.css`)
+## Main CSS token table (`base.css`)
 
-### Màu nền & bề mặt
-| Token | Mô tả |
+### Background & surface colors
+| Token | Description |
 |---|---|
-| `--bg-page` | Màu nền trang |
-| `--bg-surface` | Màu bề mặt card/panel |
-| `--bg-surface-alt` | Bề mặt thay thế |
-| `--bg-hover` | Nền khi hover |
-| `--bg-input` | Nền input |
+| `--bg-page` | Page background color |
+| `--bg-surface` | Card/panel surface color |
+| `--bg-surface-alt` | Alternative surface |
+| `--bg-hover` | Hover background |
+| `--bg-input` | Input background |
 
-### Màu chữ
-| Token | Mô tả |
+### Text colors
+| Token | Description |
 |---|---|
-| `--text-main` | Chữ chính |
-| `--text-sub` | Chữ phụ |
-| `--text-muted` | Chữ mờ |
-| `--text-faint` | Chữ rất mờ |
+| `--text-main` | Primary text |
+| `--text-sub` | Secondary text |
+| `--text-muted` | Muted text |
+| `--text-faint` | Very faint text |
 
 ### Accent & Brand
-| Token | Mô tả |
+| Token | Description |
 |---|---|
-| `--gold` | Màu vàng chính |
-| `--gold-bright` | Vàng sáng (hover) |
-| `--red` | Đỏ accent |
-| `--wine-1` / `--wine-2` / `--wine-3` | Gradient đỏ rượu (slider) |
+| `--gold` | Primary gold color |
+| `--gold-bright` | Bright gold (hover) |
+| `--red` | Accent red |
+| `--wine-1` / `--wine-2` / `--wine-3` | Wine-red gradient (slider) |
 
-### Khác
-| Token | Mô tả |
+### Misc
+| Token | Description |
 |---|---|
-| `--border-soft` / `--border-medium` | Đường viền |
-| `--header-*` | Màu riêng cho header |
-| `--radius*` | Bo góc |
-| `--shadow-soft` / `--shadow-lift` | Đổ bóng |
-| `--ease` | Cubic-bezier mặc định |
+| `--border-soft` / `--border-medium` | Border colors |
+| `--header-*` | Dedicated header colors |
+| `--radius*` | Corner radii |
+| `--shadow-soft` / `--shadow-lift` | Shadows |
+| `--ease` | Default cubic-bezier |
 
 ---
 
-## Các khu vực KHÔNG đổi theo theme (cố ý)
+## Areas that intentionally do NOT change with the theme
 
-| Thành phần | Lý do giữ cố định |
+| Component | Reason for staying fixed |
 |---|---|
-| **Footer** | Warm brown — nhận diện thương hiệu |
-| **`#menu-slider-section`** | Đỏ wine — phong cách Hong Kong |
-| **Hero / Takeaway overlay** | Tối vì overlay trên ảnh |
-| **`.category` trong slider** | Chữ trắng trên nền đậm |
+| **Footer** | Warm brown — brand identity |
+| **`#menu-slider-section`** | Wine red — Hong Kong style |
+| **Hero / Takeaway overlay** | Dark because it overlays photos |
+| **`.category` in slider** | White text on bold backgrounds |

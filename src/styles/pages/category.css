@@ -1,5 +1,5 @@
 /* =================================================================
-   CATEGORY PAGE (warm) — bổ sung cho lưới dish-card ở base.css
+   CATEGORY PAGE (warm) — complements the dish-card grid in base.css
    ================================================================= */
 #category-page {
     max-width: 1300px;
@@ -15,7 +15,7 @@
 }
 #category-page .menu-header .decorator { font-size: 1.4rem; color: var(--gold); }
 
-/* Fallback grid (nếu base.css chưa nạp vì lý do nào đó) */
+/* Fallback grid (in case base.css was not loaded for some reason) */
 .imaged-dishes-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; padding: 0 1rem; }
 .dish-card {
     background-color: var(--bg-surface-alt);

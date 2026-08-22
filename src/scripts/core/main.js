@@ -1,5 +1,5 @@
-// main.js — entry client script (bundled bởi Astro).
-// UI behaviors + theme toggle + preloader + khởi tạo animations & cursor.
+// main.js — client entry script (bundled by Astro).
+// UI behaviors + theme toggle + preloader + animations & cursor init.
 import { initAnimations } from '../features/animations.js';
 import { initCursor } from '../features/cursor.js';
 import { initI18n } from '../features/i18n.js';
@@ -16,7 +16,7 @@ const initScrollProgress = () => {
     update();
 };
 
-// ── Header compact khi scroll ─────────────────────────────────
+// ── Compact header on scroll ─────────────────────────────────
 const initScrollHeader = () => {
     const header = document.querySelector('header');
     if (!header) return;
@@ -44,7 +44,7 @@ const initMobileNav = () => {
         const icon = toggle.querySelector('i');
         if (icon) { icon.classList.toggle('fa-bars'); icon.classList.toggle('fa-xmark'); }
     });
-    // Đóng menu khi bấm link
+    // Close the menu when a link is clicked
     nav.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => {
         nav.classList.remove('active');
         const icon = toggle.querySelector('i');
@@ -72,7 +72,7 @@ const initThemeToggle = () => {
     });
 };
 
-// ── Anchor links → route qua Lenis nếu có ─────────────────────
+// ── Anchor links → route through Lenis when available ─────────
 const initAnchorLinks = () => {
     document.addEventListener('click', (e) => {
         const anchor = e.target.closest('a[href^="#"]');
@@ -97,14 +97,14 @@ const hidePreloader = () => {
     const pre = document.getElementById('preloader');
     if (!pre) return;
     const done = () => document.documentElement.classList.add('preloaded');
-    // tối thiểu ~700ms cho cảm giác premium, nhưng không chặn lâu
+    // at least ~700ms for a premium feel, without blocking too long
     const MIN = 700;
     const start = window.__pageStart || 0;
     if (document.readyState === 'complete') {
         setTimeout(done, Math.max(0, MIN));
     } else {
         window.addEventListener('load', () => setTimeout(done, MIN));
-        // fallback an toàn
+        // safe fallback
         setTimeout(done, 2600);
     }
 };

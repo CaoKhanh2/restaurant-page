@@ -1,7 +1,7 @@
 /**
- * i18n.js — Hệ thống đa ngôn ngữ FR / EN
- * Cơ chế: data-i18n="key" trên element → dùng key để tra bản dịch.
- * Ngôn ngữ lưu trong localStorage('lang'), mặc định 'fr'.
+ * i18n.js — FR / EN multilingual system
+ * Mechanism: data-i18n="key" on an element → use the key to look up the translation.
+ * Language is stored in localStorage('lang'), defaults to 'fr'.
  */
 
 export const translations = {
@@ -158,18 +158,18 @@ export const translations = {
   },
 };
 
-/** Lấy ngôn ngữ hiện tại từ localStorage, mặc định 'fr' */
+/** Get the current language from localStorage, defaults to 'fr' */
 export function getLang() {
   try { return localStorage.getItem('lang') || 'fr'; } catch { return 'fr'; }
 }
 
-/** Lưu ngôn ngữ và áp dụng lên trang */
+/** Save the language and apply it to the page */
 export function setLang(lang) {
   try { localStorage.setItem('lang', lang); } catch {}
   applyLang(lang);
 }
 
-/** Áp dụng bản dịch lên tất cả element có data-i18n */
+/** Apply translations to all elements with data-i18n */
 export function applyLang(lang) {
   const t = translations[lang] || translations.fr;
   document.documentElement.setAttribute('lang', lang);
@@ -177,7 +177,7 @@ export function applyLang(lang) {
   document.querySelectorAll('[data-i18n]').forEach((el) => {
     const key = el.dataset.i18n;
     if (!t[key]) return;
-    // input/textarea dùng placeholder
+    // input/textarea use placeholder
     if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
       el.placeholder = t[key];
     } else {
@@ -185,22 +185,22 @@ export function applyLang(lang) {
     }
   });
 
-  // Cập nhật aria-label nút toggle
+  // Update the toggle button aria-label
   const btn = document.getElementById('lang-toggle');
   if (btn) btn.setAttribute('aria-label', lang === 'fr' ? 'Switch to English' : 'Passer en français');
 
-  // Cập nhật trạng thái active cho 2 nút FR / EN
+  // Update the active state of the FR / EN buttons
   document.querySelectorAll('[data-lang-btn]').forEach((b) => {
     b.classList.toggle('active', b.dataset.langBtn === lang);
   });
 }
 
-/** Khởi tạo — gọi 1 lần khi DOM ready */
+/** Init — called once when DOM is ready */
 export function initI18n() {
   const lang = getLang();
   applyLang(lang);
 
-  // Gắn sự kiện cho nút FR / EN
+  // Attach events for the FR / EN buttons
   document.querySelectorAll('[data-lang-btn]').forEach((btn) => {
     btn.addEventListener('click', () => setLang(btn.dataset.langBtn));
   });

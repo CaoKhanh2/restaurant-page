@@ -1,17 +1,17 @@
-# 🔗 Routing & Helper `url()`
+# 🔗 Routing & `url()` Helper
 
 ---
 
-## Vấn đề (gotcha quan trọng)
+## The problem (important gotcha)
 
-`astro.config.mjs` dùng `build.format: 'file'` → khi **build** sinh ra `/menu.html`, `/gallery.html`…
-Nhưng **dev server** của Astro (`npm run dev`) chỉ phục vụ **path sạch** (`/menu`, `/gallery`), **không** nhận `.html`.
+`astro.config.mjs` uses `build.format: 'file'` → at **build** time it generates `/menu.html`, `/gallery.html`…
+But Astro's **dev server** (`npm run dev`) only serves **clean paths** (`/menu`, `/gallery`), and does **not** accept `.html`.
 
-→ Nếu hardcode link `href="/menu.html"`, link sẽ **404 ở dev** (vẫn chạy ở prod).
+→ If you hardcode links as `href="/menu.html"`, they will **404 in dev** (still work in prod).
 
 ---
 
-## Giải pháp — `src/scripts/utils/url.js`
+## The solution — `src/scripts/utils/url.js`
 
 ```js
 export function url(path, query = '') {
@@ -20,12 +20,12 @@ export function url(path, query = '') {
 }
 ```
 
-| Môi trường | `url('/menu')` | Ghi chú |
+| Environment | `url('/menu')` | Note |
 |---|---|---|
-| **Dev** (`npm run dev`) | `/menu` | Astro dev không nhận `.html` |
+| **Dev** (`npm run dev`) | `/menu` | Astro dev doesn't accept `.html` |
 | **Prod** (`npm run build`) | `/menu.html` | `build.format:'file'` |
 
-Có query thì truyền tham số 2:
+For queries, pass a second argument:
 ```js
 url('/menu/dish-detail', '?name=...&price=...')
 // dev  → /menu/dish-detail?name=...
@@ -34,31 +34,31 @@ url('/menu/dish-detail', '?name=...&price=...')
 
 ---
 
-## Quy tắc dùng
+## Usage rules
 
-✅ **MỌI internal link có đuôi `.html`** phải đi qua `url()`:
+✅ **EVERY internal link ending in `.html`** must go through `url()`:
 
 ```astro
 ---
-import { url } from '../scripts/utils/url.js';   // chỉnh độ sâu ../ cho đúng vị trí file
+import { url } from '../scripts/utils/url.js';   // adjust ../ depth to match your file's location
 ---
 <a href={url('/menu')}>La carte</a>
 <a href={url('/about')}>À propos</a>
 ```
 
-Trong **client `<script>`** cũng import được (Vite thay `import.meta.env.PROD` lúc build):
+It also works inside client-side `<script>` blocks (Vite replaces `import.meta.env.PROD` at build time):
 ```js
 import { url } from '../../scripts/utils/url.js';
 const href = url('/menu/dish-detail', '?' + new URLSearchParams(d).toString());
 ```
 
-❌ **KHÔNG** dùng `url()` cho: external link, `tel:`, asset (ảnh/font), anchor `#...`, và `href="/"` (trang chủ — giống nhau ở cả dev/prod).
+❌ Do **NOT** use `url()` for: external links, `tel:`, assets (images/fonts), `#...` anchors, or `href="/"` (homepage — identical in dev/prod).
 
 ---
 
-## Các nơi đã áp dụng
+## Where it has been applied
 
 `Header.astro` · `SliderMenu.astro` · `Hero.astro` · `AboutTeaser.astro` · `menu/index.astro` (dishHref) ·
-`menu/dish-detail.astro` (nút Retour) · `menu/category.astro` (client `dishHref`).
+`menu/dish-detail.astro` (Retour button) · `menu/category.astro` (client-side `dishHref`).
 
-> Khi thêm link mới → nhớ bọc `url()`, nếu không sẽ 404 ở dev.
+> When adding new links → remember to wrap them in `url()`, otherwise they will 404 in dev.

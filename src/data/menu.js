@@ -1,5 +1,5 @@
-// Nguồn dữ liệu thực đơn duy nhất (port từ data/menu-data.js cũ).
-// Dùng build-time bởi các trang Astro (menu, category, dish-detail) → không còn fetch client.
+// Single source of truth for the menu data (ported from the old data/menu-data.js).
+// Consumed at build time by the Astro pages (menu, category, dish-detail) → no more client-side fetch.
 export const menuData = {
     potages: {
         title: "Potages / Soups",
@@ -127,13 +127,13 @@ export const menuData = {
     }
 };
 
-// Thứ tự hiển thị các nhóm trên trang "La Carte" (à la carte).
+// Display order of the groups on the "La Carte" page (à la carte).
 export const menuOrder = [
     'potages', 'entrees', 'dimsum', 'nouilles', 'vegetariens',
     'poulet', 'porc', 'boeuf', 'canard', 'crevettes', 'poisson', 'accompagnements',
 ];
 
-// Cấu hình 6 thẻ category cho slider "La carte des mets" (giữ icon + link như cũ).
+// Configuration of the 6 category cards for the "La carte des mets" slider (icons + links kept as before).
 export const sliderCategories = [
     { label: 'Menus',             href: '/menu',                              icon: 'salades' },
     { label: 'Entrées',          href: '/menu/category?category=entrees', icon: 'entrees' },

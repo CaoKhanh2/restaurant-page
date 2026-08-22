@@ -35,7 +35,7 @@
     position: sticky;
     top: 84px;
     z-index: 900;
-    margin: 0 -5% 3rem;          /* tràn mép cho nền liền mạch */
+    margin: 0 -5% 3rem;          /* bleeds past edges for a seamless background */
     padding: 0.6rem 5%;
     background: color-mix(in srgb, var(--bg-page) 86%, transparent);
     backdrop-filter: blur(10px);
@@ -130,7 +130,7 @@
 }
 .carte-card:hover .carte-card-media img { transform: scale(1.07); }
 
-/* Fallback tile (món chưa có ảnh) */
+/* Fallback tile (dish without a photo) */
 .carte-card-fallback {
     width: 100%; height: 100%;
     display: flex; flex-direction: column; align-items: center; justify-content: center;

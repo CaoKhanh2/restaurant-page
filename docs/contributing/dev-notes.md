@@ -1,24 +1,24 @@
-# 🛠️ Lưu ý khi phát triển tiếp
+# 🛠️ Notes for Continued Development
 
 ---
 
-## Quy tắc chung
+## General rules
 
-| Tác vụ | Cách làm đúng |
+| Task | How to do it right |
 |---|---|
-| **Thêm trang mới** | Tạo `src/pages/<tên>.astro`, bọc trong `<Layout>`, import CSS riêng nếu cần. Route = tên file + `.html` |
-| **Thêm internal link** | **Bọc qua `url()`** (`src/scripts/utils/url.js`) — vd `href={url('/menu')}`. Hardcode `.html` sẽ **404 ở dev**. Xem [routing.md](../architecture/routing.md) |
-| **Thêm chuỗi dịch** | Gắn `data-i18n="key"` + thêm key vào `src/scripts/i18n.js` (FR & EN). Xem [i18n.md](../ui-system/i18n.md) |
-| **Thêm màu mới** | Dùng token trong `base.css`, **không hardcode hex** |
-| **Animate khi scroll** | Thêm `data-reveal` / `data-reveal-stagger` vào element — không cần viết JS |
-| **Sửa thực đơn** | Chỉ sửa `src/data/menu.js` |
-| **Deploy** | `npm run build` → upload **ruột `dist/`** vào `public_html/` (xem [hostinger.md](../deployment/hostinger.md)) |
+| **Add a new page** | Create `src/pages/<name>.astro`, wrap it in `<Layout>`, import its CSS if needed. Route = filename + `.html` |
+| **Add an internal link** | **Wrap it via `url()`** (`src/scripts/utils/url.js`) — e.g. `href={url('/menu')}`. Hardcoding `.html` will **404 in dev**. See [routing.md](../architecture/routing.md) |
+| **Add a translatable string** | Add `data-i18n="key"` + add the key to `src/scripts/i18n.js` (FR & EN). See [i18n.md](../ui-system/i18n.md) |
+| **Add a new color** | Use tokens from `base.css`, **never hardcode hex values** |
+| **Animate on scroll** | Add `data-reveal` / `data-reveal-stagger` to elements — no JS needed |
+| **Edit the menu** | Only edit `src/data/menu.js` |
+| **Deploy** | `npm run build` → upload the **contents of `dist/`** to `public_html/` (see [hostinger.md](../deployment/hostinger.md)) |
 
 ---
 
-## Dọn dẹp thư mục cũ
+## Cleaning up legacy folders
 
-Các file/thư mục vanilla cũ còn sót ở root **đã được thay thế hoàn toàn** bởi `src/`:
+The old vanilla files/folders still at the root have been **fully replaced** by `src/`:
 
 ```
 *.html (root)
@@ -28,36 +28,36 @@ style/
 data/menu-data.js
 ```
 
-> ✅ Có thể **xoá an toàn** sau khi đã xác nhận bản Astro chạy ổn trên production.
+> ✅ They can be **safely deleted** once the Astro version has been confirmed stable in production.
 
 ---
 
-## Template khi thêm trang mới
+## Template for adding a new page
 
 ```astro
 ---
-// src/pages/ten-trang.astro
+// src/pages/page-name.astro
 import Layout from '../layouts/Layout.astro';
-import '../styles/ten-trang.css';
+import '../styles/page-name.css';
 ---
 
-<Layout title="Tiêu đề trang" description="Mô tả SEO">
+<Layout title="Page title" description="SEO description">
   <main>
-    <!-- Nội dung trang -->
+    <!-- Page content -->
   </main>
 </Layout>
 ```
 
 ---
 
-## Gotchas & Lưu ý quan trọng
+## Gotchas & important notes
 
-1. **Đường dẫn ảnh** trong `menu.js` là tuyệt đối (`/images/...`) → dùng trực tiếp, không prefix `../`
-2. **`.npmrc`** chứa `strict-ssl=false` cho proxy nội bộ — **không commit** lên git
-3. **`dist/`** là output build — **gitignored**, không commit
-4. Không chạy trang bằng Live Server trực tiếp trên các `.html` ở root — phải dùng `npm run dev`
-5. Không bật SSR / adapter — Hostinger shared hosting chỉ serve file tĩnh
-6. **Internal link** phải qua `url()` — hardcode `.html` → 404 ở dev ([routing.md](../architecture/routing.md))
-7. **`position: sticky`** cần `body { overflow-x: clip }` (KHÔNG `hidden`) — đã set ở `base.css`
-8. **Con trỏ tuỳ biến** `z-index: 10050` phải > lightbox (10002) — đừng hạ xuống
-9. Tab/scroll-spy của menu dùng **`data-target`** (không `href="#"`) để không đụng anchor handler global
+1. **Image paths** in `menu.js` are absolute (`/images/...`) → use them directly, no `../` prefix
+2. **`.npmrc`** contains `strict-ssl=false` for the internal proxy — **do not commit** it to git
+3. **`dist/`** is build output — **gitignored**, never commit it
+4. Don't serve the site with Live Server directly on the root `.html` files — use `npm run dev`
+5. Don't enable SSR / adapters — Hostinger shared hosting only serves static files
+6. **Internal links** must go through `url()` — hardcoding `.html` → 404 in dev ([routing.md](../architecture/routing.md))
+7. **`position: sticky`** requires `body { overflow-x: clip }` (NOT `hidden`) — already set in `base.css`
+8. The **custom cursor** `z-index: 10050` must be > lightbox (10002) — don't lower it
+9. Menu tabs/scroll-spy use **`data-target`** (not `href="#"`) to avoid clashing with the global anchor handler

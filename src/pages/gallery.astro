@@ -42,7 +42,7 @@ const photos = ids.map((n) => ({
 </Layout>
 
 <script>
-  // Lightbox vanilla + progressive upgrade từ /api/gallery.php (giữ ảnh tĩnh nếu API lỗi).
+  // Vanilla lightbox + progressive upgrade from /api/gallery.php (keeps static images if the API fails).
   const lb = document.getElementById('lightbox');
   const grid = document.querySelector('.gallery-grid-container');
   if (lb && grid) {
@@ -77,7 +77,7 @@ const photos = ids.map((n) => ({
     const next = () => show(idx + 1);
     const prev = () => show(idx - 1);
 
-    // Controls + keyboard + swipe — gắn 1 LẦN (không phụ thuộc danh sách ảnh)
+    // Controls + keyboard + swipe — attached ONCE (independent of the image list)
     lb.querySelector('.lb-close').addEventListener('click', close);
     lb.querySelector('.lb-next').addEventListener('click', (e) => { e.stopPropagation(); next(); });
     lb.querySelector('.lb-prev').addEventListener('click', (e) => { e.stopPropagation(); prev(); });
@@ -92,7 +92,7 @@ const photos = ids.map((n) => ({
     lb.addEventListener('touchstart', (e) => { sx = e.touches[0].clientX; }, { passive: true });
     lb.addEventListener('touchend', (e) => { const dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 50) { dx < 0 ? next() : prev(); } }, { passive: true });
 
-    // (Re)đọc ảnh + gắn click cho item hiện tại của lưới
+    // (Re)collect images + attach clicks for the current grid items
     function bindItems() {
       const items = Array.from(grid.querySelectorAll('.grid-item'));
       data = items.map((it) => { const im = it.querySelector('img'); return { src: im && im.getAttribute('src'), alt: (im && im.getAttribute('alt')) || '' }; }).filter((d) => d.src);
@@ -101,9 +101,9 @@ const photos = ids.map((n) => ({
         it.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(i); } });
       });
     }
-    bindItems(); // bản tĩnh
+    bindItems(); // static version
 
-    // Upgrade từ DB nếu có
+    // Upgrade from DB if available
     (async () => {
       try {
         const res = await fetch('/api/gallery.php', { headers: { Accept: 'application/json' } });
@@ -116,8 +116,8 @@ const photos = ids.map((n) => ({
           + `<picture><img src="${esc(g.image_path)}" alt="${esc(g.alt_text || 'Galerie')}" width="400" height="400" loading="lazy"></picture>`
           + `<span class="grid-zoom" aria-hidden="true"><i class="fa-solid fa-up-right-and-down-left-from-center"></i></span></div>`
         ).join('');
-        bindItems(); // gắn lại cho ảnh mới
-      } catch (e) { /* giữ tĩnh */ }
+        bindItems(); // re-bind for new images
+      } catch (e) { /* keep static */ }
     })();
   }
 </script>

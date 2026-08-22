@@ -4,7 +4,7 @@ import { menuData, menuOrder } from '../../data/menu.js';
 import { url } from '../../scripts/utils/url.js';
 import '../../styles/pages/menu.css';
 
-// Link chi tiết món — build sẵn query-param (giữ URL/cơ chế cũ qua url()).
+// Dish detail link — pre-built query params (keeps old URL/mechanism via url()).
 const dishHref = (d) =>
   url('/menu/dish-detail', '?' +
   new URLSearchParams({ name: d.name, image: d.image, description: d.description, price: d.price }).toString());
@@ -38,7 +38,7 @@ const setMenus = [
       </div>
     </div>
 
-    <!-- Thanh tab danh mục (sticky) -->
+    <!-- Category tab bar (sticky) -->
     <nav class="menu-tabs" aria-label="Catégories du menu">
       <div class="menu-tabs-inner" id="menu-tabs-inner">
         <button class="menu-tab active" type="button" data-target="cat-menus" data-i18n="menu.tab.formules">Formules</button>
@@ -68,7 +68,7 @@ const setMenus = [
       </div>
     </section>
 
-    <!-- À la carte — render tĩnh từ menu.js (mỗi danh mục 1 section) -->
+    <!-- À la carte — statically rendered from menu.js (one section per category) -->
     {keys.map((k) => {
       const cat = menuData[k];
       const { fr, en } = splitTitle(cat.title);
@@ -126,7 +126,7 @@ const setMenus = [
 <script>
   import { url } from '../../scripts/utils/url.js';
 
-  // ── Tab danh mục: click cuộn mượt (Lenis) + active theo scroll ──
+  // ── Category tabs: smooth scroll on click (Lenis) + active state on scroll ──
   const tabs = Array.from(document.querySelectorAll('.menu-tab'));
   const tabsInner = document.querySelector('.menu-tabs-inner');
   const sections = tabs.map((t) => document.getElementById(t.dataset.target)).filter(Boolean);
@@ -151,8 +151,8 @@ const setMenus = [
     sections.forEach((s) => obs.observe(s));
   }
 
-  // ── Progressive upgrade: nếu /api/menu.php có dữ liệu (DB) → thay nội dung món.
-  //    Nếu API lỗi/không có (DB chưa sống) → GIỮ NGUYÊN bản tĩnh đã render sẵn. ──
+  // ── Progressive upgrade: if /api/menu.php has data (DB) → replace dish content.
+  //    If the API fails/is unavailable (DB not live yet) → KEEP the pre-rendered static version as is. ──
   const esc       = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
   const cleanName = (n) => (n || '').replace(/🌶️/g, '').replace(/🌶/g, '').trim();
   const isSpicy   = (n) => (n || '').includes('🌶');
@@ -181,15 +181,15 @@ const setMenus = [
   (async () => {
     try {
       const res = await fetch('/api/menu.php', { headers: { Accept: 'application/json' } });
-      if (!res.ok) return;                              // 404/500 → giữ tĩnh
+      if (!res.ok) return;                              // 404/500 → keep static
       const data = await res.json();
       const cats = data.categories ?? [];
-      if (!cats.length) return;                          // DB rỗng → giữ tĩnh
+      if (!cats.length) return;                          // empty DB → keep static
       cats.forEach((cat) => {
         const grid = document.querySelector(`#cat-${cat.key} .carte-grid`);
-        if (!grid || !(cat.dishes || []).length) return; // danh mục rỗng → giữ tĩnh phần đó
+        if (!grid || !(cat.dishes || []).length) return; // empty category → keep that part static
         grid.innerHTML = cat.dishes.map((d) => cardHTML(d, cat.key === 'vegetariens')).join('');
       });
-    } catch (e) { /* mất mạng/JSON lỗi → giữ tĩnh */ }
+    } catch (e) { /* network failure/bad JSON → keep static */ }
   })();
 </script>

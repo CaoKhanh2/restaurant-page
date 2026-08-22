@@ -1,19 +1,19 @@
-# 📁 Cấu trúc thư mục
+# 📁 Directory structure
 
-> Dự án **hybrid**: **frontend Astro (static)** trong `src/` + **backend PHP (API + admin + MySQL)** trong `server/`.
+> The project is **hybrid**: **Astro frontend (static)** in `src/` + **PHP backend (API + admin + MySQL)** in `server/`.
 
 ---
 
-## Sơ đồ tổng thể
+## Overall diagram
 
 ```
 restaurant-page/
 ├── astro.config.mjs          # static, base:'/', build.format:'file'
 ├── package.json  tsconfig.json
-├── .npmrc                    # strict-ssl=false (proxy nội bộ) — gitignored
+├── .npmrc                    # strict-ssl=false (internal proxy) — gitignored
 │
-├── src/                      # ===== FRONTEND (Astro → build ra dist/) =====
-│   ├── pages/                # mỗi file = 1 route (.html)
+├── src/                      # ===== FRONTEND (Astro → built into dist/) =====
+│   ├── pages/                # each file = 1 route (.html)
 │   │   ├── index.astro            → /
 │   │   ├── about.astro            → /about.html
 │   │   ├── gallery.astro          → /gallery.html   (fetch /api/gallery.php)
@@ -23,58 +23,58 @@ restaurant-page/
 │   │       ├── category.astro     → /menu/category.html (client ?category=)
 │   │       └── dish-detail.astro  → /menu/dish-detail.html (client query-param)
 │   │
-│   ├── layouts/Layout.astro  # <head> chung, theme-init inline, JSON-LD, mount Header/Footer/Preloader
+│   ├── layouts/Layout.astro  # shared <head>, inline theme-init, JSON-LD, mounts Header/Footer/Preloader
 │   │
 │   ├── components/
 │   │   ├── layout/           # Header, Footer
-│   │   ├── sections/         # Hero, HoursStrip, Takeaway, AboutTeaser  (khối trang chủ)
-│   │   └── ui/               # SliderMenu, Gallery, Preloader  (UI tái dùng)
+│   │   ├── sections/         # Hero, HoursStrip, Takeaway, AboutTeaser  (homepage blocks)
+│   │   └── ui/               # SliderMenu, Gallery, Preloader  (reusable UI)
 │   │
 │   ├── data/                 # menu.js (menuData/menuOrder/sliderCategories), site.js
 │   │
-│   ├── scripts/              # client JS (bundle bởi Astro)
-│   │   ├── core/main.js      # entry: scroll/header/nav/theme/preloader/anchor + init features
+│   ├── scripts/              # client JS (bundled by Astro)
+│   │   ├── core/main.js      # entry: scroll/header/nav/theme/preloader/anchor + feature init
 │   │   ├── features/         # animations.js (Lenis+GSAP), cursor.js, i18n.js
-│   │   └── utils/url.js      # helper link dev/prod .html (xem routing.md)
+│   │   └── utils/url.js      # dev/prod .html link helper (see routing.md)
 │   │
 │   └── styles/
-│       ├── global/base.css   # *** CORE *** tokens warm, header, footer, preloader, cursor, slider, reveal
+│       ├── global/base.css   # *** CORE *** warm tokens, header, footer, preloader, cursor, slider, reveal
 │       └── pages/            # home, menu, about, gallery, category, dish-detail
 │
-├── server/                   # ===== BACKEND (PHP, deploy riêng — xem backend.md) =====
-│   ├── api/                  # API công khai: gallery, menu, banners, reservations, analytics
-│   ├── admin/                # Trang quản trị (dashboard, pages/, api/, includes/)
-│   ├── config/db.php         # ⚠️ SECRETS (DB credentials) — KHÔNG commit, đặt thủ công trên server
-│   ├── schema.sql            # Schema MySQL (import 1 lần qua phpMyAdmin)
-│   └── seed.php              # Seed dữ liệu — chạy 1 lần rồi XOÁ
+├── server/                   # ===== BACKEND (PHP, deployed separately — see backend.md) =====
+│   ├── api/                  # Public API: gallery, menu, banners, reservations, analytics
+│   ├── admin/                # Admin panel (dashboard, pages/, api/, includes/)
+│   ├── config/db.php         # ⚠️ SECRETS (DB credentials) — do NOT commit, place manually on the server
+│   ├── schema.sql            # MySQL schema (import once via phpMyAdmin)
+│   └── seed.php              # Data seeder — run once then DELETE
 │
-├── public/                   # asset tĩnh → copy nguyên vào dist/ (giữ path /images, /icon)
+├── public/                   # static assets → copied as-is into dist/ (keeps /images, /icon paths)
 │   ├── images/  icon/  .htaccess
 │
-├── docs/                     # tài liệu (bạn đang đọc)
-├── .github/workflows/        # CI: build + deploy lên branch `deploy`
-└── dist/                     # OUTPUT build (gitignored)
+├── docs/                     # documentation (you are here)
+├── .github/workflows/        # CI: build + deploy to the `deploy` branch
+└── dist/                     # build OUTPUT (gitignored)
 ```
 
 ---
 
-## Quy ước phân tầng (để dễ bảo trì)
+## Layering conventions (for maintainability)
 
-| Thư mục | Chứa gì | Khi nào thêm vào đây |
+| Directory | Contains | When to add something here |
 |---|---|---|
-| `components/layout/` | Khung trang dùng mọi nơi | Header, Footer, (nav…) |
-| `components/sections/` | Khối lớn của 1 trang | Hero, các section trang chủ |
-| `components/ui/` | Mảnh UI tái dùng | Slider, card, modal, preloader… |
-| `scripts/core/` | Entry + điều phối | `main.js` |
-| `scripts/features/` | 1 tính năng độc lập | animations, cursor, i18n, (lightbox…) |
-| `scripts/utils/` | Hàm thuần tái dùng | `url.js`, format, helper… |
-| `styles/global/` | Token + style toàn site | `base.css` |
-| `styles/pages/` | Style riêng 1 trang | `home.css`, `menu.css`… |
+| `components/layout/` | Page frame used everywhere | Header, Footer, (nav…) |
+| `components/sections/` | Large blocks of a single page | Hero, homepage sections |
+| `components/ui/` | Reusable UI pieces | Slider, card, modal, preloader… |
+| `scripts/core/` | Entry + orchestration | `main.js` |
+| `scripts/features/` | Independent features | animations, cursor, i18n, (lightbox…) |
+| `scripts/utils/` | Pure reusable functions | `url.js`, formatting, helpers… |
+| `styles/global/` | Site-wide tokens + styles | `base.css` |
+| `styles/pages/` | Page-specific styles | `home.css`, `menu.css`… |
 
-> **Routing:** route theo cây `pages/` → `/menu/category.html`… Link nội bộ phải bọc `url()` ([routing.md](./routing.md)).
-> **Frontend ↔ Backend:** trang gọi API qua `fetch('/api/*.php')` (gallery, menu…). Deploy backend xem [backend.md](./backend.md).
+> **Routing:** routes follow the `pages/` tree → `/menu/category.html`… Internal links must be wrapped in `url()` ([routing.md](./routing.md)).
+> **Frontend ↔ Backend:** pages call the API via `fetch('/api/*.php')` (gallery, menu…). For backend deployment see [backend.md](./backend.md).
 
 ---
 
-## ✅ Đã dọn (không còn ở root)
-Site vanilla cũ (`index.html`, `about/gallery/menu.html`, `sub-page/`, `_includes/`, `js/`, `style/`, `data/menu-data.js`) và bản trùng `images/`, `icon/` ở root **đã xoá** (được `src/` + `public/` thay thế). Vẫn còn trong git history nếu cần.
+## ✅ Cleaned up (no longer at root)
+The old vanilla site (`index.html`, `about/gallery/menu.html`, `sub-page/`, `_includes/`, `js/`, `style/`, `data/menu-data.js`) and duplicate `images/`, `icon/` copies at root **have been deleted** (replaced by `src/` + `public/`). Still available in git history if needed.

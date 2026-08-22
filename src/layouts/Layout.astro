@@ -12,7 +12,7 @@ const {
   bodyClass = '',
 } = Astro.props;
 
-// JSON-LD Restaurant schema (port từ js/schema-loader.js cũ)
+// JSON-LD Restaurant schema (port of the old js/schema-loader.js)
 const schema = {
   '@context': 'https://schema.org',
   '@type': 'Restaurant',
@@ -42,7 +42,7 @@ const schema = {
     <meta name="description" content={description} />
     <title>{title}</title>
 
-    <!-- Set theme + lang + has-js trước khi paint (chống FOUC) -->
+    <!-- Set theme + lang + has-js before first paint (prevents FOUC) -->
     <script is:inline>
       (function () {
         var d = document.documentElement;
@@ -50,7 +50,7 @@ const schema = {
         try { t = localStorage.getItem('theme') || 'dark'; } catch (e) {}
         d.setAttribute('data-theme', t);
         d.classList.add('has-js');
-        // Áp dụng ngôn ngữ trước paint để tránh flash nội dung FR khi người dùng chọn EN
+        // Apply the language before first paint to avoid flashing FR content when the user chose EN
         var l = 'fr';
         try { l = localStorage.getItem('lang') || 'fr'; } catch (e) {}
         d.setAttribute('lang', l);

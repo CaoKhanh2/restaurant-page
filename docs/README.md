@@ -1,66 +1,66 @@
-# 📚 Tài liệu dự án — Les 4 Saisons
+# 📚 Project documentation — Les 4 Saisons
 
-> Website nhà hàng **Les 4 Saisons** — Genève | Domain: `les-4saisonsgeneve.ch`
+> Restaurant website for **Les 4 Saisons** — Genève | Domain: `les-4saisonsgeneve.ch`
 > Stack: **Astro 6 (static)** · Deploy: **Hostinger shared hosting**
 
-> 📝 **[CHANGELOG.md](./CHANGELOG.md)** — nhật ký các mục đã sửa đổi.
+> 📝 **[CHANGELOG.md](./CHANGELOG.md)** — log of changes made to the project.
 
 ---
 
-## Cấu trúc tài liệu
+## Documentation structure
 
 ```
 docs/
-├── getting-started/     # Bắt đầu nhanh với dự án
-├── architecture/        # Kiến trúc hệ thống & luồng dữ liệu
-├── ui-system/           # Giao diện, theme, hiệu ứng
-├── deployment/          # Hướng dẫn triển khai
-└── contributing/        # Quy tắc & lưu ý khi phát triển tiếp
+├── getting-started/     # Quick start with the project
+├── architecture/        # System architecture & data flow
+├── ui-system/           # UI, theme, effects
+├── deployment/          # Deployment guide
+└── contributing/        # Rules & notes for further development
 ```
 
 ---
 
 ## 🚀 Getting Started
 
-| File | Nội dung |
+| File | Contents |
 |---|---|
-| [overview.md](./getting-started/overview.md) | Giới thiệu, tech stack, lệnh thường dùng |
+| [overview.md](./getting-started/overview.md) | Introduction, tech stack, common commands |
 
 ---
 
 ## 🏗️ Architecture
 
-| File | Nội dung |
+| File | Contents |
 |---|---|
-| [structure.md](./architecture/structure.md) | Sơ đồ thư mục chi tiết, danh sách thư mục cũ cần dọn |
-| [menu-data.md](./architecture/menu-data.md) | Nguồn dữ liệu menu, sơ đồ luồng, chi tiết từng trang |
-| [routing.md](./architecture/routing.md) | Helper `url()` — gotcha dev/prod `.html`, tránh 404 |
-| [backend.md](./architecture/backend.md) | Backend PHP (`server/`), API, deploy hybrid, bảo mật secrets |
+| [structure.md](./architecture/structure.md) | Detailed directory diagram, list of legacy directories that were cleaned up |
+| [menu-data.md](./architecture/menu-data.md) | Menu data sources, flow diagram, page-by-page details |
+| [routing.md](./architecture/routing.md) | `url()` helper — dev/prod `.html` gotcha, avoiding 404s |
+| [backend.md](./architecture/backend.md) | PHP backend (`server/`), API, hybrid deploy, secrets security |
 
 ---
 
 ## 🎨 UI System
 
-| File | Nội dung |
+| File | Contents |
 |---|---|
-| [theme.md](./ui-system/theme.md) | Hệ thống Dark/Light, chống FOUC, bảng CSS tokens |
-| [animations.md](./ui-system/animations.md) | Preloader, hero cinematic, scroll reveal, custom cursor |
-| [i18n.md](./ui-system/i18n.md) | Đa ngôn ngữ FR/EN (`data-i18n`), key menu cần thêm |
-| [menu-page.md](./ui-system/menu-page.md) | Trang menu: tab dính, card món, fallback, signature |
-| [gallery.md](./ui-system/gallery.md) | Gallery lightbox (phím/vuốt/đếm số) |
+| [theme.md](./ui-system/theme.md) | Dark/Light system, FOUC prevention, CSS tokens table |
+| [animations.md](./ui-system/animations.md) | Preloader, cinematic hero, scroll reveal, custom cursor |
+| [i18n.md](./ui-system/i18n.md) | FR/EN multilingual support (`data-i18n`), menu keys to add |
+| [menu-page.md](./ui-system/menu-page.md) | Menu page: sticky tabs, dish cards, fallback, signature items |
+| [gallery.md](./ui-system/gallery.md) | Gallery lightbox (keyboard/swipe/counter) |
 
 ---
 
 ## 🚢 Deployment
 
-| File | Nội dung |
+| File | Contents |
 |---|---|
-| [hostinger.md](./deployment/hostinger.md) | Build, upload manual, GitHub Actions CI/CD, checklist |
+| [hostinger.md](./deployment/hostinger.md) | Build, manual upload, GitHub Actions CI/CD, checklist |
 
 ---
 
 ## 🤝 Contributing
 
-| File | Nội dung |
+| File | Contents |
 |---|---|
-| [dev-notes.md](./contributing/dev-notes.md) | Quy tắc phát triển, template trang mới, gotchas |
+| [dev-notes.md](./contributing/dev-notes.md) | Development rules, new-page template, gotchas |

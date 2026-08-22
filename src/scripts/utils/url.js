@@ -1,13 +1,13 @@
 /**
- * url(path) — trả về đường dẫn đúng cho cả dev lẫn build:
- *   - Dev  (import.meta.env.DEV)  : /gallery      (Astro dev server không nhận .html)
- *   - Prod (import.meta.env.PROD) : /gallery.html  (build.format:'file' → cần .html)
+ * url(path) — returns the correct path for both dev and build:
+ *   - Dev  (import.meta.env.DEV)  : /gallery      (Astro dev server does not accept .html)
+ *   - Prod (import.meta.env.PROD) : /gallery.html  (build.format:'file' → .html needed)
  *
- * Dùng cho mọi internal link có đuôi .html.
- * KHÔNG dùng cho external link hoặc assets (ảnh, font…).
+ * Use for every internal link with a .html suffix.
+ * Do NOT use for external links or assets (images, fonts, etc.).
  *
- * @param {string} path - đường dẫn KHÔNG có .html, ví dụ '/gallery', '/sub-page/category'
- * @param {string} [query] - query string nếu có, ví dụ '?category=dimsum'
+ * @param {string} path - path WITHOUT the .html suffix, e.g. '/gallery', '/sub-page/category'
+ * @param {string} [query] - query string if any, e.g. '?category=dimsum'
  * @returns {string}
  */
 export function url(path, query = '') {

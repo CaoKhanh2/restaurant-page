@@ -1,71 +1,71 @@
-# 🍽️ Luồng dữ liệu Menu & Gallery (HYBRID: tĩnh + DB)
+# 🍽️ Menu & Gallery Data Flow (HYBRID: static + DB)
 
-> Mô hình **progressive enhancement**: render **tĩnh từ code** lúc build (SEO + chạy không cần backend),
-> rồi **tự nâng cấp từ DB** qua API PHP nếu backend sống. API lỗi/không có → giữ bản tĩnh.
+> A **progressive enhancement** model: render **statically from code** at build time (SEO + works without a backend),
+> then **auto-upgrade from the DB** via the PHP API if the backend is live. If the API fails/is unavailable → keep the static version.
 
 ---
 
-## 2 nguồn dữ liệu
+## 2 data sources
 
-| Nguồn | Là gì | Vai trò |
+| Source | What it is | Role |
 |---|---|---|
-| **Code (build-time)** | `src/data/menu.js` (`menuData`, `menuOrder`, `sliderCategories`) + ảnh `/images` | **Fallback + SEO** — luôn hiển thị, kể cả khi chưa có backend |
-| **DB (runtime)** | MySQL qua API PHP `/api/menu.php`, `/api/gallery.php` | **Nội dung sống** — phản ánh chỉnh sửa từ trang admin |
+| **Code (build-time)** | `src/data/menu.js` (`menuData`, `menuOrder`, `sliderCategories`) + images in `/images` | **Fallback + SEO** — always rendered, even without a backend |
+| **DB (runtime)** | MySQL via PHP API `/api/menu.php`, `/api/gallery.php` | **Live content** — reflects edits made in the admin panel |
 
-> DB ban đầu được **seed từ `menu.js`** (xem `server/seed.php`). `menu.js` vẫn giữ làm fallback — **đừng xoá**.
-
----
-
-## Sơ đồ hybrid
-
-```
-src/data/menu.js ──(build-time)──► HTML tĩnh (menu/gallery hiển thị ngay)
-                                          │
-                            (client) fetch /api/*.php
-                                          │
-                    ┌─────────────────────┴─────────────────────┐
-              API OK + có data                          API lỗi / rỗng
-                    │                                            │
-        thay nội dung = dữ liệu DB                      GIỮ NGUYÊN bản tĩnh
-```
+> The DB is initially **seeded from `menu.js`** (see `server/seed.php`). `menu.js` remains as the fallback — **do not delete it**.
 
 ---
 
-## Chi tiết từng trang
+## Hybrid diagram
+
+```
+src/data/menu.js ──(build-time)──► static HTML (menu/gallery displayed immediately)
+                                          │
+                             (client) fetch /api/*.php
+                                          │
+                     ┌─────────────────────┴─────────────────────┐
+               API OK + data present                   API error / empty
+                     │                                            │
+        replace content with DB data                  KEEP the static version
+```
+
+---
+
+## Page-by-page details
 
 ### `menu/index.astro` → `/menu.html`
-- **Build-time:** render đủ tab + à-la-carte (64 món) từ `menu.js`.
-- **Client:** `fetch('/api/menu.php')` → nếu có `categories[].dishes[]`, **thay innerHTML từng `.carte-grid`** theo `#cat-{key}`. Cấu trúc tab/section giữ nguyên (danh mục cố định).
-- Lỗi/DB rỗng → giữ bản tĩnh.
+- **Build-time:** renders all tabs + à-la-carte (64 dishes) from `menu.js`.
+- **Client:** `fetch('/api/menu.php')` → if `categories[].dishes[]` exists, **replaces each `.carte-grid` innerHTML** by `#cat-{key}`. Tab/section structure stays unchanged (fixed categories).
+- On error/empty DB → keep the static version.
 
 ### `gallery.astro` → `/gallery.html`
-- **Build-time:** 15 ảnh `/images/food/*` + lightbox.
-- **Client:** `fetch('/api/gallery.php')` → nếu có `images[]`, thay lưới + gắn lại lightbox.
+- **Build-time:** 15 images from `/images/food/*` + lightbox.
+- **Client:** `fetch('/api/gallery.php')` → if `images[]` exists, replace the grid + rebind the lightbox.
 
 ### `menu/category.astro` → `/menu/category.html`
-- Render **client từ `menuData` bundled** (tĩnh, không API). Đọc `?category=`.
-- *(Tuỳ chọn tương lai: đổi sang `/api/menu.php?category=` để đồng bộ DB.)*
+- Rendered **client-side from bundled `menuData`** (static, no API). Reads `?category=`.
+- *(Optional future work: switch to `/api/menu.php?category=` to sync with the DB.)*
 
 ### `menu/dish-detail.astro` → `/menu/dish-detail.html`
-- Đọc query-param `?name=&image=&description=&price=` (truyền từ card). Không gọi API.
+- Reads query params `?name=&image=&description=&price=` (passed from the card). No API call.
 
-### `SliderMenu.astro` (trang chủ + sub)
-- Build-time từ `sliderCategories` trong `menu.js`. Link qua `url()`.
+### `SliderMenu.astro` (homepage + subpages)
+- Build-time from `sliderCategories` in `menu.js`. Links go through `url()`.
 
 ---
 
 ## API contract (PHP → JSON)
 
-| Endpoint | Method | Trả về |
+| Endpoint | Method | Returns |
 |---|---|---|
 | `/api/menu.php` | GET | `{ categories: [{ key, title_fr, title_en, dishes: [{ name_fr, name_en, price, description_fr, image_path, is_featured }] }] }` |
 | `/api/menu.php?category=KEY` | GET | `{ dishes: [...] }` |
 | `/api/gallery.php` | GET | `{ images: [{ image_path, alt_text, display_order }] }` |
 
-> ⚠️ **Field DB khác field code:** DB dùng `name_fr/name_en/image_path/is_featured`, còn `menu.js` dùng `name/translation/image/featured`. Script client map đúng field DB khi nâng cấp. Chi tiết backend: [backend.md](./backend.md).
+> ⚠️ **DB fields differ from code fields:** the DB uses `name_fr/name_en/image_path/is_featured`, while `menu.js` uses `name/translation/image/featured`. The client script maps to the DB field names when upgrading. Backend details: [backend.md](./backend.md).
 
 ---
 
-## Lưu ý đường dẫn ảnh
-- Ảnh trong `menu.js` (fallback) là path tuyệt đối `/images/...` (deploy qua `public/`).
-- Ảnh từ DB (`image_path`) có thể là `/images/...` (seed) hoặc `/uploads/...` (admin upload) — cần thư mục `uploads/` tồn tại trên server.
+## Image path notes
+- Images in `menu.js` (fallback) use absolute paths `/images/...` (deployed via `public/`).
+- Images from the DB (`image_path`) may be `/images/...` (seeded) or `/uploads/...` (admin uploads) — the `uploads/` directory must exist on the server.

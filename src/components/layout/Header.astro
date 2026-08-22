@@ -8,7 +8,7 @@ const links = [
   { href: url('/about'),   key: 'nav.about'   },
 ];
 
-// Active nav theo URL hiện tại
+// Active nav based on the current URL
 const path = Astro.url.pathname.replace(/index\.html$/, '').replace(/\/$/, '') || '/';
 const isActive = (href) => {
   const h = href.replace(/\/$/, '') || '/';
